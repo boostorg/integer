@@ -24,7 +24,7 @@
 #include <boost/config.hpp>
 
 
-#ifdef BOOST_SYSTEM_HAS_STDINT_H
+#ifdef BOOST_HAS_STDINT_H
 
 // The following #include is an implementation artifact; not part of interface.
 # ifdef __hpux
@@ -79,7 +79,7 @@ namespace boost
 } // namespace boost
 
 
-#else  // BOOST_SYSTEM_HAS_STDINT_H
+#else  // BOOST_HAS_STDINT_H
 
 
 # include <limits.h> // implementation artifact; not part of interface
@@ -195,7 +195,7 @@ namespace boost
 } // namespace boost
 
 
-#endif // BOOST_SYSTEM_HAS_STDINT_H
+#endif // BOOST_HAS_STDINT_H
 
 #endif // BOOST_CSTDINT_HPP
 
