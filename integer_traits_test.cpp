@@ -83,10 +83,11 @@ int test_main(int, char*[])
   runtest("long", long());
   typedef unsigned long unsigned_long;
   runtest("unsigned long", unsigned_long());
-#if !defined(BOOST_NO_INT64_T) && (!defined(BOOST_MSVC) || BOOST_MSVC > 1300) && !defined(__BORLANDC__) && !defined(__BEOS__)
+#if !defined(BOOST_NO_INTEGRAL_INT64_T) && !defined(BOOST_NO_INT64_T)
   //
-  // MS/Borland compilers can't support 64-bit member constants
-  // BeOS doesn't have specialisations for long long in SGI's <limits> header.
+  // Only test for compilers that have 64-bit int's that 
+  // can be used in integral constant expressions:
+  //
   runtest("int64_t (possibly long long)", boost::int64_t());
   runtest("uint64_t (possibly unsigned long long)", boost::uint64_t());
 #else
