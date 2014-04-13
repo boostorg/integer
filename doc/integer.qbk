@@ -23,7 +23,7 @@ std::numeric_limits that provides integral constant expressions for `min` and `m
 Finally, it provides two compile-time algorithms: determining the highest power of two in a 
 compile-time value; and computing min and max of constant expressions.
 
-[table 
+[table
    [[Component][Header][Purpose]]
    [
       [Forward Declarations.]
@@ -114,14 +114,14 @@ any Boost-specified interface. Use the respective names in namespace [^boost] in
 [section Exact-width integer types]
 
 The typedef [^int#_t], with # replaced by the width, designates a signed integer type of exactly # bits; 
-for example [^int8_t] denotes an 8-bit signed integer type.  Similarly, the typedef [^uint#_t] designates an unsigned 
-integer type of exactly # bits.
+for example [^int8_t] denotes an 8-bit signed integer type. Similarly, the typedef [^uint#_t] designates
+an unsigned integer type of exactly # bits.
 
 These types are optional. However, if a platform supports integer types with widths of 
 8, 16, 32, 64, or any combination thereof, then <boost/cstdint.hpp> does provide the 
 corresponding typedefs.
 
-The absence of int64_t and uint64_t is indicated by the macro `BOOST_NO_INT64_T`.
+The absence of [^int64_t] and [^uint64_t] is indicated by the macro `BOOST_NO_INT64_T`.
 
 [endsect] 
 
@@ -170,7 +170,8 @@ The following fastest minimum-width integer types are provided for all platforms
 * [^uint_fast16_t]
 * [^uint_fast32_t]
 
-The following types are available only if, after including <boost/cstdint.hpp>, the macro BOOST_NO_INT64_T is not defined:
+The following types are available only if, after including <boost/cstdint.hpp>, the macro `BOOST_NO_INT64_T`
+is not defined:
 
 * [^int_fast64_t]
 * [^uint_fast64_t]
@@ -181,7 +182,7 @@ All other fastest minimum-width integer types are optional.
 
 [section Greatest-width integer types]
 
-The typedef [^intmax_t ]designates a signed integer type capable of representing any value of any signed integer type.
+The typedef [^intmax_t] designates a signed integer type capable of representing any value of any signed integer type.
 
 The typedef [^uintmax_t] designates an unsigned integer type capable of representing any value of any unsigned integer type.
 
@@ -189,15 +190,26 @@ These types are provided for all platforms.
 
 [endsect]
 
+[section Pointer-width integer types]
+
+The typedef [^intptr_t] designates a signed integer type capable of storing native representation of pointers.
+Casting [^void*] to [^intptr_t] and back results in the original pointer. [^uintptr_t] is the unsigned conterpart
+of [^intptr_t].
+
+Pointer-width integer typedefs are not available on all platforms. When [^intptr_t] and [^uintptr_t]
+are available the macro `BOOST_HAS_INTPTR_T` is defined.
+
+[endsect]
+
 [section Integer Constant Macros]
 
 The following macros are always defined after inclusion of this header, these allow
 integer constants of at least the specified width to be declared:  
-INT8_C, UINT8_C, INT16_C, UINT16_C, INT32_C, UINT32_C, INTMAX_C, UINTMAX_C.
+`INT8_C`, `UINT8_C`, `INT16_C`, `UINT16_C`, `INT32_C`, `UINT32_C`, `INTMAX_C`, `UINTMAX_C`.
 
-The macros INT64_C and UINT64_C are also defined if the the macro BOOST_NO_INT64_T is not defined.
+The macros `INT64_C` and `UINT64_C` are also defined if the the macro `BOOST_NO_INT64_T` is not defined.
 
-The C99 macro __STDC_CONSTANT_MACROS is also defined as an artifact of the implementation.
+The C99 macro `__STDC_CONSTANT_MACROS` is also defined as an artifact of the implementation.
 
 For example:
 
