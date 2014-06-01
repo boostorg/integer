@@ -64,14 +64,6 @@ compile-time value; and computing min and max of constant expressions.
 
 [endsect]
 
-[section:cstdint Standard Integer Types]
-
-The [@http://www.boost.org/libs/config/ Boost.Config] module provides
-the typedefs useful for writing portable code that requires certain
-integer widths.
-
-[endsect]
-
 [section:traits Integer Traits]
 
 [section Motivation]
@@ -705,3 +697,10 @@ provided typedefs in new code (and update old code as soon as possible).
 
 [endsect]
 
+[section:cstdint Removed from library: Standard Integer Types]
+
+The [@http://www.boost.org/libs/config/ Boost.Config] module provides
+the typedefs useful for writing portable code that requires certain
+integer widths.
+
+[endsect]
