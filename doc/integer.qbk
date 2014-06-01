@@ -699,7 +699,7 @@ provided typedefs in new code (and update old code as soon as possible).
 
 [section:cstdint Removed from library: Standard Integer Types]
 
-The [@http://www.boost.org/libs/config/ Boost.Config] module provides
+The [@boost:/libs/config/doc/html/boost_config/cstdint.html Boost.Config] module provides
 the typedefs useful for writing portable code that requires certain
 integer widths.
 
