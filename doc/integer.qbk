@@ -1,5 +1,6 @@
 [article Boost.Integer
-    [quickbook 1.5]
+    [quickbook 1.6]
+    [compatibility-mode 1.5]
     [copyright 2001-2009 Beman Dawes, Daryle Walker, Gennaro Prota, John Maddock]
     [purpose Integer Type Selection]
     [license
