@@ -675,6 +675,11 @@ The author of the Boost compile-time extrema class templates is [@http://www.boo
 
 [section:history History]
 
+[h4 1.56.0]
+
+* Moved `<boost/cstdint.hpp>` into [@boost:/libs/config/index.html
+  Boost.Config].
+
 [h4 1.42.0]
 
 * Reverted Trunk to release branch state (i.e. a "known good state").
