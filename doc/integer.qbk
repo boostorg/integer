@@ -1,5 +1,6 @@
 [article Boost.Integer
-    [quickbook 1.5]
+    [quickbook 1.6]
+    [compatibility-mode 1.5]
     [copyright 2001-2009 Beman Dawes, Daryle Walker, Gennaro Prota, John Maddock]
     [purpose Integer Type Selection]
     [license
@@ -60,14 +61,6 @@ compile-time value; and computing min and max of constant expressions.
       Use to find a bound based on a minimum or maximum value. Useful for generic programming. ]
    ]
 ]
-
-[endsect]
-
-[section:cstdint Standard Integer Types]
-
-The [@http://www.boost.org/libs/config/ Boost.Config] module provides
-the typedefs useful for writing portable code that requires certain
-integer widths.
 
 [endsect]
 
@@ -675,6 +668,11 @@ The author of the Boost compile-time extrema class templates is [@http://www.boo
 
 [section:history History]
 
+[h4 1.56.0]
+
+* Moved `<boost/cstdint.hpp>` into [@boost:/libs/config/index.html
+  Boost.Config].
+
 [h4 1.42.0]
 
 * Reverted Trunk to release branch state (i.e. a "known good state").
@@ -699,3 +697,10 @@ provided typedefs in new code (and update old code as soon as possible).
 
 [endsect]
 
+[section:cstdint Removed from library: Standard Integer Types]
+
+The [@boost:/libs/config/doc/html/boost_config/cstdint.html Boost.Config] module provides
+the typedefs useful for writing portable code that requires certain
+integer widths.
+
+[endsect]
