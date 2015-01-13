@@ -246,7 +246,7 @@ inline ostream& operator<<(ostream& os, unsigned __int64 i)
 // GCD on signed integer types
 template< class T > void gcd_int_test() // signed_test_types
 {
-    using boost::math::gcd;
+    using boost::integer::gcd;
 
     // Originally from Boost.Rational tests
     BOOST_TEST_EQ( gcd<T>(  1,  -1), static_cast<T>( 1) );
@@ -270,7 +270,7 @@ template< class T > void gcd_int_test() // signed_test_types
 // GCD on unmarked signed integer type
 void gcd_unmarked_int_test()
 {
-    using boost::math::gcd;
+    using boost::integer::gcd;
 
     // The regular signed-integer GCD function performs the unsigned version,
     // then does an absolute-value on the result.  Signed types that are not
@@ -297,7 +297,7 @@ void gcd_unmarked_int_test()
 // GCD on unsigned integer types
 template< class T > void gcd_unsigned_test() // unsigned_test_types
 {
-    using boost::math::gcd;
+    using boost::integer::gcd;
 
     // Note that unmarked types (i.e. have no std::numeric_limits
     // specialization) are treated like non/unsigned types
@@ -314,7 +314,7 @@ template< class T > void gcd_unsigned_test() // unsigned_test_types
 // GCD at compile-time
 void gcd_static_test()
 {
-    using boost::math::static_gcd;
+    using boost::integer::static_gcd;
 
     BOOST_TEST_EQ( (static_gcd< 1,  1>::value), 1 );
     BOOST_TEST_EQ( (static_gcd< 0,  0>::value), 0 );
@@ -336,7 +336,7 @@ void gcd_static_test()
 // LCM on signed integer types
 template< class T > void lcm_int_test() // signed_test_types
 {
-    using boost::math::lcm;
+    using boost::integer::lcm;
 
     // Originally from Boost.Rational tests
     BOOST_TEST_EQ( lcm<T>(  1,  -1), static_cast<T>( 1) );
@@ -360,7 +360,7 @@ template< class T > void lcm_int_test() // signed_test_types
 // LCM on unmarked signed integer type
 void lcm_unmarked_int_test()
 {
-    using boost::math::lcm;
+    using boost::integer::lcm;
 
     // The regular signed-integer LCM function performs the unsigned version,
     // then does an absolute-value on the result.  Signed types that are not
@@ -387,7 +387,7 @@ void lcm_unmarked_int_test()
 // LCM on unsigned integer types
 template< class T > void lcm_unsigned_test() // unsigned_test_types
 {
-    using boost::math::lcm;
+    using boost::integer::lcm;
 
     // Note that unmarked types (i.e. have no std::numeric_limits
     // specialization) are treated like non/unsigned types
@@ -404,7 +404,7 @@ template< class T > void lcm_unsigned_test() // unsigned_test_types
 // LCM at compile-time
 void lcm_static_test()
 {
-    using boost::math::static_lcm;
+    using boost::integer::static_lcm;
 
     BOOST_TEST_EQ( (static_lcm< 1,  1>::value),  1 );
     BOOST_TEST_EQ( (static_lcm< 0,  0>::value),  0 );
@@ -423,51 +423,51 @@ void lcm_static_test()
 // Various types to test with each GCD/LCM
 
 #define TEST_SIGNED_( test ) \
-	test<signed char>(); \
-	test<short>(); \
-	test<int>(); \
-	test<long>(); \
-	test<MyInt1>();
+    test<signed char>(); \
+    test<short>(); \
+    test<int>(); \
+    test<long>(); \
+    test<MyInt1>();
 
 #ifdef BOOST_HAS_LONG_LONG
 # define TEST_SIGNED( test ) \
-	TEST_SIGNED_( test ) \
-	test<boost::long_long_type>();
+    TEST_SIGNED_( test ) \
+    test<boost::long_long_type>();
 #elif defined(BOOST_HAS_MS_INT64)
 # define TEST_SIGNED( test ) \
-	TEST_SIGNED_( test ) \
-	test<__int64>();
+    TEST_SIGNED_( test ) \
+    test<__int64>();
 #endif
 
 #define TEST_UNSIGNED_( test ) \
-	test<unsigned char>(); \
-	test<unsigned short>(); \
-	test<unsigned>(); \
-	test<unsigned long>(); \
-	test<MyUnsigned1>(); \
-	test<MyUnsigned2>();
+    test<unsigned char>(); \
+    test<unsigned short>(); \
+    test<unsigned>(); \
+    test<unsigned long>(); \
+    test<MyUnsigned1>(); \
+    test<MyUnsigned2>();
 
 #ifdef BOOST_HAS_LONG_LONG
 # define TEST_UNSIGNED( test ) \
-	TEST_UNSIGNED_( test ) \
-	test<boost::ulong_long_type>();
+    TEST_UNSIGNED_( test ) \
+    test<boost::ulong_long_type>();
 #elif defined(BOOST_HAS_MS_INT64)
 # define TEST_UNSIGNED( test ) \
-	TEST_UNSIGNED_( test ) \
-	test<unsigned __int64>();
+    TEST_UNSIGNED_( test ) \
+    test<unsigned __int64>();
 #endif
 
 int main()
 {
-	TEST_SIGNED( gcd_int_test )
-	gcd_unmarked_int_test();
-	TEST_UNSIGNED( gcd_unsigned_test )
-	gcd_static_test();
+    TEST_SIGNED( gcd_int_test )
+    gcd_unmarked_int_test();
+    TEST_UNSIGNED( gcd_unsigned_test )
+    gcd_static_test();
 
-	TEST_SIGNED( lcm_int_test )
-	lcm_unmarked_int_test();
-	TEST_UNSIGNED( lcm_unsigned_test )
-	lcm_static_test();
+    TEST_SIGNED( lcm_int_test )
+    lcm_unmarked_int_test();
+    TEST_UNSIGNED( lcm_unsigned_test )
+    lcm_static_test();
 
-	return boost::report_errors();
+    return boost::report_errors();
 }
