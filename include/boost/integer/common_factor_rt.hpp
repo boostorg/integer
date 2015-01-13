@@ -12,10 +12,10 @@
 
 //  See http://www.boost.org for updates, documentation, and revision history. 
 
-#ifndef BOOST_MATH_COMMON_FACTOR_RT_HPP
-#define BOOST_MATH_COMMON_FACTOR_RT_HPP
+#ifndef BOOST_INTEGER_COMMON_FACTOR_RT_HPP
+#define BOOST_INTEGER_COMMON_FACTOR_RT_HPP
 
-#include <boost/math_fwd.hpp>  // self include
+#include <boost/integer_fwd.hpp>  // self include
 
 #include <boost/config.hpp>  // for BOOST_NESTED_TEMPLATE, etc.
 #include <boost/limits.hpp>  // for std::numeric_limits
@@ -29,7 +29,7 @@
 
 namespace boost
 {
-namespace math
+namespace integer
 {
 
 
@@ -55,7 +55,7 @@ public:
     result_type  operator ()( first_argument_type const &a,
      second_argument_type const &b ) const;
 
-};  // boost::math::gcd_evaluator
+};  // boost::integer::gcd_evaluator
 
 
 //  Least common multiple evaluator class declaration  -----------------------//
@@ -71,7 +71,7 @@ public:
     result_type  operator ()( first_argument_type const &a,
      second_argument_type const &b ) const;
 
-};  // boost::math::lcm_evaluator
+};  // boost::integer::lcm_evaluator
 
 
 //  Implementation details  --------------------------------------------------//
@@ -450,11 +450,11 @@ lcm
 }
 
 
-}  // namespace math
+}  // namespace integer
 }  // namespace boost
 
 #ifdef BOOST_MSVC
 #pragma warning(pop)
 #endif
 
-#endif  // BOOST_MATH_COMMON_FACTOR_RT_HPP
+#endif  // BOOST_INTEGER_COMMON_FACTOR_RT_HPP
