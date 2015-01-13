@@ -17,12 +17,12 @@
 
 #define BOOST_TEST_MAIN  "Boost.Math GCD & LCM unit tests"
 
-#include <boost/config.hpp>              // for BOOST_MSVC, etc.
+#include <boost/integer/common_factor.hpp>
+
+#include <boost/config.hpp>                // for BOOST_MSVC, etc.
 #include <boost/detail/workaround.hpp>
-#include <boost/math/common_factor.hpp>  // for boost::math::gcd, etc.
-#include <boost/mpl/list.hpp>            // for boost::mpl::list
 #include <boost/operators.hpp>
-#include <boost/test/unit_test.hpp>
+#include <boost/core/lightweight_test.hpp>
 
 #include <istream>  // for std::basic_istream
 #include <limits>   // for std::numeric_limits
@@ -108,23 +108,6 @@ MyInt1       dummy1;
 MyUnsigned1  dummy2;
 MyInt2       dummy3;
 MyUnsigned2  dummy4;
-
-// Various types to test with each GCD/LCM
-typedef ::boost::mpl::list<signed char, short, int, long,
-#ifdef BOOST_HAS_LONG_LONG
- boost::long_long_type,
-#elif defined(BOOST_HAS_MS_INT64)
- __int64,
-#endif
- MyInt1>  signed_test_types;
-typedef ::boost::mpl::list<unsigned char, unsigned short, unsigned,
- unsigned long,
-#ifdef BOOST_HAS_LONG_LONG
- boost::ulong_long_type,
-#elif defined(BOOST_HAS_MS_INT64)
- unsigned __int64,
-#endif
- MyUnsigned1, MyUnsigned2>  unsigned_test_types;
 
 }  // namespace
 
@@ -259,220 +242,232 @@ inline ostream& operator<<(ostream& os, unsigned __int64 i)
 }  // namespace std
 
 // GCD tests
-BOOST_AUTO_TEST_SUITE( gcd_test_suite )
 
 // GCD on signed integer types
-BOOST_AUTO_TEST_CASE_TEMPLATE( gcd_int_test, T, signed_test_types )
+template< class T > void gcd_int_test() // signed_test_types
 {
-#ifndef BOOST_MSVC
     using boost::math::gcd;
-#else
-    using namespace boost::math;
-#endif
 
     // Originally from Boost.Rational tests
-    BOOST_CHECK_EQUAL( gcd<T>(  1,  -1), static_cast<T>( 1) );
-    BOOST_CHECK_EQUAL( gcd<T>( -1,   1), static_cast<T>( 1) );
-    BOOST_CHECK_EQUAL( gcd<T>(  1,   1), static_cast<T>( 1) );
-    BOOST_CHECK_EQUAL( gcd<T>( -1,  -1), static_cast<T>( 1) );
-    BOOST_CHECK_EQUAL( gcd<T>(  0,   0), static_cast<T>( 0) );
-    BOOST_CHECK_EQUAL( gcd<T>(  7,   0), static_cast<T>( 7) );
-    BOOST_CHECK_EQUAL( gcd<T>(  0,   9), static_cast<T>( 9) );
-    BOOST_CHECK_EQUAL( gcd<T>( -7,   0), static_cast<T>( 7) );
-    BOOST_CHECK_EQUAL( gcd<T>(  0,  -9), static_cast<T>( 9) );
-    BOOST_CHECK_EQUAL( gcd<T>( 42,  30), static_cast<T>( 6) );
-    BOOST_CHECK_EQUAL( gcd<T>(  6,  -9), static_cast<T>( 3) );
-    BOOST_CHECK_EQUAL( gcd<T>(-10, -10), static_cast<T>(10) );
-    BOOST_CHECK_EQUAL( gcd<T>(-25, -10), static_cast<T>( 5) );
-    BOOST_CHECK_EQUAL( gcd<T>(  3,   7), static_cast<T>( 1) );
-    BOOST_CHECK_EQUAL( gcd<T>(  8,   9), static_cast<T>( 1) );
-    BOOST_CHECK_EQUAL( gcd<T>(  7,  49), static_cast<T>( 7) );
+    BOOST_TEST_EQ( gcd<T>(  1,  -1), static_cast<T>( 1) );
+    BOOST_TEST_EQ( gcd<T>( -1,   1), static_cast<T>( 1) );
+    BOOST_TEST_EQ( gcd<T>(  1,   1), static_cast<T>( 1) );
+    BOOST_TEST_EQ( gcd<T>( -1,  -1), static_cast<T>( 1) );
+    BOOST_TEST_EQ( gcd<T>(  0,   0), static_cast<T>( 0) );
+    BOOST_TEST_EQ( gcd<T>(  7,   0), static_cast<T>( 7) );
+    BOOST_TEST_EQ( gcd<T>(  0,   9), static_cast<T>( 9) );
+    BOOST_TEST_EQ( gcd<T>( -7,   0), static_cast<T>( 7) );
+    BOOST_TEST_EQ( gcd<T>(  0,  -9), static_cast<T>( 9) );
+    BOOST_TEST_EQ( gcd<T>( 42,  30), static_cast<T>( 6) );
+    BOOST_TEST_EQ( gcd<T>(  6,  -9), static_cast<T>( 3) );
+    BOOST_TEST_EQ( gcd<T>(-10, -10), static_cast<T>(10) );
+    BOOST_TEST_EQ( gcd<T>(-25, -10), static_cast<T>( 5) );
+    BOOST_TEST_EQ( gcd<T>(  3,   7), static_cast<T>( 1) );
+    BOOST_TEST_EQ( gcd<T>(  8,   9), static_cast<T>( 1) );
+    BOOST_TEST_EQ( gcd<T>(  7,  49), static_cast<T>( 7) );
 }
 
 // GCD on unmarked signed integer type
-BOOST_AUTO_TEST_CASE( gcd_unmarked_int_test )
+void gcd_unmarked_int_test()
 {
-#ifndef BOOST_MSVC
     using boost::math::gcd;
-#else
-    using namespace boost::math;
-#endif
 
     // The regular signed-integer GCD function performs the unsigned version,
     // then does an absolute-value on the result.  Signed types that are not
     // marked as such (due to no std::numeric_limits specialization) may be off
     // by a sign.
-    BOOST_CHECK_EQUAL( abs(gcd<MyInt2>(   1,  -1 )), MyInt2( 1) );
-    BOOST_CHECK_EQUAL( abs(gcd<MyInt2>(  -1,   1 )), MyInt2( 1) );
-    BOOST_CHECK_EQUAL( abs(gcd<MyInt2>(   1,   1 )), MyInt2( 1) );
-    BOOST_CHECK_EQUAL( abs(gcd<MyInt2>(  -1,  -1 )), MyInt2( 1) );
-    BOOST_CHECK_EQUAL( abs(gcd<MyInt2>(   0,   0 )), MyInt2( 0) );
-    BOOST_CHECK_EQUAL( abs(gcd<MyInt2>(   7,   0 )), MyInt2( 7) );
-    BOOST_CHECK_EQUAL( abs(gcd<MyInt2>(   0,   9 )), MyInt2( 9) );
-    BOOST_CHECK_EQUAL( abs(gcd<MyInt2>(  -7,   0 )), MyInt2( 7) );
-    BOOST_CHECK_EQUAL( abs(gcd<MyInt2>(   0,  -9 )), MyInt2( 9) );
-    BOOST_CHECK_EQUAL( abs(gcd<MyInt2>(  42,  30 )), MyInt2( 6) );
-    BOOST_CHECK_EQUAL( abs(gcd<MyInt2>(   6,  -9 )), MyInt2( 3) );
-    BOOST_CHECK_EQUAL( abs(gcd<MyInt2>( -10, -10 )), MyInt2(10) );
-    BOOST_CHECK_EQUAL( abs(gcd<MyInt2>( -25, -10 )), MyInt2( 5) );
-    BOOST_CHECK_EQUAL( abs(gcd<MyInt2>(   3,   7 )), MyInt2( 1) );
-    BOOST_CHECK_EQUAL( abs(gcd<MyInt2>(   8,   9 )), MyInt2( 1) );
-    BOOST_CHECK_EQUAL( abs(gcd<MyInt2>(   7,  49 )), MyInt2( 7) );
+    BOOST_TEST_EQ( abs(gcd<MyInt2>(   1,  -1 )), MyInt2( 1) );
+    BOOST_TEST_EQ( abs(gcd<MyInt2>(  -1,   1 )), MyInt2( 1) );
+    BOOST_TEST_EQ( abs(gcd<MyInt2>(   1,   1 )), MyInt2( 1) );
+    BOOST_TEST_EQ( abs(gcd<MyInt2>(  -1,  -1 )), MyInt2( 1) );
+    BOOST_TEST_EQ( abs(gcd<MyInt2>(   0,   0 )), MyInt2( 0) );
+    BOOST_TEST_EQ( abs(gcd<MyInt2>(   7,   0 )), MyInt2( 7) );
+    BOOST_TEST_EQ( abs(gcd<MyInt2>(   0,   9 )), MyInt2( 9) );
+    BOOST_TEST_EQ( abs(gcd<MyInt2>(  -7,   0 )), MyInt2( 7) );
+    BOOST_TEST_EQ( abs(gcd<MyInt2>(   0,  -9 )), MyInt2( 9) );
+    BOOST_TEST_EQ( abs(gcd<MyInt2>(  42,  30 )), MyInt2( 6) );
+    BOOST_TEST_EQ( abs(gcd<MyInt2>(   6,  -9 )), MyInt2( 3) );
+    BOOST_TEST_EQ( abs(gcd<MyInt2>( -10, -10 )), MyInt2(10) );
+    BOOST_TEST_EQ( abs(gcd<MyInt2>( -25, -10 )), MyInt2( 5) );
+    BOOST_TEST_EQ( abs(gcd<MyInt2>(   3,   7 )), MyInt2( 1) );
+    BOOST_TEST_EQ( abs(gcd<MyInt2>(   8,   9 )), MyInt2( 1) );
+    BOOST_TEST_EQ( abs(gcd<MyInt2>(   7,  49 )), MyInt2( 7) );
 }
 
 // GCD on unsigned integer types
-BOOST_AUTO_TEST_CASE_TEMPLATE( gcd_unsigned_test, T, unsigned_test_types )
+template< class T > void gcd_unsigned_test() // unsigned_test_types
 {
-#ifndef BOOST_MSVC
     using boost::math::gcd;
-#else
-    using namespace boost::math;
-#endif
 
     // Note that unmarked types (i.e. have no std::numeric_limits
     // specialization) are treated like non/unsigned types
-    BOOST_CHECK_EQUAL( gcd<T>( 1u,   1u), static_cast<T>( 1u) );
-    BOOST_CHECK_EQUAL( gcd<T>( 0u,   0u), static_cast<T>( 0u) );
-    BOOST_CHECK_EQUAL( gcd<T>( 7u,   0u), static_cast<T>( 7u) );
-    BOOST_CHECK_EQUAL( gcd<T>( 0u,   9u), static_cast<T>( 9u) );
-    BOOST_CHECK_EQUAL( gcd<T>(42u,  30u), static_cast<T>( 6u) );
-    BOOST_CHECK_EQUAL( gcd<T>( 3u,   7u), static_cast<T>( 1u) );
-    BOOST_CHECK_EQUAL( gcd<T>( 8u,   9u), static_cast<T>( 1u) );
-    BOOST_CHECK_EQUAL( gcd<T>( 7u,  49u), static_cast<T>( 7u) );
+    BOOST_TEST_EQ( gcd<T>( 1u,   1u), static_cast<T>( 1u) );
+    BOOST_TEST_EQ( gcd<T>( 0u,   0u), static_cast<T>( 0u) );
+    BOOST_TEST_EQ( gcd<T>( 7u,   0u), static_cast<T>( 7u) );
+    BOOST_TEST_EQ( gcd<T>( 0u,   9u), static_cast<T>( 9u) );
+    BOOST_TEST_EQ( gcd<T>(42u,  30u), static_cast<T>( 6u) );
+    BOOST_TEST_EQ( gcd<T>( 3u,   7u), static_cast<T>( 1u) );
+    BOOST_TEST_EQ( gcd<T>( 8u,   9u), static_cast<T>( 1u) );
+    BOOST_TEST_EQ( gcd<T>( 7u,  49u), static_cast<T>( 7u) );
 }
 
 // GCD at compile-time
-BOOST_AUTO_TEST_CASE( gcd_static_test )
+void gcd_static_test()
 {
-#ifndef BOOST_MSVC
     using boost::math::static_gcd;
-#else
-    using namespace boost::math;
-#endif
 
-    // Can't use "BOOST_CHECK_EQUAL", otherwise the "value" member will be
-    // disqualified as compile-time-only constant, needing explicit definition
-    BOOST_CHECK( (static_gcd< 1,  1>::value) == 1 );
-    BOOST_CHECK( (static_gcd< 0,  0>::value) == 0 );
-    BOOST_CHECK( (static_gcd< 7,  0>::value) == 7 );
-    BOOST_CHECK( (static_gcd< 0,  9>::value) == 9 );
-    BOOST_CHECK( (static_gcd<42, 30>::value) == 6 );
-    BOOST_CHECK( (static_gcd< 3,  7>::value) == 1 );
-    BOOST_CHECK( (static_gcd< 8,  9>::value) == 1 );
-    BOOST_CHECK( (static_gcd< 7, 49>::value) == 7 );
+    BOOST_TEST_EQ( (static_gcd< 1,  1>::value), 1 );
+    BOOST_TEST_EQ( (static_gcd< 0,  0>::value), 0 );
+    BOOST_TEST_EQ( (static_gcd< 7,  0>::value), 7 );
+    BOOST_TEST_EQ( (static_gcd< 0,  9>::value), 9 );
+    BOOST_TEST_EQ( (static_gcd<42, 30>::value), 6 );
+    BOOST_TEST_EQ( (static_gcd< 3,  7>::value), 1 );
+    BOOST_TEST_EQ( (static_gcd< 8,  9>::value), 1 );
+    BOOST_TEST_EQ( (static_gcd< 7, 49>::value), 7 );
 }
 
 // TODO: non-built-in signed and unsigned integer tests, with and without
 // numeric_limits specialization; polynominal tests; note any changes if
 // built-ins switch to binary-GCD algorithm
 
-BOOST_AUTO_TEST_SUITE_END()
-
 
 // LCM tests
-BOOST_AUTO_TEST_SUITE( lcm_test_suite )
 
 // LCM on signed integer types
-BOOST_AUTO_TEST_CASE_TEMPLATE( lcm_int_test, T, signed_test_types )
+template< class T > void lcm_int_test() // signed_test_types
 {
-#ifndef BOOST_MSVC
     using boost::math::lcm;
-#else
-    using namespace boost::math;
-#endif
 
     // Originally from Boost.Rational tests
-    BOOST_CHECK_EQUAL( lcm<T>(  1,  -1), static_cast<T>( 1) );
-    BOOST_CHECK_EQUAL( lcm<T>( -1,   1), static_cast<T>( 1) );
-    BOOST_CHECK_EQUAL( lcm<T>(  1,   1), static_cast<T>( 1) );
-    BOOST_CHECK_EQUAL( lcm<T>( -1,  -1), static_cast<T>( 1) );
-    BOOST_CHECK_EQUAL( lcm<T>(  0,   0), static_cast<T>( 0) );
-    BOOST_CHECK_EQUAL( lcm<T>(  6,   0), static_cast<T>( 0) );
-    BOOST_CHECK_EQUAL( lcm<T>(  0,   7), static_cast<T>( 0) );
-    BOOST_CHECK_EQUAL( lcm<T>( -5,   0), static_cast<T>( 0) );
-    BOOST_CHECK_EQUAL( lcm<T>(  0,  -4), static_cast<T>( 0) );
-    BOOST_CHECK_EQUAL( lcm<T>( 18,  30), static_cast<T>(90) );
-    BOOST_CHECK_EQUAL( lcm<T>( -6,   9), static_cast<T>(18) );
-    BOOST_CHECK_EQUAL( lcm<T>(-10, -10), static_cast<T>(10) );
-    BOOST_CHECK_EQUAL( lcm<T>( 25, -10), static_cast<T>(50) );
-    BOOST_CHECK_EQUAL( lcm<T>(  3,   7), static_cast<T>(21) );
-    BOOST_CHECK_EQUAL( lcm<T>(  8,   9), static_cast<T>(72) );
-    BOOST_CHECK_EQUAL( lcm<T>(  7,  49), static_cast<T>(49) );
+    BOOST_TEST_EQ( lcm<T>(  1,  -1), static_cast<T>( 1) );
+    BOOST_TEST_EQ( lcm<T>( -1,   1), static_cast<T>( 1) );
+    BOOST_TEST_EQ( lcm<T>(  1,   1), static_cast<T>( 1) );
+    BOOST_TEST_EQ( lcm<T>( -1,  -1), static_cast<T>( 1) );
+    BOOST_TEST_EQ( lcm<T>(  0,   0), static_cast<T>( 0) );
+    BOOST_TEST_EQ( lcm<T>(  6,   0), static_cast<T>( 0) );
+    BOOST_TEST_EQ( lcm<T>(  0,   7), static_cast<T>( 0) );
+    BOOST_TEST_EQ( lcm<T>( -5,   0), static_cast<T>( 0) );
+    BOOST_TEST_EQ( lcm<T>(  0,  -4), static_cast<T>( 0) );
+    BOOST_TEST_EQ( lcm<T>( 18,  30), static_cast<T>(90) );
+    BOOST_TEST_EQ( lcm<T>( -6,   9), static_cast<T>(18) );
+    BOOST_TEST_EQ( lcm<T>(-10, -10), static_cast<T>(10) );
+    BOOST_TEST_EQ( lcm<T>( 25, -10), static_cast<T>(50) );
+    BOOST_TEST_EQ( lcm<T>(  3,   7), static_cast<T>(21) );
+    BOOST_TEST_EQ( lcm<T>(  8,   9), static_cast<T>(72) );
+    BOOST_TEST_EQ( lcm<T>(  7,  49), static_cast<T>(49) );
 }
 
 // LCM on unmarked signed integer type
-BOOST_AUTO_TEST_CASE( lcm_unmarked_int_test )
+void lcm_unmarked_int_test()
 {
-#ifndef BOOST_MSVC
     using boost::math::lcm;
-#else
-    using namespace boost::math;
-#endif
 
     // The regular signed-integer LCM function performs the unsigned version,
     // then does an absolute-value on the result.  Signed types that are not
     // marked as such (due to no std::numeric_limits specialization) may be off
     // by a sign.
-    BOOST_CHECK_EQUAL( abs(lcm<MyInt2>(   1,  -1 )), MyInt2( 1) );
-    BOOST_CHECK_EQUAL( abs(lcm<MyInt2>(  -1,   1 )), MyInt2( 1) );
-    BOOST_CHECK_EQUAL( abs(lcm<MyInt2>(   1,   1 )), MyInt2( 1) );
-    BOOST_CHECK_EQUAL( abs(lcm<MyInt2>(  -1,  -1 )), MyInt2( 1) );
-    BOOST_CHECK_EQUAL( abs(lcm<MyInt2>(   0,   0 )), MyInt2( 0) );
-    BOOST_CHECK_EQUAL( abs(lcm<MyInt2>(   6,   0 )), MyInt2( 0) );
-    BOOST_CHECK_EQUAL( abs(lcm<MyInt2>(   0,   7 )), MyInt2( 0) );
-    BOOST_CHECK_EQUAL( abs(lcm<MyInt2>(  -5,   0 )), MyInt2( 0) );
-    BOOST_CHECK_EQUAL( abs(lcm<MyInt2>(   0,  -4 )), MyInt2( 0) );
-    BOOST_CHECK_EQUAL( abs(lcm<MyInt2>(  18,  30 )), MyInt2(90) );
-    BOOST_CHECK_EQUAL( abs(lcm<MyInt2>(  -6,   9 )), MyInt2(18) );
-    BOOST_CHECK_EQUAL( abs(lcm<MyInt2>( -10, -10 )), MyInt2(10) );
-    BOOST_CHECK_EQUAL( abs(lcm<MyInt2>(  25, -10 )), MyInt2(50) );
-    BOOST_CHECK_EQUAL( abs(lcm<MyInt2>(   3,   7 )), MyInt2(21) );
-    BOOST_CHECK_EQUAL( abs(lcm<MyInt2>(   8,   9 )), MyInt2(72) );
-    BOOST_CHECK_EQUAL( abs(lcm<MyInt2>(   7,  49 )), MyInt2(49) );
+    BOOST_TEST_EQ( abs(lcm<MyInt2>(   1,  -1 )), MyInt2( 1) );
+    BOOST_TEST_EQ( abs(lcm<MyInt2>(  -1,   1 )), MyInt2( 1) );
+    BOOST_TEST_EQ( abs(lcm<MyInt2>(   1,   1 )), MyInt2( 1) );
+    BOOST_TEST_EQ( abs(lcm<MyInt2>(  -1,  -1 )), MyInt2( 1) );
+    BOOST_TEST_EQ( abs(lcm<MyInt2>(   0,   0 )), MyInt2( 0) );
+    BOOST_TEST_EQ( abs(lcm<MyInt2>(   6,   0 )), MyInt2( 0) );
+    BOOST_TEST_EQ( abs(lcm<MyInt2>(   0,   7 )), MyInt2( 0) );
+    BOOST_TEST_EQ( abs(lcm<MyInt2>(  -5,   0 )), MyInt2( 0) );
+    BOOST_TEST_EQ( abs(lcm<MyInt2>(   0,  -4 )), MyInt2( 0) );
+    BOOST_TEST_EQ( abs(lcm<MyInt2>(  18,  30 )), MyInt2(90) );
+    BOOST_TEST_EQ( abs(lcm<MyInt2>(  -6,   9 )), MyInt2(18) );
+    BOOST_TEST_EQ( abs(lcm<MyInt2>( -10, -10 )), MyInt2(10) );
+    BOOST_TEST_EQ( abs(lcm<MyInt2>(  25, -10 )), MyInt2(50) );
+    BOOST_TEST_EQ( abs(lcm<MyInt2>(   3,   7 )), MyInt2(21) );
+    BOOST_TEST_EQ( abs(lcm<MyInt2>(   8,   9 )), MyInt2(72) );
+    BOOST_TEST_EQ( abs(lcm<MyInt2>(   7,  49 )), MyInt2(49) );
 }
 
 // LCM on unsigned integer types
-BOOST_AUTO_TEST_CASE_TEMPLATE( lcm_unsigned_test, T, unsigned_test_types )
+template< class T > void lcm_unsigned_test() // unsigned_test_types
 {
-#ifndef BOOST_MSVC
     using boost::math::lcm;
-#else
-    using namespace boost::math;
-#endif
 
     // Note that unmarked types (i.e. have no std::numeric_limits
     // specialization) are treated like non/unsigned types
-    BOOST_CHECK_EQUAL( lcm<T>( 1u,   1u), static_cast<T>( 1u) );
-    BOOST_CHECK_EQUAL( lcm<T>( 0u,   0u), static_cast<T>( 0u) );
-    BOOST_CHECK_EQUAL( lcm<T>( 6u,   0u), static_cast<T>( 0u) );
-    BOOST_CHECK_EQUAL( lcm<T>( 0u,   7u), static_cast<T>( 0u) );
-    BOOST_CHECK_EQUAL( lcm<T>(18u,  30u), static_cast<T>(90u) );
-    BOOST_CHECK_EQUAL( lcm<T>( 3u,   7u), static_cast<T>(21u) );
-    BOOST_CHECK_EQUAL( lcm<T>( 8u,   9u), static_cast<T>(72u) );
-    BOOST_CHECK_EQUAL( lcm<T>( 7u,  49u), static_cast<T>(49u) );
+    BOOST_TEST_EQ( lcm<T>( 1u,   1u), static_cast<T>( 1u) );
+    BOOST_TEST_EQ( lcm<T>( 0u,   0u), static_cast<T>( 0u) );
+    BOOST_TEST_EQ( lcm<T>( 6u,   0u), static_cast<T>( 0u) );
+    BOOST_TEST_EQ( lcm<T>( 0u,   7u), static_cast<T>( 0u) );
+    BOOST_TEST_EQ( lcm<T>(18u,  30u), static_cast<T>(90u) );
+    BOOST_TEST_EQ( lcm<T>( 3u,   7u), static_cast<T>(21u) );
+    BOOST_TEST_EQ( lcm<T>( 8u,   9u), static_cast<T>(72u) );
+    BOOST_TEST_EQ( lcm<T>( 7u,  49u), static_cast<T>(49u) );
 }
 
 // LCM at compile-time
-BOOST_AUTO_TEST_CASE( lcm_static_test )
+void lcm_static_test()
 {
-#ifndef BOOST_MSVC
     using boost::math::static_lcm;
-#else
-    using namespace boost::math;
-#endif
 
-    // Can't use "BOOST_CHECK_EQUAL", otherwise the "value" member will be
-    // disqualified as compile-time-only constant, needing explicit definition
-    BOOST_CHECK( (static_lcm< 1,  1>::value) ==  1 );
-    BOOST_CHECK( (static_lcm< 0,  0>::value) ==  0 );
-    BOOST_CHECK( (static_lcm< 6,  0>::value) ==  0 );
-    BOOST_CHECK( (static_lcm< 0,  7>::value) ==  0 );
-    BOOST_CHECK( (static_lcm<18, 30>::value) == 90 );
-    BOOST_CHECK( (static_lcm< 3,  7>::value) == 21 );
-    BOOST_CHECK( (static_lcm< 8,  9>::value) == 72 );
-    BOOST_CHECK( (static_lcm< 7, 49>::value) == 49 );
+    BOOST_TEST_EQ( (static_lcm< 1,  1>::value),  1 );
+    BOOST_TEST_EQ( (static_lcm< 0,  0>::value),  0 );
+    BOOST_TEST_EQ( (static_lcm< 6,  0>::value),  0 );
+    BOOST_TEST_EQ( (static_lcm< 0,  7>::value),  0 );
+    BOOST_TEST_EQ( (static_lcm<18, 30>::value), 90 );
+    BOOST_TEST_EQ( (static_lcm< 3,  7>::value), 21 );
+    BOOST_TEST_EQ( (static_lcm< 8,  9>::value), 72 );
+    BOOST_TEST_EQ( (static_lcm< 7, 49>::value), 49 );
 }
 
 // TODO: see GCD to-do
 
-BOOST_AUTO_TEST_SUITE_END()
+// main
+
+// Various types to test with each GCD/LCM
+
+#define TEST_SIGNED_( test ) \
+	test<signed char>(); \
+	test<short>(); \
+	test<int>(); \
+	test<long>(); \
+	test<MyInt1>();
+
+#ifdef BOOST_HAS_LONG_LONG
+# define TEST_SIGNED( test ) \
+	TEST_SIGNED_( test ) \
+	test<boost::long_long_type>();
+#elif defined(BOOST_HAS_MS_INT64)
+# define TEST_SIGNED( test ) \
+	TEST_SIGNED_( test ) \
+	test<__int64>();
+#endif
+
+#define TEST_UNSIGNED_( test ) \
+	test<unsigned char>(); \
+	test<unsigned short>(); \
+	test<unsigned>(); \
+	test<unsigned long>(); \
+	test<MyUnsigned1>(); \
+	test<MyUnsigned2>();
+
+#ifdef BOOST_HAS_LONG_LONG
+# define TEST_UNSIGNED( test ) \
+	TEST_UNSIGNED_( test ) \
+	test<boost::ulong_long_type>();
+#elif defined(BOOST_HAS_MS_INT64)
+# define TEST_UNSIGNED( test ) \
+	TEST_UNSIGNED_( test ) \
+	test<unsigned __int64>();
+#endif
+
+int main()
+{
+	TEST_SIGNED( gcd_int_test )
+	gcd_unmarked_int_test();
+	TEST_UNSIGNED( gcd_unsigned_test )
+	gcd_static_test();
+
+	TEST_SIGNED( lcm_int_test )
+	lcm_unmarked_int_test();
+	TEST_UNSIGNED( lcm_unsigned_test )
+	lcm_static_test();
+
+	return boost::report_errors();
+}
