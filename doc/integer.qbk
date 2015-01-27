@@ -728,7 +728,7 @@ Simple examples of finding the minimum and maximum values are
 
 [integer_min_max_example_1]
 
-A more complex example showing static compiler-time computation of the biggest size of two arrays, plus 1, using a class adder.
+A more complex example showing static compile-time computation of the biggest size of two arrays, plus 1, using a class `adder`.
 
 [integer_min_max_example_0]
 

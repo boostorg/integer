@@ -12,14 +12,17 @@
 #ifndef BOOST_INTEGER_COMMON_FACTOR_CT_HPP
 #define BOOST_INTEGER_COMMON_FACTOR_CT_HPP
 
-#include <boost/integer_fwd.hpp>  // self include
+//#include <boost/integer_fwd.hpp>  // self include
 #include <boost/config.hpp>  // for BOOST_STATIC_CONSTANT, etc.
+#include <boost/cstdint.hpp> // for boost::uintmax_t
 
 namespace boost
 {
 namespace integer
 {
   // Warning:  this is from 1.58 in namespace boost::integer and no longer in namespace boost::math.
+
+    typedef boost::uintmax_t static_gcd_type;
 
 //  Implementation details  --------------------------------------------------//
 //! \cond DETAIL

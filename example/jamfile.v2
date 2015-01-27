@@ -1,0 +1,33 @@
+# libs/integer/example Jamfile
+# Copyright (c) Vladimir Batov 2009-2014
+# Copyright Paul A. Bristow 2015
+
+# Distributed under the Boost Software License, Version 1.0.
+# See copy at http://www.boost.org/LICENSE_1_0.txt.
+
+# bring in the rules for testing
+import testing ;
+
+project convert_examples
+    : requirements
+        <warnings>on
+        <toolset>gcc:<warnings>all
+        <toolset>msvc:<warnings>all
+        <toolset>gcc:<cxxflags>"-Wno-unused-local-typedefs -Wno-unused-variable -Wno-long-long"
+        <toolset>msvc:<cxxflags>"/wd4996 /wd4512 /wd4610 /wd4510 /wd4127 /wd4701 /wd4127 /wd4305 /wd4100 /wd4512 /wd4714"
+        <toolset>msvc:<asynch-exceptions>on
+        <toolset>msvc:<define>_CRT_SECURE_NO_DEPRECATE
+        <toolset>msvc:<define>_SCL_SECURE_NO_DEPRECATE
+        <toolset>msvc:<define>_SCL_SECURE_NO_WARNINGS
+        <toolset>msvc:<define>_CRT_SECURE_NO_WARNINGS
+        <include>../include
+    ;
+
+run integer_mask_example.cpp ;
+run integer_traits_example.cpp ;
+run integer_type_selection_example.cpp ;
+
+
+
+
+
