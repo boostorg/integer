@@ -1,12 +1,88 @@
-
+# jamfile to build Boost.Integer Documentation.
 
 # Copyright John Maddock 2005. Use, modification, and distribution are
 # subject to the Boost Software License, Version 1.0. (See accompanying
 # file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-using quickbook ;
+# revised to include Doxygen and Autoindex
+# Copyright Paul A. Bristow 2015
 
-xml integer : integer.qbk ;
+using boostbook ;
+using doxygen ;  # Required if you want to use Doxygen.
+using quickbook ;
+using auto-index ;
+
+path-constant here : . ; # convenient to refer to files in the same directory as this jamfile.v2
+path-constant parent : .. ;  # Parent directory, /libs/integer/
+
+if --enable-index in  [ modules.peek : ARGV ]
+{
+   ECHO "Building the Integer docs with automatic index generation enabled." ;
+   using auto-index ;
+   project integer_doc : requirements
+             <auto-index>on
+             <auto-index-script>integer.idx
+             <auto-index-prefix>.
+             <auto-index-verbose>on
+             <format>html:<auto-index-internal>on
+             <format>html:<xsl:param>generate.index=0
+             <format>pdf:<auto-index-internal>on
+             <format>pdf:<xsl:param>index.on.type=1
+             <quickbook-define>enable_index ;
+}
+else
+{
+   project integer_doc ;
+   ECHO "Building the Integer docs with automatic index generation disabled. Try building with --enable-index." ;
+}
+
+
+xml integer
+   :
+    integer.qbk # This is 'root' Quickbook file (that may include other .qbk files).
+   ;
+
+doxygen autodoc
+  :
+    [ glob $(here)/../include/boost/*.hpp ]
+    [ glob $(here)/../include/boost/integer/integer/*.hpp ]
+    # but could also include this and switch Boost.Integer C++ reference info to include implementation details (or not) using Doxygen macro DETAIL.
+    # See http://www.stack.nl/~dimitri/doxygen/manual/commands.html#cmdcond
+    # and http://www.stack.nl/~dimitri/doxygen/manual/config.html#cfg_enabled_sections
+    # by adding this line below with other Doxygen parameters
+    #     <doxygen:param>ENABLED_SECTIONS="DETAIL"
+    #  Or setting this macro value ENABLED_SECTIONS="DETAIL" in /doxygen/integer_doxyfile.txt for Standalone Doxygen documentaation.
+    # This might be useful for maintainers.
+
+  :
+    <doxygen:param>PROJECT_NAME="Integer"
+    <doxygen:param>RECURSIVE=NO # Specify all folders and files above explicitly.
+    <doxygen:param>ENABLE_PREPROCESSING=YES
+    <doxygen:param>EXPAND_ONLY_PREDEF=YES
+    <doxygen:param>EXTRACT_ALL=NO
+    <doxygen:param>EXTRACT_PRIVATE=NO
+    <doxygen:param>HIDE_UNDOC_MEMBERS=YES
+    <doxygen:param>MACRO_EXPANSION=YES
+    <doxygen:param>SORT_MEMBER_DOCS=NO
+    <doxygen:param>SHOW_INCLUDE_FILES=NO
+    <doxygen:param>MAX_INITIALIZER_LINES=0
+    <doxygen:param>VERBATIM_HEADERS=NO
+    <doxygen:param>WARNINGS=NO # If WARN_IF_UNDOCUMENTED is set to YES, then doxygen will generate warnings for undocumented members.
+    # If EXTRACT_ALL is set to YES then this flag will automatically be disabled.
+    <doxygen:param>WARN_IF_UNDOCUMENTED=YES # If WARN_IF_UNDOCUMENTED is set to YES,
+    # then doxygen will generate warnings for all undocumented members.
+    <doxygen:param>WARN_IF_DOC_ERROR=YES # If WARN_IF_DOC_ERROR is set to YES, Doxygen will generate warnings for
+    # potential errors in the documentation.
+    <doxygen:param>WARN_LOGFILE=AutoDoxywarnings.log # This may not be empty (usually not a good sign!), depending on options chosen.
+    # Much better to send message to a logfile than the default stderr.
+    # and make sure that there are no Doxygen errors or significant warnings in the log file.
+
+    #<reftitle>"Reference" # Default is "Reference" but helpful to specify library.
+    <xsl:param>"boost.doxygen.reftitle=Boost.Integer C++ Reference"
+    # See Doxygen configuration for detailed explanation of these options.
+    # Usually these match those in /doc/doxygen/integer_doxyfile.txt.
+  ;
+
 boostbook standalone
     :
         integer
@@ -14,6 +90,7 @@ boostbook standalone
         # HTML options first:
         # Use graphics not text for navigation:
         <xsl:param>navig.graphics=1
+        <xsl:param>chapter.autolabel=0 # No Chapter numbering.
         # How far down we chunk nested sections, basically all of them:
         <xsl:param>chunk.section.depth=1
         # Don't put the first section on the same page as the TOC:
@@ -26,7 +103,7 @@ boostbook standalone
         <xsl:param>generate.section.toc.level=4
         # Path for links to Boost:
         <xsl:param>boost.root=../../../..
-        
+
         # PDF Options:
         # TOC Generation: this is needed for FOP-0.9 and later:
         <xsl:param>fop1.extensions=0
@@ -47,7 +124,11 @@ boostbook standalone
         # better use SVG's instead:
         <format>pdf:<xsl:param>admon.graphics.extension=".svg"
         <format>pdf:<xsl:param>admon.graphics.path=$(boost-images)/
-        <format>pdf:<xsl:param>boost.url.prefix=http://www.boost.org/doc/libs/release/libs/regex/doc/html
+        #<format>pdf:<xsl:param>boost.url.prefix=http://www.boost.org/doc/libs/release/libs/regex/doc/html
+        # Not sure if this line is correct?
+
+       <dependency>autodoc # Add Doxygen info.
+
     ;
 
 install pdfinstall : standalone/<format>pdf : <location>. <install-type>PDF ;

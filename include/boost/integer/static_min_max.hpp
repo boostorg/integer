@@ -5,7 +5,9 @@
 //  accompanying file LICENSE_1_0.txt or copy at
 //  http://www.boost.org/LICENSE_1_0.txt)
 
-//  See http://www.boost.org for updates, documentation, and revision history. 
+//  See http://www.boost.org for updates, documentation, and revision history.
+//! \file
+//! \brief Compile-time evaluation of extrema: minimum or maximum of two values, signed or unsigned.
 
 #ifndef BOOST_INTEGER_STATIC_MIN_MAX_HPP
 #define BOOST_INTEGER_STATIC_MIN_MAX_HPP

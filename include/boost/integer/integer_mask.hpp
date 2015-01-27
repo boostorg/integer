@@ -5,7 +5,10 @@
 //  accompanying file LICENSE_1_0.txt or copy at
 //  http://www.boost.org/LICENSE_1_0.txt)
 
-//  See http://www.boost.org for updates, documentation, and revision history. 
+//  See http://www.boost.org for updates, documentation, and revision history.
+
+//! \file
+//! \brief Compile-time integer mask evaluation.
 
 #ifndef BOOST_INTEGER_INTEGER_MASK_HPP
 #define BOOST_INTEGER_INTEGER_MASK_HPP
@@ -34,7 +37,6 @@
 
 namespace boost
 {
-
 
 //  Specified single-bit mask class declaration  -----------------------------//
 //  (Lowest bit starts counting at 0.)

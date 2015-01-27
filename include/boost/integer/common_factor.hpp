@@ -5,7 +5,9 @@
 //  accompanying file LICENSE_1_0.txt or copy at
 //  http://www.boost.org/LICENSE_1_0.txt)
 
-//  See http://www.boost.org for updates, documentation, and revision history. 
+//  See http://www.boost.org for updates, documentation, and revision history.
+//! \file
+//! \brief Include both GCD and LCM.
 
 #ifndef BOOST_INTEGER_COMMON_FACTOR_HPP
 #define BOOST_INTEGER_COMMON_FACTOR_HPP

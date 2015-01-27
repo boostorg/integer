@@ -4,13 +4,15 @@
 //  use, modify, sell and distribute this software is granted provided this
 //  copyright notice appears in all copies.  This software is provided "as is"
 //  without express or implied warranty, and with no claim as to its suitability
-//  for any purpose. 
+//  for any purpose.
 
 // boostinspect:nolicense (don't complain about the lack of a Boost license)
 // (Paul Moore hasn't been in contact for years, so there's no way to change the
 // license.)
 
-//  See http://www.boost.org for updates, documentation, and revision history. 
+//  See http://www.boost.org for updates, documentation, and revision history.
+//! \file
+//! \brief Evaluate Least Common Multiple at compile-time.
 
 #ifndef BOOST_INTEGER_COMMON_FACTOR_RT_HPP
 #define BOOST_INTEGER_COMMON_FACTOR_RT_HPP
@@ -31,7 +33,7 @@ namespace boost
 {
 namespace integer
 {
-
+// Warning:  this is from 1.58 in namespace boost::interger and no longer in namespace boost::math.
 
 //  Forward declarations for function templates  -----------------------------//
 
@@ -75,6 +77,7 @@ public:
 
 
 //  Implementation details  --------------------------------------------------//
+//! \cond DETAIL
 
 namespace detail
 {
@@ -387,9 +390,13 @@ namespace detail
     }
 
 }  // namespace detail
+//! \endcond // DETAIL
 
-
-//  Greatest common divisor evaluator member function definition  ------------//
+//  Greatest common divisor operator() evaluator member function definition  ------------//
+//! Evaluation operator() for Greatest Common Divisor (GCD) of two arguments.
+//! \tparam IntegerType must be an integral constant http://en.cppreference.com/w/cpp/types/integral_constant
+//! \param a first_argument_type
+//! \param b second_argument_type
 
 template < typename IntegerType >
 inline
@@ -405,7 +412,11 @@ gcd_evaluator<IntegerType>::operator ()
 
 
 //  Least common multiple evaluator member function definition  --------------//
-
+//! Evaluates Least Common Multiplier of two arguments.
+//! \tparam IntegerType must be an integral constant http://en.cppreference.com/w/cpp/types/integral_constant
+//! \tparam IntegerType must be an integral constant http://en.cppreference.com/w/cpp/types/integral_constant
+//! \param a first_argument_type
+//! \param b second_argument_type
 template < typename IntegerType >
 inline
 typename lcm_evaluator<IntegerType>::result_type
@@ -420,6 +431,10 @@ lcm_evaluator<IntegerType>::operator ()
 
 
 //  Greatest common divisor and least common multiple function definitions  --//
+//! Function for Greatest Common Divisor (GCD) of two arguments.
+//! \tparam IntegerType must be an integral constant http://en.cppreference.com/w/cpp/types/integral_constant
+//! \param a first_argument_type
+//! \param b second_argument_type
 
 template < typename IntegerType >
 inline
@@ -434,6 +449,11 @@ gcd
 
     return solver( a, b );
 }
+
+//! Function for Least Common Multiplier  (LCM) of two arguments.
+//! \tparam IntegerType must be an integral constant http://en.cppreference.com/w/cpp/types/integral_constant
+//! \param a first_argument_type
+//! \param b second_argument_type
 
 template < typename IntegerType >
 inline

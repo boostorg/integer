@@ -10,6 +10,11 @@
 //
 //         ---------------------------------------------------
 //       See http://www.boost.org/libs/integer for documentation.
+
+//! \file
+//! \brief Compile-time calculation of integer part of the logarithm, in base 2, of a given number.
+//! \note For a run-time calculation of log2, see function integer_log2 at integer_log2.hpp.
+
 // ------------------------------------------------------------------------- //
 
 
@@ -19,6 +24,8 @@
 #include "boost/integer_fwd.hpp" // for boost::intmax_t
 
 namespace boost {
+
+  //! \cond DETAIL
 
  namespace detail {
 
@@ -99,8 +106,7 @@ namespace boost {
 
      }
  } // detail
-
-
+//! \endcond  // DETAIL
 
  // --------------------------------------
  // static_log2<x>
@@ -120,7 +126,7 @@ namespace boost {
  template <>
  struct static_log2<0> { };
 
-}
+} // namespace boost
 
 
 

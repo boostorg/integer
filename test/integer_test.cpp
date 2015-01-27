@@ -69,7 +69,7 @@ void do_test_exact(boost::mpl::true_ const&)
 template <int Bits>
 void do_test_exact(boost::mpl::false_ const&)
 {
-   // Nothing to do, type does not have an ::extact member.
+   // Nothing to do, type does not have an ::exact member.
 }
 
 template <int Bits>

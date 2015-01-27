@@ -8,9 +8,14 @@
  * $Id$
  *
  * Idea by Beman Dawes, Ed Brey, Steve Cleary, and Nathan Myers
+
  */
 
 //  See http://www.boost.org/libs/integer for documentation.
+
+//! \file
+//! \brief integer traits
+//! \sa http://www.boost.org/libs/integer
 
 
 #ifndef BOOST_INTEGER_TRAITS_HPP
@@ -47,6 +52,7 @@ public:
   BOOST_STATIC_CONSTANT(bool, is_integral = false);
 };
 
+//! \cond DETAIL
 namespace detail {
 template<class T, T min_val, T max_val>
 class integer_traits_base
@@ -70,6 +76,7 @@ const T integer_traits_base<T, min_val, max_val>::const_max;
 #endif
 
 } // namespace detail
+//! \endcond // DETAIL
 
 template<>
 class integer_traits<bool>

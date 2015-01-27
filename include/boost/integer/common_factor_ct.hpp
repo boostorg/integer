@@ -5,7 +5,9 @@
 //  accompanying file LICENSE_1_0.txt or copy at
 //  http://www.boost.org/LICENSE_1_0.txt)
 
-//  See http://www.boost.org for updates, documentation, and revision history. 
+//  See http://www.boost.org for updates, documentation, and revision history.
+//! \file
+//! \brief Evaluate Greatest Common Divisor at compile-time.
 
 #ifndef BOOST_INTEGER_COMMON_FACTOR_CT_HPP
 #define BOOST_INTEGER_COMMON_FACTOR_CT_HPP
@@ -17,9 +19,10 @@ namespace boost
 {
 namespace integer
 {
+  // Warning:  this is from 1.58 in namespace boost::integer and no longer in namespace boost::math.
 
 //  Implementation details  --------------------------------------------------//
-
+//! \cond DETAIL
 namespace detail
 {
     // Build GCD with Euclid's recursive algorithm
@@ -71,7 +74,7 @@ namespace detail
     };
 
 }  // namespace detail
-
+//! \endcond // DETAIL
 
 //  Compile-time greatest common divisor evaluator class declaration  --------//
 

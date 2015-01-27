@@ -5,6 +5,8 @@
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
 //  See http://www.boost.org/libs/integer for documentation.
+//! \file
+//! \brief Include all Boost.Integer files.
 
 #ifndef BOOST_INTEGER_FWD_HPP
 #define BOOST_INTEGER_FWD_HPP

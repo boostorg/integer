@@ -1,15 +1,18 @@
 // -----------------------------------------------------------
 // integer_log2.hpp
 //
-//   Gives the integer part of the logarithm, in base 2, of a
-// given number. Behavior is undefined if the argument is <= 0.
-//
 //         Copyright (c) 2003-2004, 2008 Gennaro Prota
 //
 // Distributed under the Boost Software License, Version 1.0.
 //    (See accompanying file LICENSE_1_0.txt or copy at
 //          http://www.boost.org/LICENSE_1_0.txt)
 //
+//! \file
+//! \brief  Function integer_log2 gives the integer part of the logarithm, in base 2, of a
+//!  given number (at run-time). Behavior is undefined if the argument is <= 0.
+//
+//! \note For analogous compile-time computation of log2 see static_log2.
+//! \sa http::www.boost.org/doc/integer
 // -----------------------------------------------------------
 
 #ifndef BOOST_INTEGER_INTEGER_LOG2_HPP
@@ -24,6 +27,8 @@
 
 
 namespace boost {
+
+//! \cond DETAIL
  namespace detail {
 
   template <typename T>
@@ -44,7 +49,6 @@ namespace boost {
 
       return result;
   }
-
 
 
   // helper to find the maximum power of two
@@ -82,9 +86,8 @@ namespace boost {
 #endif
 
   };
-
  } // detail
-
+//! \endcond // DETAIL
 
  // ---------
  // integer_log2
@@ -104,9 +107,6 @@ namespace boost {
  }
 
 
-
 }
 
-
-
-#endif // include guard
+#endif // BOOST_INTEGER_INTEGER_LOG2_HPP  include guard
