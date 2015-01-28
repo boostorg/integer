@@ -9,13 +9,11 @@
 // Caution: this file contains Quickbook markup as well as code
 // and comments, don't change any of the special comment markups!
 
-//[integer_common_factor_example_0
+// #include <boost/integer/common_factor.hpp> // Includes both ct and rt but now deprecated.
 
-// #include <boost/integer/common_factor.hpp>
-
-#include <boost/integer/common_factor_ct.hpp> // For compile-time GCD & LCM Determination
-#include <boost/integer/common_factor_rt.hpp> // For run-time GCD & LCM Determination
-
+//[integer_common_factor_example_0]
+#include <boost/integer/common_factor_ct.hpp> // For compile-time GCD & LCM Determination.
+#include <boost/integer/common_factor_rt.hpp> // For run-time GCD & LCM Determination.
 //] [/integer_common_factor_example_0]
 #include <iostream>
 #include <algorithm>
@@ -52,9 +50,13 @@ int main()
 } // int main
 
 /*
-//[integer_common_factor_example_output
+//[integer_common_factor_example_output_1
 The run-time GCD and LCM of 6 and 15 are 3 and 30, respectively.
+
 The compile-time GCD and LCM of 8 and 9 are 1 and 72, respectively.
+//] [/integer_common_factor_example_output_1]
+
+//[integer_common_factor_example_output_2
 1 1 3
-//] [/integer_common_factor_example_output]
+//] [/integer_common_factor_example_output_2]
 */

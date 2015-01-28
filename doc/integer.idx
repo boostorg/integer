@@ -1,0 +1,28 @@
+# integer.idx for Boost.integer/Spreadinteger Quickbook, Doxygen and Auto-index.
+
+# Note needs more customization to be useful in practice! TODO?
+
+#!debug "\<\w*\>"
+
+# integer Header files.
+!scan-path "../include/boost/" ".*\.hpp" false
+!scan-path "../include/boost/integer" ".*\.hpp" false
+
+# All example source files, assuming no sub-folders.
+# integer example files.
+#!scan-path "../example" ".*\.cpp" true
+
+# Allow alternative spellings colour | color, and plurals etc.
+color  \<\w*(colour|color)\w*\>
+example \<example\w*\>
+font  \<font\w*\>
+greek
+ioflags
+origin
+outlier
+maximum \<max\w*\>
+minimum \<min\w*\>
+precision
+range  \<\w*\range\w*\>
+title
+Unicode \<unicode\w*\>

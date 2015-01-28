@@ -9,12 +9,12 @@
         [@http://www.boost.org/LICENSE_1_0.txt])
     ]
     [authors [Dawes, Beman], [Walker, Daryle], [Prota, Gennaro], [Maddock, John]]
-    [/last-revision $Date: 2008-02-21 12:58:15 +0000 (Thu, 21 Feb 2008) $]
     [/last-revision $Date]
 ]
 
 [/ Required for autoindexing]
 [import ../../../tools/auto_index/include/auto_index_helpers.qbk]
+
 [/ Must be first included file!]
 
 [import html4_symbols.qbk] [/ Provides various useful squiggles.]
@@ -34,36 +34,34 @@
 [def __negative_number [@http://simple.wikipedia.org/wiki/Negative_number negative number]]
 
 [/ Links to functions for use in text]
+[/Fully qualified class and function names]
 [def __integer_log2 [^[classref boost::static_log2 static_log2]]]
 [def __integer_traits[^[classref boost::integer_traits integer_traits]]]
-[def __boost_integer_static_gcd [^[funcref boost::integer::static_gcd  boost::integer::static_gcd]]]
+[def __boost_integer_gcd [^[funcref boost::integer::gcd  gcd]]]
+[def __boost_integer_lcm [^[funcref boost::integer::lcm lcm]]]
+[def __boost_integer_static_gcd [^[classref boost::static_gcd  static_gcd]]]
+[def __boost_integer_static_lcm [^[classref boost::static_lcm  static_lcm]]]
+[def __gcd_evaluator[^[classref boost::integer::gcd_evaluator gcd_evaluator]]]
+[def __lcm_evaluator[^[classref boost::integer::lcm_evaluator lcm_evaluator]]]
 
 [/links to this Boost.Integer library]
 [/link document_id.section_id.normalized_header_text The link text]
 [def __overview [link boost_integer.overview overview]]
 [def __log2 [link boost_integer.log2 log2]]
-[def __log2_usage [link boost_integer.log2.usage static_log2]]
-[def __cpp_reference [link boost_integer. boost_integer_c___reference C++ Reference]]
+[def __log2_usage [link boost_integer.log2.usage static_log2 usage]]
 
 [/LInks to other Boost libraries]
 [def __Boost.Multiprecision [@boost:/libs/multiprecision/index.html Boost.Multiprecision]]
 [def __Boost.Config [@boost:/libs/config/index.html  Boost.Config]]
+[def __cpp_reference [@boost:/libs/integer/doc/html/boost_integer_c___reference.html   C++ Reference]]
 
 [section:overview Overview]
-
-__Boost.Multiprecision
-__Boost.Config
-__overview
-__log2
-__log2_usage
-__cpp_reference
-__boost_integer_static_gcd
 
 Boost.Integer provides integer type support, particularly helpful in generic programming.
 It provides
 
 * The means to select an integer type based upon its properties, like the number of bits or
-the maximum supported value, as well as compile-time bit mask selection.
+the maximum supported value, as well as compile-time bit-mask selection.
 * A derivative of __numeric_limits that provides integral [*constant expressions] for `min` and `max`.
 
 It provides two compile-time algorithms
@@ -71,7 +69,7 @@ It provides two compile-time algorithms
 * Determining the highest power of two in a compile-time value.
 * Computing min and max of constant expressions.
 
-It now includes (moved from Boost.Math)
+and it now includes (moved from Boost.Math)
 
 * Run-time and compile-time evaluation of the greatest common divisor (__GCD)
 or least common multiple (__LCM) of two integers.
@@ -96,13 +94,13 @@ or least common multiple (__LCM) of two integers.
       Useful for generic programming. ]
    ]
    [
-      [[link boost_integer.mask Integer Masks].]
+      [[link boost_integer.masks Integer Masks].]
       [[^[@../../../../boost/integer/integer_mask.hpp <boost/integer/integer_mask.hpp>]]]
       [Templates for the selection of integer masks, single or lowest group, based on the number of bits:
       Use to select a particular mask when the bit position(s) are based on a compile-time variable. Useful for generic programming. ]
    ]
    [
-      [[link boost_integer.log2 Compile time log2 Calculation].]
+      [[link boost_integer.log2 Compile time log2 calculation].]
       [[^[@../../../../boost/integer/static_log2.hpp <boost/integer/static_log2.hpp>]]]
       [Template for finding the highest power of two in a number:
       Use to find the bit-size/range based on a maximum value. Useful for generic programming. ]
@@ -115,9 +113,9 @@ or least common multiple (__LCM) of two integers.
    ]
 
     [
-      [[link boost_integer.gcd_lcm GCM & LCM calculation].]
+      [[link boost_integer.gcd_lcm GCD & LCM calculation].]
       [[^[@../../../../boost/integer/common_factor.hpp <boost/integer/common_factor.hpp>]]]
-      [Templates for finding the GCM or LCM:   Useful for generic programming. ]
+      [Templates for finding the GCD or LCM:   Useful for generic programming. ]
    ]
 ]
 [endsect] [/section:overview Overview]
@@ -143,10 +141,10 @@ For many uses, these are sufficient.
 But functions `min()` and `max()` may be problematical because they are not ['constant expressions] (std::5.19),
 yet some usages require constant expressions.
 
-The template class __integer_traits addresses this problem.
+The template class __integer_traits addresses this problem with functions `const_min` and `const_max`.
 
 [tip Since C++11, `min()` and `max()` (like other members) are `static constexpr T max();`, and `static constexpr T min();`
-so there is no issue if the code is only to be run with compilers that support this definition.]
+so there is no need for `const_min` and `const_max` if the code is ['only] to be run with compilers that support this definition.]
 
 [endsect] [/section Motivation]
 
@@ -161,8 +159,9 @@ so there is no issue if the code is only to be run with compilers that support t
         static const bool is_integral = false;
 
         // These members are defined only if T is a built-in integal type :
-        static const T const_min = ``['implementation-defined]``;  // Usually all available `char, int` and `long` types.
-        static const T const_max = ``['implementation-defined]``; // Usually all available `char, int` and `long` types .
+        // Usually all available `char, int` and `long` types.
+        static const T const_min = ``['implementation-defined]``;
+        static const T const_max = ``['implementation-defined]``;
      };
    }
 
@@ -170,7 +169,7 @@ so there is no issue if the code is only to be run with compilers that support t
 
 [section Description]
 
-Template class __integer_traits is derived from __std::numeric_limits.
+Template class __integer_traits is derived from __numeric_limits.
 The primary specialization adds the single
 `bool` member [^is_integral] with the compile-time constant value `false`.
 However, for all integral types [^T] (std::3.9.1/7 [basic.fundamental]),
@@ -186,14 +185,14 @@ there are specializations provided with the following compile-time constants def
 [note The ['is_integral] flag is provided, because a user-defined integer class should specialize
 [^std::numeric_limits<>::is_integer = true], while compile-time constants
 [^const_min] and [^const_max] are [*not] provided for that user-defined class,
-unless `boost::integer_traits` is also specialized.]
+unless __integer_traits is also specialized.]
 
 [endsect] [/section Description]
 
-[import ../example/integer_traits_example.cpp]
 [section Example]
-A templated function like
+[import ../example/integer_traits_example.cpp]
 
+A templated function like
 [integer_traits_example_1]
 can be called using a literal integral value thus
 [integer_traits_example_2]
@@ -203,7 +202,7 @@ only a const variable
 [integer_traits_example_4]
 `std::numeric_limits<>::max()` and `min()` are sadly non-`const` so cannot be used by pre-C++11 compilers.
 [integer_traits_example_5]
-but fortunately `const_max` and `const_min` are `const` and so can be used thus
+but fortunately `const_max` and `const_min` [*are `const`] and so can be used thus
 [integer_traits_example_6]
 
 See example code at [@../../example/integer_traits_example.cpp].
@@ -391,15 +390,15 @@ First we need the right include
 If, perhaps dementedly, we declare that we want an unsigned and integer type with at least 13 bits,
 [integer_type_selection_1]
 
-After some effort defining a pretty-printing function `show_type<T>`,
+After some effort defining a pretty-printing function `show_type<T>`, using it thus
 
 [integer_type_selection_2]
 
-we can prettily show the `std::numeric_limits` of the resulting type
+we can prettily show some `std::numeric_limits` of the resulting selected type
 
 [integer_type_selection_output_1]
 
-It may be convenient to define a `typedef` for the resulting type, for example,
+It is often convenient to define a `typedef` for the resulting type, for example,
 to get the easiest (and hopefully fastest) 7-bit signed int
 
 [integer_type_selection_3]
@@ -463,7 +462,7 @@ The rationale for the design of the templates in this header includes:
 
 [endsect ] [/section Rationale]
 
-[section Alternative]
+[section Alternatives]
 
 [tip If the number of bits required is known beforehand, it may be more appropriate to use the (exact) types supplied
 in [@../../../../boost/cstdint.hpp <boost/cstdint.hpp>], for example: `int_least8_t`, `uint_fast16_t`, `uint64_t`].
@@ -473,7 +472,7 @@ in [@../../../../boost/cstdint.hpp <boost/cstdint.hpp>], for example: `int_least
 that enables fixed precision integers via `typedef`s like `int128_t`, `uint512_t`,
 and checked versions like `checked_int128_t`, that may also be useful.]
 
-[endsect] [/section Alternative]
+[endsect] [/section Alternatives]
 
 [endsect]
 
@@ -486,7 +485,8 @@ The class templates in [@../../../../boost/integer/integer_mask.hpp <boost/integ
 provide bit-masks for a certain bit position or a contiguous-bit pack of a certain size.
 The types of the masking constants come from the [link boost_integer.integer integer type-selection templates] header.
 
-[endsect]
+[endsect] [/section Overview]
+
 
 [section Synopsis]
 
@@ -528,7 +528,9 @@ The types of the masking constants come from the [link boost_integer.integer int
 [section Single Bit-Mask Class Template]
 
 The [^boost::high_bit_mask_t] class template provides constants for bit masks representing the bit at a
-certain position. The masks are equivalent to the value 2[super Bit], where [^Bit] is the template parameter.
+certain position.
+
+The masks are equivalent to the value 2[super Bit], where [^Bit] is the template parameter.
 The bit position must be a nonnegative number from zero to ['Max], where Max is one less than the
 number of bits supported by the largest unsigned built-in integral type. The following table describes
 the members of an instantiation of [^high_bit_mask_t].
@@ -642,7 +644,7 @@ This facility is useful for solving generic programming problems.
 
 [section Usage]
 
-The [^boost::static_log2] class template takes one template parameter, a value of type
+The __integer_log2 class template takes one template parameter, a value of type
 [^static_log2_argument_type]. The template only defines one member, [^value], which gives the
 truncated, base-two logarithm of the template argument.
 
@@ -711,7 +713,7 @@ for generic programming problems.
 [section Usage]
 
 The four class templates provide the combinations for finding the minimum or maximum of two [^signed] or
-[^unsigned] ([^long]) parameters, /Value1/ and /Value2/, at compile-time. Each template has a single static data member,
+[^unsigned] ([^long]) parameters, ['Value1] and ['Value2], at compile-time. Each template has a single static data member,
 [^value], which is set to the respective minimum or maximum of the template's parameters.
 
 [endsect] [/section Usage]
@@ -721,10 +723,7 @@ The four class templates provide the combinations for finding the minimum or max
 
 [import ../example/integer_static_minmax_example.cpp]
 
-The full code is [@../../test/integer_static_minmax_example.cpp integer_static_minmax_example.cpp].
-
 Simple examples of finding the minimum and maximum values are
-
 
 [integer_min_max_example_1]
 
@@ -736,6 +735,7 @@ The computed size is 3+1 = 4
 
 [integer_min_max_example_2]
 
+The full code is [@../../example/integer_static_minmax_example.cpp integer_static_minmax_example.cpp].
 
 TODO the rest of the example compiles but does not run.
 
@@ -792,7 +792,7 @@ Sometimes the minimum or maximum of several values needs to be found for later c
 
 [section Introduction]
 
-The class and function templates in `<boost/math/common_factor.hpp>`
+The class and function templates in `<boost/integer/common_factor.hpp>`
 provide run-time and compile-time evaluation of the greatest common divisor
 (__GCD) or least common multiple (__LCM) of two integers.
 These facilities are useful for many numeric-oriented generic programming problems.
@@ -803,14 +803,15 @@ These facilities are useful for many numeric-oriented generic programming proble
 
    namespace boost
    {
-   namespace math
+   namespace integer
    {
-
+   // GCD & LCM evaluator functors.
    template < typename IntegerType >
       class gcd_evaluator;
    template < typename IntegerType >
       class lcm_evaluator;
 
+   // GCD & LCM run-time.
    template < typename IntegerType >
       IntegerType  gcd( IntegerType const &a, IntegerType const &b );
    template < typename IntegerType >
@@ -818,36 +819,37 @@ These facilities are useful for many numeric-oriented generic programming proble
 
    typedef ``['see-below]`` static_gcd_type;
 
+   // GCD & LCM compile-time.
    template < static_gcd_type Value1, static_gcd_type Value2 >
       struct static_gcd;
    template < static_gcd_type Value1, static_gcd_type Value2 >
       struct static_lcm;
 
-   }  //  namespace math
+   }  //  namespace integer
    } //   namespace boost
 
 [endsect] [/section Synopsis]
 
 [section GCD Function Object]
 
-[*Header: ] [@../../../../boost/math/common_factor_rt.hpp <boost/math/common_factor_rt.hpp>]
+[*Header: ] [@../../../../boost/integer/common_factor_rt.hpp <boost/integer/common_factor_rt.hpp>]
 
    template < typename IntegerType >
-   class boost::math::gcd_evaluator
+   class boost::integer::gcd_evaluator
    {
    public:
-      // Types
+      // Types.
       typedef IntegerType  result_type;
       typedef IntegerType  first_argument_type;
       typedef IntegerType  second_argument_type;
 
-      // Function object interface
+      // Function object interface.
       result_type  operator ()( first_argument_type const &a,
       second_argument_type const &b ) const;
    };
 
-The boost::math::gcd_evaluator class template defines a function object
-class to return the greatest common divisor of two integers.
+The __gcd_evaluator class template defines a function object (functor)
+class to return the greatest common divisor (GCD) of two integers.
 The template is parameterized by a single type, called IntegerType here.
 This type should be a numeric type that represents integers.
 The result of the function object is always nonnegative, even if either of
@@ -856,32 +858,33 @@ the operator arguments is negative.
 This function object class template is used in the corresponding version of
 the GCD function template. If a numeric type wants to customize evaluations
 of its greatest common divisors, then the type should specialize on the
-gcd_evaluator class template.
+__gcd_evaluator class template.
 
 [endsect] [/section GCD Function Object]
 
 [section LCM Function Object]
 
-[*Header: ] [@../../../../boost/math/common_factor_rt.hpp <boost/math/common_factor_rt.hpp>]
+[*Header: ] [@../../../../boost/integer/common_factor_rt.hpp <boost/integer/common_factor_rt.hpp>]
 
    template < typename IntegerType >
-   class boost::math::lcm_evaluator
+   class boost::integer::lcm_evaluator
    {
    public:
-      // Types
+      // Types:
       typedef IntegerType  result_type;
       typedef IntegerType  first_argument_type;
       typedef IntegerType  second_argument_type;
 
-      // Function object interface
+      // Function object interface.
       result_type  operator ()( first_argument_type const &a,
-      second_argument_type const &b ) const;
+         second_argument_type const &b ) const;
    };
 
-The `boost::math::lcm_evaluator` class template defines a function object
-class to return the least common multiple of two integers. The template
-is parameterized by a single type, called IntegerType here. This type
-should be a numeric type that represents integers. The result of the
+The __lcm_evaluator class template defines a function object
+class to return the least common multiple (LCM) of two integers.
+
+The template is parameterized by a single type, called `IntegerType` here.
+This type should be a numeric type that represents integers. The result of the
 function object is always nonnegative, even if either of the operator
 arguments is negative. If the least common multiple is beyond the range
 of the integer type, the results are undefined.
@@ -889,34 +892,36 @@ of the integer type, the results are undefined.
 This function object class template is used in the corresponding version
 of the LCM function template. If a numeric type wants to customize
 evaluations of its least common multiples, then the type should
-specialize on the lcm_evaluator class template.
+specialize on the __lcm_evaluator class template.
 
 [endsect] [/section LCM Function Object]
 
 [section:run_time Run-time GCD & LCM Determination]
 
-[*Header: ] [@../../../../boost/math/common_factor_rt.hpp <boost/math/common_factor_rt.hpp>]
+[*Header: ] [@../../../../boost/integer/common_factor_rt.hpp <boost/integer/common_factor_rt.hpp>]
 
    template < typename IntegerType >
-   IntegerType  boost::math::gcd( IntegerType const &a, IntegerType const &b );
+   IntegerType  boost::integer::gcd( IntegerType const &a, IntegerType const &b );
 
    template < typename IntegerType >
-   IntegerType  boost::math::lcm( IntegerType const &a, IntegerType const &b );
+   IntegerType  boost::integer::lcm( IntegerType const &a, IntegerType const &b );
 
-The boost::math::gcd function template returns the greatest common
-(nonnegative) divisor of the two integers passed to it.
-The boost::math::lcm function template returns the least common
+The __boost_integer_gcd function template returns the greatest common
+(nonnegative) divisor (GCD) of the two integers passed to it.
+
+The __boost_integer_lcm function template returns the least common
 (nonnegative) multiple of the two integers passed to it.
-The function templates are parameterized on the function arguments'
-IntegerType, which is also the return type. Internally, these function
+
+The function templates are parameterized on the function arguments' `IntegerType`,
+which is also the return type. Internally, these function
 templates use an object of the corresponding version of the
-gcd_evaluator and lcm_evaluator class templates, respectively.
+__gcd_evaluator and __lcm_evaluator class templates, respectively.
 
 [endsect] [/section:run_time Run-time GCD & LCM Determination]
 
 [section:compile_time Compile time GCD and LCM determination]
 
-[*Header: ] [@../../../../boost/math/common_factor_ct.hpp <boost/math/common_factor_ct.hpp>]
+[*Header: ] [@../../../../boost/integer/common_factor_ct.hpp <boost/integer/common_factor_ct.hpp>]
 
    typedef ``['unspecified]`` static_gcd_type;
 
@@ -935,62 +940,62 @@ for use in integral-constant-expressions by the compiler.  Usually this
 the same type as `boost::uintmax_t`, but may fall back to being `unsigned long`
 for some older compilers.
 
-The __boost_integer_static_gcd and boost::integer::static_lcm class templates
-take two value-based template parameters of the ['static_gcd_type] type
+The __boost_integer_static_gcd and __boost_integer_static_lcm class templates
+take two value-based template parameters of the `static_gcd_type`
 and inherit from the type `boost::mpl::integral_c`.
 Inherited from the base class, they have a member ['value]
 that is the greatest common factor or least
 common multiple, respectively, of the template arguments.
+
 A compile-time error will occur if the least common multiple
 is beyond the range of `static_gcd_type`.
 
-[h3 Example]
-
-   #include <boost/integer/common_factor.hpp>
-   #include <algorithm>
-   #include <iterator>
-   #include <iostream>
-
-   int main()
-   {
-      using std::cout;
-      using std::endl;
-
-      cout << "The GCD and LCM of 6 and 15 are "
-      << boost::math::gcd(6, 15) << " and "
-      << boost::math::lcm(6, 15) << ", respectively."
-      << endl;
-
-      cout << "The GCD and LCM of 8 and 9 are "
-      << boost::math::static_gcd<8, 9>::value
-      << " and "
-      << boost::math::static_lcm<8, 9>::value
-      << ", respectively." << endl;
-
-      int  a[] = { 4, 5, 6 }, b[] = { 7, 8, 9 }, c[3];
-      std::transform( a, a + 3, b, c, boost::math::gcd_evaluator<int>() );
-      std::copy( c, c + 3, std::ostream_iterator<int>(cout, " ") );
-   }
-
 [endsect] [/section:compile_time Compile time GCD and LCM determination]
+
+[section Examples]
+
+[import ../example/integer_common_factor_example.cpp]
+
+A simple example of run-time GCD and LCM is
+
+[integer_common_factor_example_1]
+
+and of compile-time GCD and LCM is
+
+[integer_common_factor_example_2]
+
+[integer_common_factor_example_output_1]
+
+A more adventurous example uses transform with the functor `boost::integer::gcd_evaluator`
+to evaluate multiple GCDs of the elements of arrays into a results array.
+
+[integer_common_factor_example_3]
+
+[integer_common_factor_example_output_2]
+
+The full code is [@../../example/integer_common_factor_example.cpp integer_common_factor_example.cpp].
+
+[endsect] [/section Examples]
 
 [section:gcd_header Header <boost/integer/common_factor.hpp>]
 
 This header simply includes the headers
 [@../../../../boost/integer/common_factor_ct.hpp <boost/integer/common_factor_ct.hpp>]
-and [@../../../../boost/integer/common_factor_rt.hpp <boost/integer/common_factor_rt.hpp>].
+and [@../../../../boost/integer/common_factor_rt.hpp <boost/integer/common_factor_rt.hpp>.]
 
-[note this is a legacy header: it used to contain the actual implementation,
+[note This merely is a legacy header: it used to contain the actual implementation,
 but the compile-time and run-time facilities
 were moved to separate headers (since they were independent of each other).
-It is usual to only include one of these].
+It is usual to only include one of these.]
+
+[tip Only include the header, `common_factor_ct.hpp` or `common_factor_rt.hpp`, that you need.]
 
 [endsect] [/section:gcd_header Header <boost/integer/common_factor.hpp>]
 
 [section: Test Program]
 
-The program [@../../../../libs/math/test/common_factor_test.cpp common_factor_test.cpp]
-is a demonstration of the results from
+The program [@../../../../libs/integer/test/common_factor_test.cpp common_factor_test.cpp]
+is a test of the results from
 instantiating various examples of the run-time GCD and LCM function
 templates and the compile-time GCD and LCM class templates.
 (The run-time GCD and LCM class templates are tested indirectly through
@@ -1036,6 +1041,10 @@ for sharing their designs for similar templates.
 [endsect] [/section Credits]
 
 [section:history History]
+
+[h4 1.58.0]
+* Jan 2015 Boost.Integer documentation revised to remove references to Boost.Math
+and add examples with Quickbook snippets usd in the text.
 
 [h4 1.57.0]
 

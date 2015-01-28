@@ -4,7 +4,7 @@
 # subject to the Boost Software License, Version 1.0. (See accompanying
 # file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-# revised to include Doxygen and Autoindex
+# Revised to include Doxygen and Autoindex, and code snippets from examples.
 # Copyright Paul A. Bristow 2015
 
 using boostbook ;
@@ -45,7 +45,7 @@ xml integer
 doxygen autodoc
   :
     [ glob $(here)/../include/boost/*.hpp ]
-    [ glob $(here)/../include/boost/integer/integer/*.hpp ]
+    [ glob $(here)/../include/boost/integer/*.hpp ]
     # but could also include this and switch Boost.Integer C++ reference info to include implementation details (or not) using Doxygen macro DETAIL.
     # See http://www.stack.nl/~dimitri/doxygen/manual/commands.html#cmdcond
     # and http://www.stack.nl/~dimitri/doxygen/manual/config.html#cfg_enabled_sections
@@ -124,14 +124,20 @@ boostbook standalone
         # better use SVG's instead:
         <format>pdf:<xsl:param>admon.graphics.extension=".svg"
         <format>pdf:<xsl:param>admon.graphics.path=$(boost-images)/
-        #<format>pdf:<xsl:param>boost.url.prefix=http://www.boost.org/doc/libs/release/libs/regex/doc/html
-        # Not sure if this line is correct?
+        # Use Arial for PDF.
+        <format>pdf:<xsl:param>title.font.family="sans-serif"
+        <format>pdf:<xsl:param>body.font.family="sans-serif"
+        <format>pdf:<xsl:param>monospace.font.family="sans-serif"
 
        <dependency>autodoc # Add Doxygen info.
 
     ;
 
-install pdfinstall : standalone/<format>pdf : <location>. <install-type>PDF ;
+# install pdfinstall : standalone/<format>pdf : <location>. <install-type>PDF <name>boost.pdf ;
+
+
+install pdf-install : standalone : <install-type>PDF <location>. <name>integer.pdf ;
+
 explicit pdfinstall ;
 
 

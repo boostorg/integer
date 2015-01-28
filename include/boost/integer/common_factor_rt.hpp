@@ -17,34 +17,42 @@
 #ifndef BOOST_INTEGER_COMMON_FACTOR_RT_HPP
 #define BOOST_INTEGER_COMMON_FACTOR_RT_HPP
 
-#include <boost/integer_fwd.hpp>  // self include
-
 #include <boost/config.hpp>  // for BOOST_NESTED_TEMPLATE, etc.
 #include <boost/limits.hpp>  // for std::numeric_limits
-#include <climits>           // for CHAR_MIN
 #include <boost/detail/workaround.hpp>
+
+#include <boost/integer_fwd.hpp>  // Include for declarations of gcd_evaluator and lcm_evaluator.
+
+#include <climits>           // for CHAR_MIN
 
 #ifdef BOOST_MSVC
 #pragma warning(push)
 #pragma warning(disable:4127 4244)  // Conditional expression is constant
 #endif
 
+// Warning:  this is from 1.58 in namespace boost::integer and no longer in namespace boost::math.
+
 namespace boost
 {
 namespace integer
 {
-// Warning:  this is from 1.58 in namespace boost::interger and no longer in namespace boost::math.
+//  Forward declarations copied from <boost/math/common_factor_rt.hpp> at 1.58 -----//
 
 //  Forward declarations for function templates  -----------------------------//
 
 template < typename IntegerType >
-    IntegerType  gcd( IntegerType const &a, IntegerType const &b );
+IntegerType  gcd( IntegerType const &a, IntegerType const &b );
 
 template < typename IntegerType >
-    IntegerType  lcm( IntegerType const &a, IntegerType const &b );
-
+IntegerType  lcm( IntegerType const &a, IntegerType const &b );
 
 //  Greatest common divisor evaluator class declaration  ---------------------//
+
+template < typename IntegerType >
+class gcd_evaluator;
+
+template < typename IntegerType >
+class lcm_evaluator;
 
 template < typename IntegerType >
 class gcd_evaluator
