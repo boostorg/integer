@@ -22,6 +22,10 @@
 #include <climits>           // for CHAR_MIN
 #include <boost/detail/workaround.hpp>
 
+#ifndef  BOOST_NO_CXX11_NOEXCEPT
+#include <boost/type_traits/is_arithmetic.hpp>
+#endif
+
 #ifdef BOOST_MSVC
 #pragma warning(push)
 #pragma warning(disable:4127 4244)  // Conditional expression is constant
@@ -32,14 +36,15 @@ namespace boost
 namespace integer
 {
 
+#define BOOST_INT_NOEXCEPT(T) BOOST_NOEXCEPT_IF(boost::is_arithmetic<T>::value)
 
 //  Forward declarations for function templates  -----------------------------//
 
 template < typename IntegerType >
-    IntegerType  gcd( IntegerType const &a, IntegerType const &b );
+BOOST_CXX14_CONSTEXPR IntegerType  gcd( IntegerType const &a, IntegerType const &b )BOOST_INT_NOEXCEPT(IntegerType);
 
 template < typename IntegerType >
-    IntegerType  lcm( IntegerType const &a, IntegerType const &b );
+BOOST_CXX14_CONSTEXPR IntegerType  lcm( IntegerType const &a, IntegerType const &b )BOOST_INT_NOEXCEPT(IntegerType);
 
 
 //  Greatest common divisor evaluator class declaration  ---------------------//
@@ -52,8 +57,8 @@ public:
     typedef IntegerType  result_type, first_argument_type, second_argument_type;
 
     // Function object interface
-    result_type  operator ()( first_argument_type const &a,
-     second_argument_type const &b ) const;
+    BOOST_CXX14_CONSTEXPR result_type  operator ()( first_argument_type const &a,
+     second_argument_type const &b )const BOOST_INT_NOEXCEPT(IntegerType) ;
 
 };  // boost::integer::gcd_evaluator
 
@@ -68,8 +73,8 @@ public:
     typedef IntegerType  result_type, first_argument_type, second_argument_type;
 
     // Function object interface
-    result_type  operator ()( first_argument_type const &a,
-     second_argument_type const &b ) const;
+    BOOST_CXX14_CONSTEXPR result_type  operator ()( first_argument_type const &a,
+     second_argument_type const &b )const BOOST_INT_NOEXCEPT(IntegerType) ;
 
 };  // boost::integer::lcm_evaluator
 
@@ -80,12 +85,12 @@ namespace detail
 {
     // Greatest common divisor for rings (including unsigned integers)
     template < typename RingType >
-    RingType
+    BOOST_CXX14_CONSTEXPR RingType
     gcd_euclidean
     (
         RingType a,
         RingType b
-    )
+    )BOOST_INT_NOEXCEPT(RingType)
     {
         // Avoid repeated construction
         #ifndef __BORLANDC__
@@ -110,12 +115,12 @@ namespace detail
     // Greatest common divisor for (signed) integers
     template < typename IntegerType >
     inline
-    IntegerType
+    BOOST_CXX14_CONSTEXPR IntegerType
     gcd_integer
     (
         IntegerType const &  a,
         IntegerType const &  b
-    )
+    )BOOST_INT_NOEXCEPT(IntegerType)
     {
         // Avoid repeated construction
         IntegerType const  zero = static_cast<IntegerType>( 0 );
@@ -126,12 +131,12 @@ namespace detail
 
     // Greatest common divisor for unsigned binary integers
     template < typename BuiltInUnsigned >
-    BuiltInUnsigned
+    BOOST_CXX14_CONSTEXPR BuiltInUnsigned
     gcd_binary
     (
         BuiltInUnsigned  u,
         BuiltInUnsigned  v
-    )
+    )BOOST_INT_NOEXCEPT(BuiltInUnsigned)
     {
         if ( u && v )
         {
@@ -190,12 +195,12 @@ namespace detail
     // Least common multiple for rings (including unsigned integers)
     template < typename RingType >
     inline
-    RingType
+    BOOST_CXX14_CONSTEXPR RingType
     lcm_euclidean
     (
         RingType const &  a,
         RingType const &  b
-    )
+    )BOOST_INT_NOEXCEPT(RingType)
     {
         RingType const  zero = static_cast<RingType>( 0 );
         RingType const  temp = gcd_euclidean( a, b );
@@ -205,13 +210,13 @@ namespace detail
 
     // Least common multiple for (signed) integers
     template < typename IntegerType >
-    inline
+    inline BOOST_CXX14_CONSTEXPR
     IntegerType
     lcm_integer
     (
         IntegerType const &  a,
         IntegerType const &  b
-    )
+    )BOOST_INT_NOEXCEPT(IntegerType)
     {
         // Avoid repeated construction
         IntegerType const  zero = static_cast<IntegerType>( 0 );
@@ -225,7 +230,7 @@ namespace detail
     template < typename T, bool IsSpecialized, bool IsSigned >
     struct gcd_optimal_evaluator_helper_t
     {
-        T  operator ()( T const &a, T const &b )
+        BOOST_CXX14_CONSTEXPR T  operator ()( T const &a, T const &b )BOOST_INT_NOEXCEPT(T)
         {
             return gcd_euclidean( a, b );
         }
@@ -234,7 +239,7 @@ namespace detail
     template < typename T >
     struct gcd_optimal_evaluator_helper_t< T, true, true >
     {
-        T  operator ()( T const &a, T const &b )
+        BOOST_CXX14_CONSTEXPR T  operator ()( T const &a, T const &b )BOOST_INT_NOEXCEPT(T)
         {
             return gcd_integer( a, b );
         }
@@ -243,7 +248,7 @@ namespace detail
     template < typename T >
     struct gcd_optimal_evaluator
     {
-        T  operator ()( T const &a, T const &b )
+        BOOST_CXX14_CONSTEXPR T  operator ()( T const &a, T const &b )BOOST_INT_NOEXCEPT(T)
         {
             typedef ::std::numeric_limits<T>  limits_type;
 
@@ -259,7 +264,7 @@ namespace detail
     template < typename T >
     struct gcd_optimal_evaluator
     {
-        T  operator ()( T const &a, T const &b )
+        BOOST_CXX14_CONSTEXPR T  operator ()( T const &a, T const &b )BOOST_INT_NOEXCEPT(T)
         {
             return gcd_integer( a, b );
         }
@@ -269,7 +274,7 @@ namespace detail
     // Specialize for the built-in integers
 #define BOOST_PRIVATE_GCD_UF( Ut )                  \
     template < >  struct gcd_optimal_evaluator<Ut>  \
-    {  Ut  operator ()( Ut a, Ut b ) const  { return gcd_binary( a, b ); }  }
+    {  BOOST_CXX14_CONSTEXPR Ut  operator ()( Ut a, Ut b ) const BOOST_INT_NOEXCEPT(Ut)   { return gcd_binary( a, b ); }  }
 
     BOOST_PRIVATE_GCD_UF( unsigned char );
     BOOST_PRIVATE_GCD_UF( unsigned short );
@@ -290,7 +295,7 @@ namespace detail
 
 #define BOOST_PRIVATE_GCD_SF( St, Ut )                            \
     template < >  struct gcd_optimal_evaluator<St>                \
-    {  St  operator ()( St a, St b ) const  { Ut const  a_abs =   \
+    {  BOOST_CXX14_CONSTEXPR St  operator ()( St a, St b ) const BOOST_INT_NOEXCEPT(St)   { Ut const  a_abs =   \
     static_cast<Ut>( a < 0 ? -a : +a ), b_abs = static_cast<Ut>(  \
     b < 0 ? -b : +b ); return static_cast<St>(                    \
     gcd_optimal_evaluator<Ut>()(a_abs, b_abs) ); }  }
@@ -316,7 +321,7 @@ namespace detail
     template < typename T, bool IsSpecialized, bool IsSigned >
     struct lcm_optimal_evaluator_helper_t
     {
-        T  operator ()( T const &a, T const &b )
+        BOOST_CXX14_CONSTEXPR T  operator ()( T const &a, T const &b )BOOST_INT_NOEXCEPT(T)
         {
             return lcm_euclidean( a, b );
         }
@@ -325,7 +330,7 @@ namespace detail
     template < typename T >
     struct lcm_optimal_evaluator_helper_t< T, true, true >
     {
-        T  operator ()( T const &a, T const &b )
+        BOOST_CXX14_CONSTEXPR T  operator ()( T const &a, T const &b )BOOST_INT_NOEXCEPT(T)
         {
             return lcm_integer( a, b );
         }
@@ -334,7 +339,7 @@ namespace detail
     template < typename T >
     struct lcm_optimal_evaluator
     {
-        T  operator ()( T const &a, T const &b )
+        BOOST_CXX14_CONSTEXPR T  operator ()( T const &a, T const &b )BOOST_INT_NOEXCEPT(T)
         {
             typedef ::std::numeric_limits<T>  limits_type;
 
@@ -350,7 +355,7 @@ namespace detail
     template < typename T >
     struct lcm_optimal_evaluator
     {
-        T  operator ()( T const &a, T const &b )
+        BOOST_CXX14_CONSTEXPR T  operator ()( T const &a, T const &b )BOOST_INT_NOEXCEPT(T)
         {
             return lcm_integer( a, b );
         }
@@ -359,13 +364,13 @@ namespace detail
 
     // Functions to find the GCD or LCM in the best way
     template < typename T >
-    inline
+    inline BOOST_CXX14_CONSTEXPR
     T
     gcd_optimal
     (
         T const &  a,
         T const &  b
-    )
+    )BOOST_INT_NOEXCEPT(T)
     {
         gcd_optimal_evaluator<T>  solver;
 
@@ -373,13 +378,13 @@ namespace detail
     }
 
     template < typename T >
-    inline
+    inline BOOST_CXX14_CONSTEXPR
     T
     lcm_optimal
     (
         T const &  a,
         T const &  b
-    )
+    )BOOST_INT_NOEXCEPT(T)
     {
         lcm_optimal_evaluator<T>  solver;
 
@@ -392,13 +397,13 @@ namespace detail
 //  Greatest common divisor evaluator member function definition  ------------//
 
 template < typename IntegerType >
-inline
+inline BOOST_CXX14_CONSTEXPR
 typename gcd_evaluator<IntegerType>::result_type
 gcd_evaluator<IntegerType>::operator ()
 (
     first_argument_type const &   a,
     second_argument_type const &  b
-) const
+) const BOOST_INT_NOEXCEPT(IntegerType) 
 {
     return detail::gcd_optimal( a, b );
 }
@@ -407,13 +412,13 @@ gcd_evaluator<IntegerType>::operator ()
 //  Least common multiple evaluator member function definition  --------------//
 
 template < typename IntegerType >
-inline
+inline BOOST_CXX14_CONSTEXPR
 typename lcm_evaluator<IntegerType>::result_type
 lcm_evaluator<IntegerType>::operator ()
 (
     first_argument_type const &   a,
     second_argument_type const &  b
-) const
+) const BOOST_INT_NOEXCEPT(IntegerType) 
 {
     return detail::lcm_optimal( a, b );
 }
@@ -422,13 +427,13 @@ lcm_evaluator<IntegerType>::operator ()
 //  Greatest common divisor and least common multiple function definitions  --//
 
 template < typename IntegerType >
-inline
+inline BOOST_CXX14_CONSTEXPR
 IntegerType
 gcd
 (
     IntegerType const &  a,
     IntegerType const &  b
-)
+) BOOST_INT_NOEXCEPT(IntegerType)
 {
     gcd_evaluator<IntegerType>  solver;
 
@@ -436,13 +441,13 @@ gcd
 }
 
 template < typename IntegerType >
-inline
+inline BOOST_CXX14_CONSTEXPR
 IntegerType
 lcm
 (
     IntegerType const &  a,
     IntegerType const &  b
-)
+) BOOST_INT_NOEXCEPT(IntegerType)
 {
     lcm_evaluator<IntegerType>  solver;
 
