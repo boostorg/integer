@@ -27,7 +27,10 @@ void test_constexpr()
 void test_noexcept()
 {
    static_assert(noexcept(boost::integer::gcd(static_cast<unsigned char>(2), static_cast<unsigned char>(4))), "Expected a noexcept function.");
+#ifndef _MSC_VER
+   // This generates an internal compiler error if enabled as well as the following test:
    static_assert(noexcept(boost::integer::gcd(static_cast<char>(2), static_cast<char>(4))), "Expected a noexcept function.");
+#endif
    static_assert(noexcept(boost::integer::gcd(static_cast<signed char>(2), static_cast<signed char>(4))), "Expected a noexcept function.");
    static_assert(noexcept(boost::integer::gcd(static_cast<short>(2), static_cast<short>(4))), "Expected a noexcept function.");
    static_assert(noexcept(boost::integer::gcd(static_cast<unsigned short>(2), static_cast<unsigned short>(4))), "Expected a noexcept function.");
