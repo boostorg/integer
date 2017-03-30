@@ -24,9 +24,9 @@ programming problems.
       class lcm_evaluator;
 
    template < typename IntegerType >
-      IntegerType  gcd( IntegerType const &a, IntegerType const &b );
+      constexpr IntegerType  gcd( IntegerType const &a, IntegerType const &b );
    template < typename IntegerType >
-      IntegerType  lcm( IntegerType const &a, IntegerType const &b );
+      constexpr IntegerType  lcm( IntegerType const &a, IntegerType const &b );
 
    typedef ``['see-below]`` static_gcd_type;
 
@@ -54,8 +54,9 @@ programming problems.
       typedef IntegerType  second_argument_type;
 
       // Function object interface
-      result_type  operator ()( first_argument_type const &a,
-      second_argument_type const &b ) const;
+      constexpr result_type  operator ()( 
+	     first_argument_type const &a,
+         second_argument_type const &b ) const;
    };
 
 The boost::math::gcd_evaluator class template defines a function object
@@ -69,6 +70,9 @@ This function object class template is used in the corresponding version of
 the GCD function template. If a numeric type wants to customize evaluations
 of its greatest common divisors, then the type should specialize on the
 gcd_evaluator class template.
+
+Note that these function objects are `constexpr` in C++14 and later only.  
+They are also declared `noexcept` when appropriate.
 
 [endsect]
 
@@ -86,8 +90,9 @@ gcd_evaluator class template.
       typedef IntegerType  second_argument_type;
 
       // Function object interface
-      result_type  operator ()( first_argument_type const &a,
-      second_argument_type const &b ) const;
+      constexpr result_type  operator ()( 
+		first_argument_type const &a,
+		second_argument_type const &b ) const;
    };
 
 The boost::math::lcm_evaluator class template defines a function object
@@ -103,6 +108,9 @@ of the LCM function template. If a numeric type wants to customize
 evaluations of its least common multiples, then the type should
 specialize on the lcm_evaluator class template.
 
+Note that these function objects are constexpr in C++14 and later only.
+They are also declared `noexcept` when appropriate.
+
 [endsect]
 
 [section:run_time Run-time GCD & LCM Determination]
@@ -110,10 +118,10 @@ specialize on the lcm_evaluator class template.
 [*Header: ] [@../../../../boost/math/common_factor_rt.hpp <boost/math/common_factor_rt.hpp>]
 
    template < typename IntegerType >
-   IntegerType  boost::math::gcd( IntegerType const &a, IntegerType const &b );
+   constexpr IntegerType  boost::math::gcd( IntegerType const &a, IntegerType const &b );
 
    template < typename IntegerType >
-   IntegerType  boost::math::lcm( IntegerType const &a, IntegerType const &b );
+   constexpr IntegerType  boost::math::lcm( IntegerType const &a, IntegerType const &b );
 
 The boost::math::gcd function template returns the greatest common
 (nonnegative) divisor of the two integers passed to it.
@@ -123,6 +131,9 @@ The function templates are parameterized on the function arguments'
 IntegerType, which is also the return type. Internally, these function
 templates use an object of the corresponding version of the
 gcd_evaluator and lcm_evaluator class templates, respectively.
+
+Note that these functions are constexpr in C++14 and later only.
+They are also declared `noexcept` when appropriate.
 
 [endsect]
 
