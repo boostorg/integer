@@ -22,8 +22,11 @@
 #include <climits>           // for CHAR_MIN
 #include <boost/detail/workaround.hpp>
 
-#ifndef  BOOST_NO_CXX11_NOEXCEPT
-#include <boost/type_traits/is_arithmetic.hpp>
+#if !defined(BOOST_NO_CXX11_NOEXCEPT) && !defined(BOOST_NO_CXX11_HDR_TYPE_TRAITS)
+#  include <type_traits>
+#  define BOOST_INT_NOEXCEPT(T) BOOST_NOEXCEPT_IF(std::is_arithmetic<T>::value)
+#else
+#  define BOOST_INT_NOEXCEPT(T)
 #endif
 
 #ifdef BOOST_MSVC
@@ -35,8 +38,6 @@ namespace boost
 {
 namespace integer
 {
-
-#define BOOST_INT_NOEXCEPT(T) BOOST_NOEXCEPT_IF(boost::is_arithmetic<T>::value)
 
 //  Forward declarations for function templates  -----------------------------//
 
