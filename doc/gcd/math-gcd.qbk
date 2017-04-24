@@ -1,5 +1,5 @@
 
-[mathpart gcd_lcm Integer Utilities (Greatest Common Divisor and Least Common Multiple)]
+[section:gcd_lcm Greatest Common Divisor and Least Common Multiple]
 
 [section Introduction]
 
@@ -27,6 +27,17 @@ programming problems.
       constexpr IntegerType  gcd( IntegerType const &a, IntegerType const &b );
    template < typename IntegerType >
       constexpr IntegerType  lcm( IntegerType const &a, IntegerType const &b );
+   template < typename IntegerType, typename... Args >
+      constexpr IntegerType  gcd( IntegerType const &a, IntegerType const &b, Args const&... );
+   template < typename IntegerType, typename... Args >
+      constexpr IntegerType  lcm( IntegerType const &a, IntegerType const &b, Args const&... );
+
+   template <typename I>
+   std::pair<typename std::iterator_traits<I>::value_type, I>
+      gcd_range(I first, I last);
+   template <typename I>
+   std::pair<typename std::iterator_traits<I>::value_type, I>
+      lcm_range(I first, I last);
 
    typedef ``['see-below]`` static_gcd_type;
 
@@ -123,14 +134,33 @@ They are also declared `noexcept` when appropriate.
    template < typename IntegerType >
    constexpr IntegerType  boost::math::lcm( IntegerType const &a, IntegerType const &b );
 
+   template < typename IntegerType, typename... Args >
+      constexpr IntegerType  gcd( IntegerType const &a, IntegerType const &b, Args const&... );
+
+   template < typename IntegerType, typename... Args >
+      constexpr IntegerType  lcm( IntegerType const &a, IntegerType const &b, Args const&... );
+
+   template <typename I>
+   std::pair<typename std::iterator_traits<I>::value_type, I>
+      gcd_range(I first, I last);
+
+   template <typename I>
+   std::pair<typename std::iterator_traits<I>::value_type, I>
+      lcm_range(I first, I last);
+
 The boost::math::gcd function template returns the greatest common
 (nonnegative) divisor of the two integers passed to it.
+`boost::math::gcd_range` is the iteration of the above gcd algorithm over a 
+range, returning the greatest common divisor of all the elements. The algorithm 
+terminates when the gcd reaches unity or the end of the range. Thus it also 
+returns the iterator after the last element inspected because this may not be 
+equal to the end of the range.  The variadic version of `gcd` behaves similarly
+but does not indicate which input value caused the gcd to reach unity.
+
 The boost::math::lcm function template returns the least common
 (nonnegative) multiple of the two integers passed to it.
-The function templates are parameterized on the function arguments'
-IntegerType, which is also the return type. Internally, these function
-templates use an object of the corresponding version of the
-gcd_evaluator and lcm_evaluator class templates, respectively.
+As with gcd, there are range and variadic versions of the function for 
+more than 2 arguments.
 
 Note that these functions are constexpr in C++14 and later only.
 They are also declared `noexcept` when appropriate.
@@ -138,6 +168,8 @@ They are also declared `noexcept` when appropriate.
 [endsect]
 
 [section:compile_time Compile time GCD and LCM determination]
+
+[note These functions are deprecated in favor of constexpr `gcd` and `lcm` on C++14 capable compilers.]
 
 [*Header: ] [@../../../../boost/math/common_factor_ct.hpp <boost/math/common_factor_ct.hpp>]
 
@@ -246,7 +278,7 @@ pool library. The code had updates by Helmut Zeisel.
 
 [endsect]
 
-[endmathpart]
+[endsect]
 
 [/
 Copyright 2005, 2013 Daryle Walker.
