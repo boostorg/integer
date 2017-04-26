@@ -459,17 +459,21 @@ inline BOOST_CXX14_CONSTEXPR Integer lcm(Integer const &a, Integer const &b) BOO
    return gcd_detail::lcm_imp(static_cast<Integer>(gcd_detail::gcd_traits<Integer>::abs(a)), static_cast<Integer>(gcd_detail::gcd_traits<Integer>::abs(b)));
 }
 #ifndef BOOST_NO_CXX11_VARIADIC_TEMPLATES
+//
+// This looks slightly odd, but the variadic forms must have 3 or more arguments, and the variadic argument pack may be empty.
+// This matters not at all for most compilers, but Oracle C++ selects the wrong overload in the 2-arg case unless we do this.
+//
 template <typename Integer, typename... Args>
-inline BOOST_CXX14_CONSTEXPR Integer gcd(Integer const &a, Integer const &b, Args const&... args) BOOST_GCD_NOEXCEPT(Integer)
+inline BOOST_CXX14_CONSTEXPR Integer gcd(Integer const &a, Integer const &b, const Integer& c, Args const&... args) BOOST_GCD_NOEXCEPT(Integer)
 {
    Integer t = gcd(b, args...);
    return t == 1 ? 1 : gcd(a, t);
 }
 
 template <typename Integer, typename... Args>
-inline BOOST_CXX14_CONSTEXPR Integer lcm(Integer const &a, Integer const &b, Args const&... args) BOOST_GCD_NOEXCEPT(Integer)
+inline BOOST_CXX14_CONSTEXPR Integer lcm(Integer const &a, Integer const &b, Integer const& c, Args const&... args) BOOST_GCD_NOEXCEPT(Integer)
 {
-   return lcm(a, lcm(b, args...));
+   return lcm(a, lcm(b, c, args...));
 }
 #endif
 //
