@@ -106,7 +106,7 @@ namespace boost {
       {
          method_euclid = 0,
          method_binary = 1,
-         method_mixed = 2,
+         method_mixed = 2
       };
 
       struct any_convert
