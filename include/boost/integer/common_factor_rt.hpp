@@ -98,7 +98,7 @@ namespace boost {
          inline static T BOOST_CXX14_CONSTEXPR abs(const T& val) BOOST_GCD_NOEXCEPT(T)
          {
             // This sucks, but std::abs is not constexpr :(
-            return val < 0 ? -val : val;
+            return val < T(0) ? -val : val;
          }
       };
 
