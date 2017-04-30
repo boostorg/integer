@@ -162,13 +162,12 @@ namespace boost {
       template <class T>
       struct gcd_traits : public gcd_traits_defaults<T> {};
 
-#ifdef BOOST_NO_CXX14_CONSTEXPR
       //
       // Some platforms have fast bitscan operations, that allow us to implement
       // make_odd much more efficiently, unfortunately we can't use these if we want
       // the functions to be constexpr as the compiler intrinsics aren't constexpr.
       //
-#if ((defined(BOOST_MSVC) && (BOOST_MSVC >= 1600)) || (defined(__clang__) && defined(__c2__)) || (defined(BOOST_INTEL) && defined(_MSC_VER))) && (defined(_M_IX86) || defined(_M_X64))
+#if defined(BOOST_NO_CXX14_CONSTEXPR) && ((defined(BOOST_MSVC) && (BOOST_MSVC >= 1600)) || (defined(__clang__) && defined(__c2__)) || (defined(BOOST_INTEL) && defined(_MSC_VER))) && (defined(_M_IX86) || defined(_M_X64))
 #pragma intrinsic(_BitScanForward,)
       template <>
       struct gcd_traits<unsigned long> : public gcd_traits_defaults<unsigned long>
@@ -241,11 +240,11 @@ namespace boost {
       template <>
       struct gcd_traits<unsigned> : public gcd_traits_defaults<unsigned>
       {
-         BOOST_FORCEINLINE static unsigned find_lsb(unsigned mask)BOOST_NOEXCEPT
+         BOOST_FORCEINLINE static BOOST_CXX14_CONSTEXPR unsigned find_lsb(unsigned mask)BOOST_NOEXCEPT
          {
             return __builtin_ctz(mask);
          }
-         BOOST_FORCEINLINE static unsigned make_odd(unsigned& val)BOOST_NOEXCEPT
+         BOOST_FORCEINLINE static BOOST_CXX14_CONSTEXPR unsigned make_odd(unsigned& val)BOOST_NOEXCEPT
          {
             unsigned result = find_lsb(val);
             val >>= result;
@@ -255,11 +254,11 @@ namespace boost {
       template <>
       struct gcd_traits<unsigned long> : public gcd_traits_defaults<unsigned long>
       {
-         BOOST_FORCEINLINE static unsigned find_lsb(unsigned long mask)BOOST_NOEXCEPT
+         BOOST_FORCEINLINE static BOOST_CXX14_CONSTEXPR unsigned find_lsb(unsigned long mask)BOOST_NOEXCEPT
          {
             return __builtin_ctzl(mask);
          }
-         BOOST_FORCEINLINE static unsigned make_odd(unsigned long& val)BOOST_NOEXCEPT
+         BOOST_FORCEINLINE static BOOST_CXX14_CONSTEXPR unsigned make_odd(unsigned long& val)BOOST_NOEXCEPT
          {
             unsigned result = find_lsb(val);
             val >>= result;
@@ -269,11 +268,11 @@ namespace boost {
       template <>
       struct gcd_traits<boost::ulong_long_type> : public gcd_traits_defaults<boost::ulong_long_type>
       {
-         BOOST_FORCEINLINE static unsigned find_lsb(boost::ulong_long_type mask)BOOST_NOEXCEPT
+         BOOST_FORCEINLINE static BOOST_CXX14_CONSTEXPR unsigned find_lsb(boost::ulong_long_type mask)BOOST_NOEXCEPT
          {
             return __builtin_ctzll(mask);
          }
-         BOOST_FORCEINLINE static unsigned make_odd(boost::ulong_long_type& val)BOOST_NOEXCEPT
+         BOOST_FORCEINLINE static BOOST_CXX14_CONSTEXPR unsigned make_odd(boost::ulong_long_type& val)BOOST_NOEXCEPT
          {
             unsigned result = find_lsb(val);
             val >>= result;
@@ -287,44 +286,43 @@ namespace boost {
       //
       template <> struct gcd_traits<boost::long_long_type> : public gcd_traits_defaults<boost::long_long_type>
       {
-         BOOST_FORCEINLINE static unsigned make_odd(boost::long_long_type& val)BOOST_NOEXCEPT { unsigned result = gcd_traits<boost::ulong_long_type>::find_lsb(val); val >>= result; return result; }
+         BOOST_FORCEINLINE static BOOST_CXX14_CONSTEXPR unsigned make_odd(boost::long_long_type& val)BOOST_NOEXCEPT { unsigned result = gcd_traits<boost::ulong_long_type>::find_lsb(val); val >>= result; return result; }
       };
       template <> struct gcd_traits<long> : public gcd_traits_defaults<long>
       {
-         BOOST_FORCEINLINE static unsigned make_odd(long& val)BOOST_NOEXCEPT { unsigned result = gcd_traits<unsigned long>::find_lsb(val); val >>= result; return result; }
+         BOOST_FORCEINLINE static BOOST_CXX14_CONSTEXPR unsigned make_odd(long& val)BOOST_NOEXCEPT { unsigned result = gcd_traits<unsigned long>::find_lsb(val); val >>= result; return result; }
       };
       template <> struct gcd_traits<int> : public gcd_traits_defaults<int>
       {
-         BOOST_FORCEINLINE static unsigned make_odd(int& val)BOOST_NOEXCEPT { unsigned result = gcd_traits<unsigned long>::find_lsb(val); val >>= result; return result; }
+         BOOST_FORCEINLINE static BOOST_CXX14_CONSTEXPR unsigned make_odd(int& val)BOOST_NOEXCEPT { unsigned result = gcd_traits<unsigned long>::find_lsb(val); val >>= result; return result; }
       };
       template <> struct gcd_traits<unsigned short> : public gcd_traits_defaults<unsigned short>
       {
-         BOOST_FORCEINLINE static unsigned make_odd(unsigned short& val)BOOST_NOEXCEPT { unsigned result = gcd_traits<unsigned>::find_lsb(val); val >>= result; return result; }
+         BOOST_FORCEINLINE static BOOST_CXX14_CONSTEXPR unsigned make_odd(unsigned short& val)BOOST_NOEXCEPT { unsigned result = gcd_traits<unsigned>::find_lsb(val); val >>= result; return result; }
       };
       template <> struct gcd_traits<short> : public gcd_traits_defaults<short>
       {
-         BOOST_FORCEINLINE static unsigned make_odd(short& val)BOOST_NOEXCEPT { unsigned result = gcd_traits<unsigned>::find_lsb(val); val >>= result; return result; }
+         BOOST_FORCEINLINE static BOOST_CXX14_CONSTEXPR unsigned make_odd(short& val)BOOST_NOEXCEPT { unsigned result = gcd_traits<unsigned>::find_lsb(val); val >>= result; return result; }
       };
       template <> struct gcd_traits<unsigned char> : public gcd_traits_defaults<unsigned char>
       {
-         BOOST_FORCEINLINE static unsigned make_odd(unsigned char& val)BOOST_NOEXCEPT { unsigned result = gcd_traits<unsigned>::find_lsb(val); val >>= result; return result; }
+         BOOST_FORCEINLINE static BOOST_CXX14_CONSTEXPR unsigned make_odd(unsigned char& val)BOOST_NOEXCEPT { unsigned result = gcd_traits<unsigned>::find_lsb(val); val >>= result; return result; }
       };
       template <> struct gcd_traits<signed char> : public gcd_traits_defaults<signed char>
       {
-         BOOST_FORCEINLINE static signed make_odd(signed char& val)BOOST_NOEXCEPT { signed result = gcd_traits<unsigned>::find_lsb(val); val >>= result; return result; }
+         BOOST_FORCEINLINE static BOOST_CXX14_CONSTEXPR signed make_odd(signed char& val)BOOST_NOEXCEPT { signed result = gcd_traits<unsigned>::find_lsb(val); val >>= result; return result; }
       };
       template <> struct gcd_traits<char> : public gcd_traits_defaults<char>
       {
-         BOOST_FORCEINLINE static unsigned make_odd(char& val)BOOST_NOEXCEPT { unsigned result = gcd_traits<unsigned>::find_lsb(val); val >>= result; return result; }
+         BOOST_FORCEINLINE static BOOST_CXX14_CONSTEXPR unsigned make_odd(char& val)BOOST_NOEXCEPT { unsigned result = gcd_traits<unsigned>::find_lsb(val); val >>= result; return result; }
       };
 #ifndef BOOST_NO_INTRINSIC_WCHAR_T
       template <> struct gcd_traits<wchar_t> : public gcd_traits_defaults<wchar_t>
       {
-         BOOST_FORCEINLINE static unsigned make_odd(wchar_t& val)BOOST_NOEXCEPT { unsigned result = gcd_traits<unsigned>::find_lsb(val); val >>= result; return result; }
+         BOOST_FORCEINLINE static BOOST_CXX14_CONSTEXPR unsigned make_odd(wchar_t& val)BOOST_NOEXCEPT { unsigned result = gcd_traits<unsigned>::find_lsb(val); val >>= result; return result; }
       };
 #endif
 #endif
-#endif // BOOST_NO_CXX14_CONSTEXPR
    //
    // The Mixed Binary Euclid Algorithm
    // Sidi Mohamed Sedjelmaci
@@ -466,7 +464,7 @@ inline BOOST_CXX14_CONSTEXPR Integer lcm(Integer const &a, Integer const &b) BOO
 template <typename Integer, typename... Args>
 inline BOOST_CXX14_CONSTEXPR Integer gcd(Integer const &a, Integer const &b, const Integer& c, Args const&... args) BOOST_GCD_NOEXCEPT(Integer)
 {
-   Integer t = gcd(b, args...);
+   Integer t = gcd(b, c, args...);
    return t == 1 ? 1 : gcd(a, t);
 }
 
