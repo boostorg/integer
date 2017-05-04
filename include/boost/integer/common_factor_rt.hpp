@@ -445,9 +445,9 @@ template <typename Integer>
 inline BOOST_CXX14_CONSTEXPR Integer gcd(Integer const &a, Integer const &b) BOOST_GCD_NOEXCEPT(Integer)
 {
     if(a == (std::numeric_limits<Integer>::min)())
-       return a == static_cast<Integer>(0) ? gcd_detail::gcd_traits<Integer>::abs(b) : gcd(static_cast<Integer>(a % b), b);
+       return a == static_cast<Integer>(0) ? gcd_detail::gcd_traits<Integer>::abs(b) : boost::integer::gcd(static_cast<Integer>(a % b), b);
     else if (b == (std::numeric_limits<Integer>::min)())
-       return b == static_cast<Integer>(0) ? gcd_detail::gcd_traits<Integer>::abs(a) : gcd(a, static_cast<Integer>(b % a));
+       return b == static_cast<Integer>(0) ? gcd_detail::gcd_traits<Integer>::abs(a) : boost::integer::gcd(a, static_cast<Integer>(b % a));
     return gcd_detail::optimal_gcd_select(static_cast<Integer>(gcd_detail::gcd_traits<Integer>::abs(a)), static_cast<Integer>(gcd_detail::gcd_traits<Integer>::abs(b)));
 }
 
