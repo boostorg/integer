@@ -6,6 +6,9 @@ import testing ;
 
 project : requirements <warnings>all <toolset>gcc:<cxxflags>-Wextra ;
 
+obj has_gmpxx : has_gmpxx.cpp ;
+explicit has_gmpxx ;
+
 test-suite integer
     : 
         [ run integer_traits_test.cpp ]
@@ -28,5 +31,5 @@ test-suite integer
         [ compile-fail fail_uint_fast.cpp ]
         [ compile-fail fail_uint_least.cpp ]
         [ compile-fail fail_uint_65.cpp ]
-        [ run common_factor_test.cpp ]
+        [ run common_factor_test.cpp : : : [ check-target-builds "Checking for gmpxx.h" : <define>BOOST_INTEGER_HAS_GMPXX_H=1 ] ]
     ;

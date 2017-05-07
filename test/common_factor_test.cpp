@@ -31,6 +31,10 @@
 #include <limits>   // for std::numeric_limits
 #include <ostream>  // for std::basic_ostream
 
+#ifdef BOOST_INTEGER_HAS_GMPXX_H
+#include <gmpxx.h>
+#endif
+
 
 namespace {
 
@@ -556,11 +560,11 @@ template <class T> void gcd_and_lcm_on_rationals()
     test<boost::multiprecision::int512_t>();
 
 #ifdef BOOST_HAS_LONG_LONG
-# define TEST_SIGNED( test ) \
+# define TEST_SIGNED__( test ) \
     TEST_SIGNED_( test ) \
     test<boost::long_long_type>();
 #elif defined(BOOST_HAS_MS_INT64)
-# define TEST_SIGNED( test ) \
+# define TEST_SIGNED__( test ) \
     TEST_SIGNED_( test ) \
     test<__int64>();
 #endif
@@ -582,6 +586,14 @@ template <class T> void gcd_and_lcm_on_rationals()
 # define TEST_UNSIGNED( test ) \
     TEST_UNSIGNED_( test ) \
     test<unsigned __int64>();
+#endif
+
+#ifdef BOOST_INTEGER_HAS_GMPXX_H
+#  define TEST_SIGNED(test)\
+      TEST_SIGNED__(test)\
+      test<mpz_class>();
+#else
+#  define TEST_SIGNED(test) TEST_SIGNED__(test)
 #endif
 
 int main()

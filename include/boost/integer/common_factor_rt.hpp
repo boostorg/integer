@@ -336,9 +336,9 @@ namespace boost {
 
       unsigned shifts = 0;
 
-      if(!u)
+      if(u == T(0))
          return v;
-      if(!v)
+      if(v == T(0))
          return u;
 
       shifts = constexpr_min(gcd_traits<T>::make_odd(u), gcd_traits<T>::make_odd(v));
@@ -347,9 +347,9 @@ namespace boost {
       {
          u %= v;
          v -= u;
-         if(!u)
+         if(u == T(0))
             return v << shifts;
-         if(!v)
+         if(v == T(0))
             return u << shifts;
          gcd_traits<T>::make_odd(u);
          gcd_traits<T>::make_odd(v);
