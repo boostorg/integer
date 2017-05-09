@@ -280,22 +280,22 @@ template< class T > void gcd_int_test() // signed_test_types
 #endif
 
     // Originally from Boost.Rational tests
-    BOOST_TEST_EQ( gcd(static_cast<T>(1), static_cast<T>(-1)), static_cast<T>( 1) );
-    BOOST_TEST_EQ( gcd(static_cast<T>(-1), static_cast<T>(1)), static_cast<T>( 1) );
-    BOOST_TEST_EQ( gcd(static_cast<T>(1), static_cast<T>(1)), static_cast<T>( 1) );
-    BOOST_TEST_EQ( gcd(static_cast<T>(-1), static_cast<T>(-1)), static_cast<T>( 1) );
-    BOOST_TEST_EQ( gcd(static_cast<T>(0), static_cast<T>(0)), static_cast<T>( 0) );
-    BOOST_TEST_EQ( gcd(static_cast<T>(7), static_cast<T>(0)), static_cast<T>( 7) );
-    BOOST_TEST_EQ( gcd(static_cast<T>(0), static_cast<T>(9)), static_cast<T>( 9) );
-    BOOST_TEST_EQ( gcd(static_cast<T>(-7), static_cast<T>(0)), static_cast<T>( 7) );
-    BOOST_TEST_EQ( gcd(static_cast<T>(0), static_cast<T>(-9)), static_cast<T>( 9) );
-    BOOST_TEST_EQ( gcd(static_cast<T>(42), static_cast<T>(30)), static_cast<T>( 6) );
-    BOOST_TEST_EQ( gcd(static_cast<T>(6), static_cast<T>(-9)), static_cast<T>( 3) );
-    BOOST_TEST_EQ( gcd(static_cast<T>(-10), static_cast<T>(-10)), static_cast<T>(10) );
-    BOOST_TEST_EQ( gcd(static_cast<T>(-25), static_cast<T>(-10)), static_cast<T>( 5) );
-    BOOST_TEST_EQ( gcd(static_cast<T>(3), static_cast<T>(7)), static_cast<T>( 1) );
-    BOOST_TEST_EQ( gcd(static_cast<T>(8), static_cast<T>(9)), static_cast<T>( 1) );
-    BOOST_TEST_EQ( gcd(static_cast<T>(7), static_cast<T>(49)), static_cast<T>( 7) );
+    BOOST_TEST_EQ( boost::integer::gcd(static_cast<T>(1), static_cast<T>(-1)), static_cast<T>( 1) );
+    BOOST_TEST_EQ( boost::integer::gcd(static_cast<T>(-1), static_cast<T>(1)), static_cast<T>( 1) );
+    BOOST_TEST_EQ( boost::integer::gcd(static_cast<T>(1), static_cast<T>(1)), static_cast<T>( 1) );
+    BOOST_TEST_EQ( boost::integer::gcd(static_cast<T>(-1), static_cast<T>(-1)), static_cast<T>( 1) );
+    BOOST_TEST_EQ( boost::integer::gcd(static_cast<T>(0), static_cast<T>(0)), static_cast<T>( 0) );
+    BOOST_TEST_EQ( boost::integer::gcd(static_cast<T>(7), static_cast<T>(0)), static_cast<T>( 7) );
+    BOOST_TEST_EQ( boost::integer::gcd(static_cast<T>(0), static_cast<T>(9)), static_cast<T>( 9) );
+    BOOST_TEST_EQ( boost::integer::gcd(static_cast<T>(-7), static_cast<T>(0)), static_cast<T>( 7) );
+    BOOST_TEST_EQ( boost::integer::gcd(static_cast<T>(0), static_cast<T>(-9)), static_cast<T>( 9) );
+    BOOST_TEST_EQ( boost::integer::gcd(static_cast<T>(42), static_cast<T>(30)), static_cast<T>( 6) );
+    BOOST_TEST_EQ( boost::integer::gcd(static_cast<T>(6), static_cast<T>(-9)), static_cast<T>( 3) );
+    BOOST_TEST_EQ( boost::integer::gcd(static_cast<T>(-10), static_cast<T>(-10)), static_cast<T>(10) );
+    BOOST_TEST_EQ( boost::integer::gcd(static_cast<T>(-25), static_cast<T>(-10)), static_cast<T>( 5) );
+    BOOST_TEST_EQ( boost::integer::gcd(static_cast<T>(3), static_cast<T>(7)), static_cast<T>( 1) );
+    BOOST_TEST_EQ( boost::integer::gcd(static_cast<T>(8), static_cast<T>(9)), static_cast<T>( 1) );
+    BOOST_TEST_EQ( boost::integer::gcd(static_cast<T>(7), static_cast<T>(49)), static_cast<T>( 7) );
     // Again with function object:
     BOOST_TEST_EQ(gcd_evaluator<T>()(1, -1), static_cast<T>(1));
     BOOST_TEST_EQ(gcd_evaluator<T>()(-1, 1), static_cast<T>(1));
@@ -328,22 +328,22 @@ void gcd_unmarked_int_test()
     // then does an absolute-value on the result.  Signed types that are not
     // marked as such (due to no std::numeric_limits specialization) may be off
     // by a sign.
-    BOOST_TEST_EQ( abs(gcd(static_cast<MyInt2>(1), static_cast<MyInt2>(-1) )), MyInt2( 1) );
-    BOOST_TEST_EQ( abs(gcd(static_cast<MyInt2>(-1), static_cast<MyInt2>(1) )), MyInt2( 1) );
-    BOOST_TEST_EQ( abs(gcd(static_cast<MyInt2>(1), static_cast<MyInt2>(1) )), MyInt2( 1) );
-    BOOST_TEST_EQ( abs(gcd(static_cast<MyInt2>(-1), static_cast<MyInt2>(-1) )), MyInt2( 1) );
-    BOOST_TEST_EQ( abs(gcd(static_cast<MyInt2>(0), static_cast<MyInt2>(0) )), MyInt2( 0) );
-    BOOST_TEST_EQ( abs(gcd(static_cast<MyInt2>(7), static_cast<MyInt2>(0) )), MyInt2( 7) );
-    BOOST_TEST_EQ( abs(gcd(static_cast<MyInt2>(0), static_cast<MyInt2>(9) )), MyInt2( 9) );
-    BOOST_TEST_EQ( abs(gcd(static_cast<MyInt2>(-7), static_cast<MyInt2>(0) )), MyInt2( 7) );
-    BOOST_TEST_EQ( abs(gcd(static_cast<MyInt2>(0), static_cast<MyInt2>(-9) )), MyInt2( 9) );
-    BOOST_TEST_EQ( abs(gcd(static_cast<MyInt2>(42), static_cast<MyInt2>(30))), MyInt2( 6) );
-    BOOST_TEST_EQ( abs(gcd(static_cast<MyInt2>(6), static_cast<MyInt2>(-9) )), MyInt2( 3) );
-    BOOST_TEST_EQ( abs(gcd(static_cast<MyInt2>(-10), static_cast<MyInt2>(-10) )), MyInt2(10) );
-    BOOST_TEST_EQ( abs(gcd(static_cast<MyInt2>(-25), static_cast<MyInt2>(-10) )), MyInt2( 5) );
-    BOOST_TEST_EQ( abs(gcd(static_cast<MyInt2>(3), static_cast<MyInt2>(7) )), MyInt2( 1) );
-    BOOST_TEST_EQ( abs(gcd(static_cast<MyInt2>(8), static_cast<MyInt2>(9) )), MyInt2( 1) );
-    BOOST_TEST_EQ( abs(gcd(static_cast<MyInt2>(7), static_cast<MyInt2>(49) )), MyInt2( 7) );
+    BOOST_TEST_EQ( abs(boost::integer::gcd(static_cast<MyInt2>(1), static_cast<MyInt2>(-1) )), MyInt2( 1) );
+    BOOST_TEST_EQ( abs(boost::integer::gcd(static_cast<MyInt2>(-1), static_cast<MyInt2>(1) )), MyInt2( 1) );
+    BOOST_TEST_EQ( abs(boost::integer::gcd(static_cast<MyInt2>(1), static_cast<MyInt2>(1) )), MyInt2( 1) );
+    BOOST_TEST_EQ( abs(boost::integer::gcd(static_cast<MyInt2>(-1), static_cast<MyInt2>(-1) )), MyInt2( 1) );
+    BOOST_TEST_EQ( abs(boost::integer::gcd(static_cast<MyInt2>(0), static_cast<MyInt2>(0) )), MyInt2( 0) );
+    BOOST_TEST_EQ( abs(boost::integer::gcd(static_cast<MyInt2>(7), static_cast<MyInt2>(0) )), MyInt2( 7) );
+    BOOST_TEST_EQ( abs(boost::integer::gcd(static_cast<MyInt2>(0), static_cast<MyInt2>(9) )), MyInt2( 9) );
+    BOOST_TEST_EQ( abs(boost::integer::gcd(static_cast<MyInt2>(-7), static_cast<MyInt2>(0) )), MyInt2( 7) );
+    BOOST_TEST_EQ( abs(boost::integer::gcd(static_cast<MyInt2>(0), static_cast<MyInt2>(-9) )), MyInt2( 9) );
+    BOOST_TEST_EQ( abs(boost::integer::gcd(static_cast<MyInt2>(42), static_cast<MyInt2>(30))), MyInt2( 6) );
+    BOOST_TEST_EQ( abs(boost::integer::gcd(static_cast<MyInt2>(6), static_cast<MyInt2>(-9) )), MyInt2( 3) );
+    BOOST_TEST_EQ( abs(boost::integer::gcd(static_cast<MyInt2>(-10), static_cast<MyInt2>(-10) )), MyInt2(10) );
+    BOOST_TEST_EQ( abs(boost::integer::gcd(static_cast<MyInt2>(-25), static_cast<MyInt2>(-10) )), MyInt2( 5) );
+    BOOST_TEST_EQ( abs(boost::integer::gcd(static_cast<MyInt2>(3), static_cast<MyInt2>(7) )), MyInt2( 1) );
+    BOOST_TEST_EQ( abs(boost::integer::gcd(static_cast<MyInt2>(8), static_cast<MyInt2>(9) )), MyInt2( 1) );
+    BOOST_TEST_EQ( abs(boost::integer::gcd(static_cast<MyInt2>(7), static_cast<MyInt2>(49) )), MyInt2( 7) );
 }
 
 // GCD on unsigned integer types
@@ -357,14 +357,14 @@ template< class T > void gcd_unsigned_test() // unsigned_test_types
 
     // Note that unmarked types (i.e. have no std::numeric_limits
     // specialization) are treated like non/unsigned types
-    BOOST_TEST_EQ( gcd(static_cast<T>(1u), static_cast<T>(1u)), static_cast<T>( 1u) );
-    BOOST_TEST_EQ( gcd(static_cast<T>(0u), static_cast<T>(0u)), static_cast<T>( 0u) );
-    BOOST_TEST_EQ( gcd(static_cast<T>(7u), static_cast<T>(0u)), static_cast<T>( 7u) );
-    BOOST_TEST_EQ( gcd(static_cast<T>(0u), static_cast<T>(9u)), static_cast<T>( 9u) );
-    BOOST_TEST_EQ( gcd(static_cast<T>(42u), static_cast<T>(30u)), static_cast<T>( 6u) );
-    BOOST_TEST_EQ( gcd(static_cast<T>(3u), static_cast<T>(7u)), static_cast<T>( 1u) );
-    BOOST_TEST_EQ( gcd(static_cast<T>(8u), static_cast<T>(9u)), static_cast<T>( 1u) );
-    BOOST_TEST_EQ( gcd(static_cast<T>(7u), static_cast<T>(49u)), static_cast<T>( 7u) );
+    BOOST_TEST_EQ( boost::integer::gcd(static_cast<T>(1u), static_cast<T>(1u)), static_cast<T>( 1u) );
+    BOOST_TEST_EQ( boost::integer::gcd(static_cast<T>(0u), static_cast<T>(0u)), static_cast<T>( 0u) );
+    BOOST_TEST_EQ( boost::integer::gcd(static_cast<T>(7u), static_cast<T>(0u)), static_cast<T>( 7u) );
+    BOOST_TEST_EQ( boost::integer::gcd(static_cast<T>(0u), static_cast<T>(9u)), static_cast<T>( 9u) );
+    BOOST_TEST_EQ( boost::integer::gcd(static_cast<T>(42u), static_cast<T>(30u)), static_cast<T>( 6u) );
+    BOOST_TEST_EQ( boost::integer::gcd(static_cast<T>(3u), static_cast<T>(7u)), static_cast<T>( 1u) );
+    BOOST_TEST_EQ( boost::integer::gcd(static_cast<T>(8u), static_cast<T>(9u)), static_cast<T>( 1u) );
+    BOOST_TEST_EQ( boost::integer::gcd(static_cast<T>(7u), static_cast<T>(49u)), static_cast<T>( 7u) );
 }
 
 // GCD at compile-time
@@ -419,22 +419,22 @@ template< class T > void lcm_int_test() // signed_test_types
 #endif
 
     // Originally from Boost.Rational tests
-    BOOST_TEST_EQ( lcm(static_cast<T>(1), static_cast<T>(-1)), static_cast<T>( 1) );
-    BOOST_TEST_EQ( lcm(static_cast<T>(-1), static_cast<T>(1)), static_cast<T>( 1) );
-    BOOST_TEST_EQ( lcm(static_cast<T>(1), static_cast<T>(1)), static_cast<T>( 1) );
-    BOOST_TEST_EQ( lcm(static_cast<T>(-1), static_cast<T>(-1)), static_cast<T>( 1) );
-    BOOST_TEST_EQ( lcm(static_cast<T>(0), static_cast<T>(0)), static_cast<T>( 0) );
-    BOOST_TEST_EQ( lcm(static_cast<T>(6), static_cast<T>(0)), static_cast<T>( 0) );
-    BOOST_TEST_EQ( lcm(static_cast<T>(0), static_cast<T>(7)), static_cast<T>( 0) );
-    BOOST_TEST_EQ( lcm(static_cast<T>(-5), static_cast<T>(0)), static_cast<T>( 0) );
-    BOOST_TEST_EQ( lcm(static_cast<T>(0), static_cast<T>(-4)), static_cast<T>( 0) );
-    BOOST_TEST_EQ( lcm(static_cast<T>(18), static_cast<T>(30)), static_cast<T>(90) );
-    BOOST_TEST_EQ( lcm(static_cast<T>(-6), static_cast<T>(9)), static_cast<T>(18) );
-    BOOST_TEST_EQ( lcm(static_cast<T>(-10), static_cast<T>(-10)), static_cast<T>(10) );
-    BOOST_TEST_EQ( lcm(static_cast<T>(25), static_cast<T>(-10)), static_cast<T>(50) );
-    BOOST_TEST_EQ( lcm(static_cast<T>(3), static_cast<T>(7)), static_cast<T>(21) );
-    BOOST_TEST_EQ( lcm(static_cast<T>(8), static_cast<T>(9)), static_cast<T>(72) );
-    BOOST_TEST_EQ( lcm(static_cast<T>(7), static_cast<T>(49)), static_cast<T>(49) );
+    BOOST_TEST_EQ( boost::integer::lcm(static_cast<T>(1), static_cast<T>(-1)), static_cast<T>( 1) );
+    BOOST_TEST_EQ( boost::integer::lcm(static_cast<T>(-1), static_cast<T>(1)), static_cast<T>( 1) );
+    BOOST_TEST_EQ( boost::integer::lcm(static_cast<T>(1), static_cast<T>(1)), static_cast<T>( 1) );
+    BOOST_TEST_EQ( boost::integer::lcm(static_cast<T>(-1), static_cast<T>(-1)), static_cast<T>( 1) );
+    BOOST_TEST_EQ( boost::integer::lcm(static_cast<T>(0), static_cast<T>(0)), static_cast<T>( 0) );
+    BOOST_TEST_EQ( boost::integer::lcm(static_cast<T>(6), static_cast<T>(0)), static_cast<T>( 0) );
+    BOOST_TEST_EQ( boost::integer::lcm(static_cast<T>(0), static_cast<T>(7)), static_cast<T>( 0) );
+    BOOST_TEST_EQ( boost::integer::lcm(static_cast<T>(-5), static_cast<T>(0)), static_cast<T>( 0) );
+    BOOST_TEST_EQ( boost::integer::lcm(static_cast<T>(0), static_cast<T>(-4)), static_cast<T>( 0) );
+    BOOST_TEST_EQ( boost::integer::lcm(static_cast<T>(18), static_cast<T>(30)), static_cast<T>(90) );
+    BOOST_TEST_EQ( boost::integer::lcm(static_cast<T>(-6), static_cast<T>(9)), static_cast<T>(18) );
+    BOOST_TEST_EQ( boost::integer::lcm(static_cast<T>(-10), static_cast<T>(-10)), static_cast<T>(10) );
+    BOOST_TEST_EQ( boost::integer::lcm(static_cast<T>(25), static_cast<T>(-10)), static_cast<T>(50) );
+    BOOST_TEST_EQ( boost::integer::lcm(static_cast<T>(3), static_cast<T>(7)), static_cast<T>(21) );
+    BOOST_TEST_EQ( boost::integer::lcm(static_cast<T>(8), static_cast<T>(9)), static_cast<T>(72) );
+    BOOST_TEST_EQ( boost::integer::lcm(static_cast<T>(7), static_cast<T>(49)), static_cast<T>(49) );
     // Again with function object:
     BOOST_TEST_EQ(lcm_evaluator<T>()(1, -1), static_cast<T>(1));
     BOOST_TEST_EQ(lcm_evaluator<T>()(-1, 1), static_cast<T>(1));
@@ -467,22 +467,22 @@ void lcm_unmarked_int_test()
     // then does an absolute-value on the result.  Signed types that are not
     // marked as such (due to no std::numeric_limits specialization) may be off
     // by a sign.
-    BOOST_TEST_EQ( abs(lcm(   static_cast<MyInt2>(1), static_cast<MyInt2>(-1) )), MyInt2( 1) );
-    BOOST_TEST_EQ( abs(lcm(static_cast<MyInt2>(-1), static_cast<MyInt2>(1) )), MyInt2( 1) );
-    BOOST_TEST_EQ( abs(lcm(static_cast<MyInt2>(1), static_cast<MyInt2>(1) )), MyInt2( 1) );
-    BOOST_TEST_EQ( abs(lcm(static_cast<MyInt2>(-1), static_cast<MyInt2>(-1) )), MyInt2( 1) );
-    BOOST_TEST_EQ( abs(lcm(static_cast<MyInt2>(0), static_cast<MyInt2>(0) )), MyInt2( 0) );
-    BOOST_TEST_EQ( abs(lcm(static_cast<MyInt2>(6), static_cast<MyInt2>(0) )), MyInt2( 0) );
-    BOOST_TEST_EQ( abs(lcm(static_cast<MyInt2>(0), static_cast<MyInt2>(7) )), MyInt2( 0) );
-    BOOST_TEST_EQ( abs(lcm(static_cast<MyInt2>(-5), static_cast<MyInt2>(0) )), MyInt2( 0) );
-    BOOST_TEST_EQ( abs(lcm(static_cast<MyInt2>(0), static_cast<MyInt2>(-4) )), MyInt2( 0) );
-    BOOST_TEST_EQ( abs(lcm(static_cast<MyInt2>(18), static_cast<MyInt2>(30) )), MyInt2(90) );
-    BOOST_TEST_EQ( abs(lcm(static_cast<MyInt2>(-6), static_cast<MyInt2>(9) )), MyInt2(18) );
-    BOOST_TEST_EQ( abs(lcm(static_cast<MyInt2>(-10), static_cast<MyInt2>(-10) )), MyInt2(10) );
-    BOOST_TEST_EQ( abs(lcm(static_cast<MyInt2>(25), static_cast<MyInt2>(-10) )), MyInt2(50) );
-    BOOST_TEST_EQ( abs(lcm(static_cast<MyInt2>(3), static_cast<MyInt2>(7) )), MyInt2(21) );
-    BOOST_TEST_EQ( abs(lcm(static_cast<MyInt2>(8), static_cast<MyInt2>(9) )), MyInt2(72) );
-    BOOST_TEST_EQ( abs(lcm(static_cast<MyInt2>(7), static_cast<MyInt2>(49) )), MyInt2(49) );
+    BOOST_TEST_EQ( abs(boost::integer::lcm(   static_cast<MyInt2>(1), static_cast<MyInt2>(-1) )), MyInt2( 1) );
+    BOOST_TEST_EQ( abs(boost::integer::lcm(static_cast<MyInt2>(-1), static_cast<MyInt2>(1) )), MyInt2( 1) );
+    BOOST_TEST_EQ( abs(boost::integer::lcm(static_cast<MyInt2>(1), static_cast<MyInt2>(1) )), MyInt2( 1) );
+    BOOST_TEST_EQ( abs(boost::integer::lcm(static_cast<MyInt2>(-1), static_cast<MyInt2>(-1) )), MyInt2( 1) );
+    BOOST_TEST_EQ( abs(boost::integer::lcm(static_cast<MyInt2>(0), static_cast<MyInt2>(0) )), MyInt2( 0) );
+    BOOST_TEST_EQ( abs(boost::integer::lcm(static_cast<MyInt2>(6), static_cast<MyInt2>(0) )), MyInt2( 0) );
+    BOOST_TEST_EQ( abs(boost::integer::lcm(static_cast<MyInt2>(0), static_cast<MyInt2>(7) )), MyInt2( 0) );
+    BOOST_TEST_EQ( abs(boost::integer::lcm(static_cast<MyInt2>(-5), static_cast<MyInt2>(0) )), MyInt2( 0) );
+    BOOST_TEST_EQ( abs(boost::integer::lcm(static_cast<MyInt2>(0), static_cast<MyInt2>(-4) )), MyInt2( 0) );
+    BOOST_TEST_EQ( abs(boost::integer::lcm(static_cast<MyInt2>(18), static_cast<MyInt2>(30) )), MyInt2(90) );
+    BOOST_TEST_EQ( abs(boost::integer::lcm(static_cast<MyInt2>(-6), static_cast<MyInt2>(9) )), MyInt2(18) );
+    BOOST_TEST_EQ( abs(boost::integer::lcm(static_cast<MyInt2>(-10), static_cast<MyInt2>(-10) )), MyInt2(10) );
+    BOOST_TEST_EQ( abs(boost::integer::lcm(static_cast<MyInt2>(25), static_cast<MyInt2>(-10) )), MyInt2(50) );
+    BOOST_TEST_EQ( abs(boost::integer::lcm(static_cast<MyInt2>(3), static_cast<MyInt2>(7) )), MyInt2(21) );
+    BOOST_TEST_EQ( abs(boost::integer::lcm(static_cast<MyInt2>(8), static_cast<MyInt2>(9) )), MyInt2(72) );
+    BOOST_TEST_EQ( abs(boost::integer::lcm(static_cast<MyInt2>(7), static_cast<MyInt2>(49) )), MyInt2(49) );
 }
 
 // LCM on unsigned integer types
@@ -496,14 +496,14 @@ template< class T > void lcm_unsigned_test() // unsigned_test_types
 
     // Note that unmarked types (i.e. have no std::numeric_limits
     // specialization) are treated like non/unsigned types
-    BOOST_TEST_EQ( lcm(static_cast<T>(1u), static_cast<T>(1u)), static_cast<T>( 1u) );
-    BOOST_TEST_EQ( lcm(static_cast<T>(0u), static_cast<T>(0u)), static_cast<T>( 0u) );
-    BOOST_TEST_EQ( lcm(static_cast<T>(6u), static_cast<T>(0u)), static_cast<T>( 0u) );
-    BOOST_TEST_EQ( lcm(static_cast<T>(0u), static_cast<T>(7u)), static_cast<T>( 0u) );
-    BOOST_TEST_EQ( lcm(static_cast<T>(18u), static_cast<T>(30u)), static_cast<T>(90u) );
-    BOOST_TEST_EQ( lcm(static_cast<T>(3u), static_cast<T>(7u)), static_cast<T>(21u) );
-    BOOST_TEST_EQ( lcm(static_cast<T>(8u), static_cast<T>(9u)), static_cast<T>(72u) );
-    BOOST_TEST_EQ( lcm(static_cast<T>(7u), static_cast<T>(49u)), static_cast<T>(49u) );
+    BOOST_TEST_EQ( boost::integer::lcm(static_cast<T>(1u), static_cast<T>(1u)), static_cast<T>( 1u) );
+    BOOST_TEST_EQ( boost::integer::lcm(static_cast<T>(0u), static_cast<T>(0u)), static_cast<T>( 0u) );
+    BOOST_TEST_EQ( boost::integer::lcm(static_cast<T>(6u), static_cast<T>(0u)), static_cast<T>( 0u) );
+    BOOST_TEST_EQ( boost::integer::lcm(static_cast<T>(0u), static_cast<T>(7u)), static_cast<T>( 0u) );
+    BOOST_TEST_EQ( boost::integer::lcm(static_cast<T>(18u), static_cast<T>(30u)), static_cast<T>(90u) );
+    BOOST_TEST_EQ( boost::integer::lcm(static_cast<T>(3u), static_cast<T>(7u)), static_cast<T>(21u) );
+    BOOST_TEST_EQ( boost::integer::lcm(static_cast<T>(8u), static_cast<T>(9u)), static_cast<T>(72u) );
+    BOOST_TEST_EQ( boost::integer::lcm(static_cast<T>(7u), static_cast<T>(49u)), static_cast<T>(49u) );
 }
 
 // LCM at compile-time
@@ -592,8 +592,10 @@ template <class T> void gcd_and_lcm_on_rationals()
 #  define TEST_SIGNED(test)\
       TEST_SIGNED__(test)\
       test<mpz_class>();
+#  define TEST_SIGNED_NO_GMP(test) TEST_SIGNED__(test)
 #else
 #  define TEST_SIGNED(test) TEST_SIGNED__(test)
+#  define TEST_SIGNED_NO_GMP(test) TEST_SIGNED__(test)
 #endif
 
 int main()
@@ -609,7 +611,7 @@ int main()
    TEST_UNSIGNED(lcm_unsigned_test)
    lcm_static_test();
    variadics();
-   TEST_SIGNED(gcd_and_lcm_on_rationals)
+   TEST_SIGNED_NO_GMP(gcd_and_lcm_on_rationals)
 
    return boost::report_errors();
 }
