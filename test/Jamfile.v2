@@ -31,5 +31,5 @@ test-suite integer
         [ compile-fail fail_uint_fast.cpp ]
         [ compile-fail fail_uint_least.cpp ]
         [ compile-fail fail_uint_65.cpp ]
-        [ run common_factor_test.cpp : : : [ check-target-builds has_gmpxx "Checking for gmpxx.h" : <define>BOOST_INTEGER_HAS_GMPXX_H=1 ] ]
+        [ run common_factor_test.cpp : : : [ check-target-builds has_gmpxx "Checking for gmpxx.h" : <define>BOOST_INTEGER_HAS_GMPXX_H=1 <linkflags>-lgmp <linkflags>-lgmpxx ] ]
     ;
