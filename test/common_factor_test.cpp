@@ -23,7 +23,6 @@
 #include <boost/mpl/list.hpp>            // for boost::mpl::list
 #include <boost/operators.hpp>
 #include <boost/core/lightweight_test.hpp>
-#include <boost/multiprecision/cpp_int.hpp>
 #include <boost/random.hpp>
 #include <boost/rational.hpp>
 
@@ -35,6 +34,13 @@
 #include <gmpxx.h>
 #endif
 
+#if (defined(BOOST_MSVC) && (BOOST_MSVC < 1500)) || (defined(__clang_major__) && (__clang_major__ == 3) && (__clang_minor__ < 2))
+#define DISABLE_MP_TESTS
+#endif
+
+#ifndef DISABLE_MP_TESTS
+#include <boost/multiprecision/cpp_int.hpp>
+#endif
 
 namespace {
 
@@ -124,7 +130,11 @@ typedef ::boost::mpl::list<signed char, short, int, long,
 #elif defined(BOOST_HAS_MS_INT64)
  __int64,
 #endif
- MyInt1, boost::multiprecision::cpp_int>  signed_test_types;
+ MyInt1
+#ifndef DISABLE_MP_TESTS
+   , boost::multiprecision::cpp_int
+#endif
+>  signed_test_types;
 typedef ::boost::mpl::list<unsigned char, unsigned short, unsigned,
  unsigned long,
 #if BOOST_WORKAROUND(BOOST_MSVC, <= 1500)
@@ -550,6 +560,7 @@ template <class T> void gcd_and_lcm_on_rationals()
       rational(1));
 }
 
+#ifndef DISABLE_MP_TESTS
 #define TEST_SIGNED_( test ) \
     test<signed char>(); \
     test<short>(); \
@@ -558,6 +569,14 @@ template <class T> void gcd_and_lcm_on_rationals()
     test<MyInt1>(); \
     test<boost::multiprecision::cpp_int>(); \
     test<boost::multiprecision::int512_t>();
+#else
+#define TEST_SIGNED_( test ) \
+    test<signed char>(); \
+    test<short>(); \
+    test<int>(); \
+    test<long>(); \
+    test<MyInt1>();
+#endif
 
 #ifdef BOOST_HAS_LONG_LONG
 # define TEST_SIGNED__( test ) \
@@ -568,7 +587,7 @@ template <class T> void gcd_and_lcm_on_rationals()
     TEST_SIGNED_( test ) \
     test<__int64>();
 #endif
-
+#ifndef DISABLE_MP_TESTS
 #define TEST_UNSIGNED_( test ) \
     test<unsigned char>(); \
     test<unsigned short>(); \
@@ -577,6 +596,15 @@ template <class T> void gcd_and_lcm_on_rationals()
     test<MyUnsigned1>(); \
     test<MyUnsigned2>(); \
     test<boost::multiprecision::uint512_t>();
+#else
+#define TEST_UNSIGNED_( test ) \
+    test<unsigned char>(); \
+    test<unsigned short>(); \
+    test<unsigned>(); \
+    test<unsigned long>(); \
+    test<MyUnsigned1>(); \
+    test<MyUnsigned2>();
+#endif
 
 #ifdef BOOST_HAS_LONG_LONG
 # define TEST_UNSIGNED( test ) \
