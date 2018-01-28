@@ -1,0 +1,51 @@
+[section:modular_multiplicative_inverse Modular Multiplicative Inverse]
+
+[section Introduction]
+
+The modular multiplicative inverse of a number /a/ is that number /x/ which satisfied /ax/ = 1 mod /p/.
+A fast algorithm for computing modular multiplicative inverses based on the extended Euclidean algorithm exists and is provided by Boost.
+
+[endsect]
+
+[section Synopsis]
+
+    #include <boost/integer/modular_multiplicative_inverse.hpp>
+
+    namespace boost { namespace integer {
+
+      template<class Z>
+      boost::optional<Z> modular_multiplicative_inverse(Z a, Z p);
+
+    }}
+
+[endsect]
+
+[section Usage]
+
+Multiplicative modular inverses exist if and only if /a/ and /p/ are coprime.
+So for example
+
+    auto x = modular_multiplicative_inverse(2, 5);
+    if (x)
+    {
+        int should_be_three = x.value();
+    }
+    auto y = modular_multiplicative_inverse(2, 4);
+    if (!y)
+    {
+        std::cout << "There is no inverse of 2 mod 4\n";
+    }
+
+[endsect]
+
+[section References]
+Wagstaff, Samuel S., ['The Joy of Factoring], Vol. 68. American Mathematical Soc., 2013.
+
+[endsect]
+[endsect]
+[/
+Copyright 2018 Nick Thompson.
+Distributed under the Boost Software License, Version 1.0.
+(See accompanying file LICENSE_1_0.txt or copy at
+http://www.boost.org/LICENSE_1_0.txt).
+]
