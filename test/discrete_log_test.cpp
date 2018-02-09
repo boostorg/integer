@@ -8,10 +8,11 @@
 #define BOOST_TEST_MODULE discrete_log_test
 #include <boost/test/included/unit_test.hpp>
 #include <boost/integer/discrete_log.hpp>
+#include <boost/math/special_functions/prime.hpp>
 
 
 using boost::integer::trial_multiplication_discrete_log;
-using boost::integer::baby_step_giant_step_discrete_log;
+using boost::integer::bsgs_discrete_log;
 
 template<class Z>
 void test_trial_multiplication_discrete_log()
@@ -58,13 +59,52 @@ void test_trial_multiplication_discrete_log()
 template<class Z>
 void test_bsgs_discrete_log()
 {
-    baby_step_giant_step_discrete_log<Z> dl(7, 41);
-    BOOST_CHECK_EQUAL(dl(7), 1);
-    BOOST_CHECK_EQUAL(dl(8), 2);
-    BOOST_CHECK_EQUAL(dl(15), 3);
-    BOOST_CHECK_EQUAL(dl(23), 4);
-    BOOST_CHECK_EQUAL(dl(38), 5);
-    BOOST_CHECK_EQUAL(dl(20), 6);
+    bsgs_discrete_log<Z> dl_7(7, 41);
+    BOOST_CHECK_EQUAL(dl_7(7), 1);
+    BOOST_CHECK_EQUAL(dl_7(8), 2);
+    BOOST_CHECK_EQUAL(dl_7(15), 3);
+    BOOST_CHECK_EQUAL(dl_7(23), 4);
+    BOOST_CHECK_EQUAL(dl_7(38), 5);
+    BOOST_CHECK_EQUAL(dl_7(20), 6);
+}
+
+template<class Z>
+void test_trial_multiplication_with_prime_base()
+{
+    for (Z i = 0; i < boost::math::max_prime; ++i)
+    {
+        Z p = boost::math::prime(i);
+        for (Z j = 2; j < p; ++j)
+        {
+            bsgs_discrete_log<Z> dl_j(j, p);
+            for (Z k = 1; k < p; ++k)
+            {
+                boost::optional<Z> dl = trial_multiplication_discrete_log(j, k, p);
+                // It is guaranteed to exist with the modulus is prime:
+                BOOST_ASSERT(dl);
+                BOOST_CHECK_EQUAL(k, boost::multiprecision::powm(j, dl.value(), p));
+            }
+        }
+    }
+}
+
+
+template<class Z>
+void test_bsgs_with_prime_base()
+{
+    for (Z i = 0; i < boost::math::max_prime; ++i)
+    {
+        Z p = boost::math::prime(i);
+        for (Z j = 2; j < p; ++j)
+        {
+            bsgs_discrete_log<Z> dl_j(j, p);
+            for (Z k = 1; k < p; ++k)
+            {
+                Z dl = dl_j(k);
+                BOOST_CHECK_EQUAL(k, boost::multiprecision::powm(j, dl, p));
+            }
+        }
+    }
 }
 
 
@@ -72,4 +112,6 @@ BOOST_AUTO_TEST_CASE(discrete_log_test)
 {
     test_trial_multiplication_discrete_log<size_t>();
     test_bsgs_discrete_log<int>();
+    test_trial_multiplication_with_prime_base<long long>();
+    test_bsgs_with_prime_base<long long>();
 }

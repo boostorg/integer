@@ -13,8 +13,13 @@
 namespace boost { namespace integer {
 
 // From "The Joy of Factoring", Algorithm 2.7.
+// The name is a bit verbose. Here's some others names I've found for this function:
+// PowerMod[a, -1, m] (Mathematica)
+// mpz_invert (gmplib)
+// modinv (some dude on stackoverflow)
+// Would modular_inverse be sometimes mistaken as the modular *additive* inverse?
 template<class Z>
-boost::optional<Z> modular_multiplicative_inverse(Z a, Z modulus)
+boost::optional<Z> mod_inverse(Z a, Z modulus)
 {
     using std::numeric_limits;
     static_assert(numeric_limits<Z>::is_integer,
@@ -37,12 +42,13 @@ boost::optional<Z> modular_multiplicative_inverse(Z a, Z modulus)
         return {};
     }
     Z x = std::get<1>(u);
-    // x might not be in the range 0 < x < m, let's fix that:
     x = x % modulus;
+    // x might not be in the range 0 < x < m, let's fix that:
     while (x <= 0)
     {
         x += modulus;
     }
+    BOOST_ASSERT(x*a % modulus == 1);
     return x;
 }
 

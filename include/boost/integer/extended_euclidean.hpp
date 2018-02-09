@@ -59,7 +59,13 @@ std::tuple<Z, Z, Z> extended_euclidean(Z m, Z n)
     if (swapped)
     {
         std::swap(u1, u2);
+        BOOST_ASSERT(u2*m+u1*n==u0);
     }
+    else
+    {
+        BOOST_ASSERT(u1*m+u2*n==u0);
+    }
+
     return std::make_tuple(u0, u1, u2);
 }
 

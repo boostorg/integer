@@ -17,7 +17,7 @@ using boost::integer::gcd;
 template<class Z>
 void test_extended_euclidean()
 {
-    Z max_arg = 500;
+    Z max_arg = 1000;
     for (Z m = 1; m < max_arg; ++m)
     {
         for (Z n = 1; n < max_arg; ++n)
@@ -36,6 +36,6 @@ BOOST_AUTO_TEST_CASE(extended_euclidean_test)
 {
     test_extended_euclidean<int>();
     test_extended_euclidean<long>();
-    test_extended_euclidean<size_t>();
+    test_extended_euclidean<long long>();
     test_extended_euclidean<int128_t>();
 }
