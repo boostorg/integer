@@ -17,7 +17,7 @@ using boost::integer::bsgs_discrete_log;
 template<class Z>
 void test_trial_multiplication_discrete_log()
 {
-
+    std::cout << "Testing basic trial multiplication discrete logarithm on type " << boost::typeindex::type_id<Z>().pretty_name() << "\n";
     boost::optional<Z> x = trial_multiplication_discrete_log<Z>(2, 1, 3);
     BOOST_CHECK_EQUAL(0, x.value());
     x = trial_multiplication_discrete_log<Z>(2, 2, 3);
@@ -59,18 +59,42 @@ void test_trial_multiplication_discrete_log()
 template<class Z>
 void test_bsgs_discrete_log()
 {
+    std::cout << "Testing basic baby-step giant-step discrete logarithm on type " << boost::typeindex::type_id<Z>().pretty_name() << "\n";
     bsgs_discrete_log<Z> dl_7(7, 41);
-    BOOST_CHECK_EQUAL(dl_7(7), 1);
-    BOOST_CHECK_EQUAL(dl_7(8), 2);
-    BOOST_CHECK_EQUAL(dl_7(15), 3);
-    BOOST_CHECK_EQUAL(dl_7(23), 4);
-    BOOST_CHECK_EQUAL(dl_7(38), 5);
-    BOOST_CHECK_EQUAL(dl_7(20), 6);
+    BOOST_CHECK_EQUAL(dl_7(7).value(), 1);
+    BOOST_CHECK_EQUAL(dl_7(8).value(), 2);
+    BOOST_CHECK_EQUAL(dl_7(15).value(), 3);
+    BOOST_CHECK_EQUAL(dl_7(23).value(), 4);
+    BOOST_CHECK_EQUAL(dl_7(38).value(), 5);
+    BOOST_CHECK_EQUAL(dl_7(20).value(), 6);
 }
 
 template<class Z>
-void test_trial_multiplication_with_prime_base()
+void test_trial_multiplication_with_prime_modulus()
 {
+    std::cout << "Testing trial multiplication with prime modulus on type " << boost::typeindex::type_id<Z>().pretty_name() << "\n";
+    for (Z i = 0; i < boost::math::max_prime; ++i)
+    {
+        Z modulus = boost::math::prime(i);
+        for (Z base = 2; base < modulus; ++base)
+        {
+            for (Z arg = 1; arg < modulus; ++arg)
+            {
+                boost::optional<Z> dl = trial_multiplication_discrete_log(base, arg, modulus);
+                if (dl)
+                {
+                    BOOST_CHECK_EQUAL(arg, boost::multiprecision::powm(base, dl.value(), modulus));
+                }
+            }
+        }
+    }
+}
+
+
+template<class Z>
+void test_bsgs_with_prime_modulus()
+{
+    std::cout << "Testing baby-step, giant-step with prime modulus on type " << boost::typeindex::type_id<Z>().pretty_name() << "\n";
     for (Z i = 0; i < boost::math::max_prime; ++i)
     {
         Z p = boost::math::prime(i);
@@ -79,39 +103,20 @@ void test_trial_multiplication_with_prime_base()
             bsgs_discrete_log<Z> dl_j(j, p);
             for (Z k = 1; k < p; ++k)
             {
-                boost::optional<Z> dl = trial_multiplication_discrete_log(j, k, p);
-                // It is guaranteed to exist with the modulus is prime:
-                BOOST_ASSERT(dl);
-                BOOST_CHECK_EQUAL(k, boost::multiprecision::powm(j, dl.value(), p));
+                boost::optional<Z> dl = dl_j(k);
+                if (dl)
+                {
+                    BOOST_CHECK_EQUAL(k, boost::multiprecision::powm(j, dl.value(), p));
+                }
             }
         }
     }
 }
-
-
-template<class Z>
-void test_bsgs_with_prime_base()
-{
-    for (Z i = 0; i < boost::math::max_prime; ++i)
-    {
-        Z p = boost::math::prime(i);
-        for (Z j = 2; j < p; ++j)
-        {
-            bsgs_discrete_log<Z> dl_j(j, p);
-            for (Z k = 1; k < p; ++k)
-            {
-                Z dl = dl_j(k);
-                BOOST_CHECK_EQUAL(k, boost::multiprecision::powm(j, dl, p));
-            }
-        }
-    }
-}
-
 
 BOOST_AUTO_TEST_CASE(discrete_log_test)
 {
     test_trial_multiplication_discrete_log<size_t>();
     test_bsgs_discrete_log<int>();
-    test_trial_multiplication_with_prime_base<long long>();
-    test_bsgs_with_prime_base<long long>();
+    test_trial_multiplication_with_prime_modulus<long long>();
+    test_bsgs_with_prime_modulus<long long>();
 }

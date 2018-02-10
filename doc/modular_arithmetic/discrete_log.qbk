@@ -29,7 +29,7 @@ The algorithms provided by Boost should be acceptable up to roughly 32 bits.
     public:
         bsgs_discrete_log(Z base, Z p);
 
-        Z operator()(Z arg) const;
+        boost::optional<Z> operator()(Z arg) const;
 
     };
     }}
@@ -49,7 +49,7 @@ Basic usage is shown below:
     }
 
     auto log_2 = bsgs_discrete_log(2, 5);
-    int log = log_2(3);
+    int log = log_2(3).value();
     std::cout << "log_2(3) mod 5 = " << log << std::endl;
 
 
@@ -78,10 +78,10 @@ The baby-step giant-step algorithm is less polite when the base and the modulus 
     }
 
 
-The baby-step giant-step discrete log will *never* compute a logarithm when the generator and modulus are not coprime,
+The baby-step giant-step discrete log will *never* compute a logarithm when the base and modulus are not coprime,
 because it relies on the existence of modular multiplicative inverses.
-However, discrete logarithms can exist even when the generator and modulus share a common divisor greater than 1.
-For example, since 2[sup 1] = 2 mod 4, log[sub 2](2) = 1.
+However, discrete logarithms can exist even when the base and modulus share a common divisor greater than 1.
+For example, since 2[super 1] = 2 mod 4, log[sub 2](2) = 1.
 Trial multiplication successfully recovers this value, and `bsgs_discrete_log` blows up.
 
 

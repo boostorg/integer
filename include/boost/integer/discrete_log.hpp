@@ -40,7 +40,7 @@ boost::optional<Z> trial_multiplication_discrete_log(Z base, Z arg, Z modulus)
     if (arg < 1)
     {
         auto e = boost::format("The argument must be > 0, but is %1%") % arg;
-        throw std::domain_error(arg);
+        throw std::domain_error(e.str());
     }
     if (base >= modulus || arg >= modulus)
     {
@@ -49,7 +49,7 @@ boost::optional<Z> trial_multiplication_discrete_log(Z base, Z arg, Z modulus)
             auto e = boost::format("Error computing the discrete log: The base %1% is greater than the modulus %2%. Are the arguments in the wrong order?") % base % modulus;
             throw std::domain_error(e.str());
         }
-        if (arg >= p)
+        if (arg >= modulus)
         {
             auto e = boost::format("Error computing the discrete log: The argument %1% is greater than the modulus %2%. Are the arguments in the wrong order?") % arg % modulus;
             throw std::domain_error(e.str());
@@ -122,15 +122,15 @@ public:
 
     }
 
-    Z operator()(Z arg) const
+    boost::optional<Z> operator()(Z arg) const
     {
         Z ami = m_inv_base_pow_m;
         Z k = arg % m_p;
         if(k == 0)
         {
-            throw std::domain_error("Cannot take the logarithm of a number divisible by the modulus.\n");
+            return {};
         }
-        for (Z i = 0; i < m_root_p; ++i)
+        for (Z i = 0; i < m_lookup_table.size(); ++i)
         {
             auto it = m_lookup_table.find(k);
             if (it != m_lookup_table.end())
@@ -144,10 +144,7 @@ public:
             ami = (ami*m_inv_base_pow_m) % m_p;
             k = k * ami % m_p;
         }
-        // never should get here . . .
-        BOOST_ASSERT(false);
-        // Suppress compiler warnings.
-        return -1;
+        return {};
     }
 
 private:
