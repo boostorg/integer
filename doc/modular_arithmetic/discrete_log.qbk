@@ -3,13 +3,13 @@
 [section Introduction]
 
 The discrete log is the inverse of modular exponentiation.
-To wit, if /a/[sup /x/] = /b/ mod /p/, then we write /x/ = log[sub a](/b/).
+To wit, if /a/[super /x/] = /b/ mod /p/, then we write /x/ = log[sub a](/b/).
 Fast algorithms for modular exponentiation exists, but currently there are no polynomial time algorithms known for the discrete logarithm,
 a fact which is the basis for the security of Diffie-Hellman key exchange.
 
 Despite having exponential complexity in the number of bits, the algorithms for discrete logarithm provided by Boost are still useful,
 for there are many uses of the discrete logarithm outside of cryptography which do not require massive inputs.
-The algorithms provided by Boost should be acceptable up to roughly 64 bits.
+The algorithms provided by Boost should be acceptable up to roughly 32 bits.
 
 [endsect]
 
@@ -24,10 +24,10 @@ The algorithms provided by Boost should be acceptable up to roughly 64 bits.
 
 
     template<class Z>
-    class baby_step_giant_step_discrete_log
+    class bsgs_discrete_log
     {
     public:
-        baby_step_giant_step_discrete_log(Z base, Z p);
+        bsgs_discrete_log(Z base, Z p);
 
         Z operator()(Z arg) const;
 
@@ -39,7 +39,7 @@ The algorithms provided by Boost should be acceptable up to roughly 64 bits.
 [section Usage]
 
 
-Boost provides two algorithms for the discrete log: Trial multiplication and the "baby-step giant step" algorithm.
+Boost provides two algorithms for the discrete log: Trial multiplication and the "baby-step giant-step" algorithm.
 Basic usage is shown below:
 
     auto logarithm = trial_multiplication_discrete_log(2, 3, 5);
@@ -48,15 +48,16 @@ Basic usage is shown below:
         std::cout << "log_2(3) mod 5 = " << l.value() << std::endl;
     }
 
-    auto bsgs = baby_step_giant_step_discrete_log(2, 5);
-    int log = bsgs(3);
+    auto log_2 = bsgs_discrete_log(2, 5);
+    int log = log_2(3);
     std::cout << "log_2(3) mod 5 = " << log << std::endl;
 
 
-Of these, trial multiplication is more general, requires O(/p/) time and O(1) storage.
-The baby-step giant step algorithm requires O([radic] p) time and O([radic] p) storage, and is slightly less general as the generator must be coprime to the the modulus.
+Of these, trial multiplication is more general, requires [bigo](/p/) time and [bigo](1) storage.
+The baby-step giant step algorithm requires [bigo]([radic] p) time and [bigo]([radic] p) storage,
+and is slightly less general as the base must be coprime to the the modulus.
 Let's illustrate this with a few examples: Suppose we wish to compute log[sub 2](3) mod 4.
-Since 2[sup x] = 3 mod 4 has no solution, the result is undefined.
+Since 2[super /x/] = 3 mod 4 has no solution, the result is undefined.
 
     boost::optional<int> l = trial_multiplication_discrete_log(2, 3, 4);
     if (!l)
@@ -68,7 +69,7 @@ The baby-step giant-step algorithm is less polite when the base and the modulus 
 
     try
     {
-        auto bsgs = baby_step_giant_step_discrete_log(2, 4);
+        auto log_2 = bsgs_discrete_log(2, 4);
     }
     catch(std::exception const & e)
     {
@@ -77,10 +78,11 @@ The baby-step giant-step algorithm is less polite when the base and the modulus 
     }
 
 
-The baby-step giant-step discrete log will *never* compute a logarithm when the generator and modulus are not coprime, because it relies on the existence of modular multiplicative inverses.
+The baby-step giant-step discrete log will *never* compute a logarithm when the generator and modulus are not coprime,
+because it relies on the existence of modular multiplicative inverses.
 However, discrete logarithms can exist even when the generator and modulus share a common divisor greater than 1.
 For example, since 2[sup 1] = 2 mod 4, log[sub 2](2) = 1.
-Trial multiplication successfully recovers this value, and `baby_step_giant_step_discrete_log` blows up.
+Trial multiplication successfully recovers this value, and `bsgs_discrete_log` blows up.
 
 
 [endsect]

@@ -21,7 +21,7 @@ namespace boost { namespace integer {
 
 // base^^x = a mod p <-> x = log_base(a) mod p
 template<class Z>
-boost::optional<Z> trial_multiplication_discrete_log(Z base, Z arg, Z p)
+boost::optional<Z> trial_multiplication_discrete_log(Z base, Z arg, Z modulus)
 {
     using std::numeric_limits;
     static_assert(numeric_limits<Z>::is_integer,
@@ -29,26 +29,29 @@ boost::optional<Z> trial_multiplication_discrete_log(Z base, Z arg, Z p)
 
     if (base <= 1)
     {
-        throw std::domain_error("The base must be > 1.\n");
+        auto e = boost::format("The base b is %1%, but must be > 1.\n") % base;
+        throw std::domain_error(e.str());
     }
-    if (p < 3)
+    if (modulus < 3)
     {
-        throw std::domain_error("The modulus must be > 2.\n");
+        auto e = boost::format("The modulus must be > 2, but is %1%") % modulus;
+        throw std::domain_error(e.str());
     }
     if (arg < 1)
     {
-        throw std::domain_error("The argument must be > 0.\n");
+        auto e = boost::format("The argument must be > 0, but is %1%") % arg;
+        throw std::domain_error(arg);
     }
-    if (base >= p || arg >= p)
+    if (base >= modulus || arg >= modulus)
     {
-        if (base >= p)
+        if (base >= modulus)
         {
-            auto e = boost::format("Error computing the discrete log: The base %1% is greater than the modulus %2%. Are the arguments in the wrong order?") % base % p;
+            auto e = boost::format("Error computing the discrete log: The base %1% is greater than the modulus %2%. Are the arguments in the wrong order?") % base % modulus;
             throw std::domain_error(e.str());
         }
         if (arg >= p)
         {
-            auto e = boost::format("Error computing the discrete log: The argument %1% is greater than the modulus %2%. Are the arguments in the wrong order?") % arg % p;
+            auto e = boost::format("Error computing the discrete log: The argument %1% is greater than the modulus %2%. Are the arguments in the wrong order?") % arg % modulus;
             throw std::domain_error(e.str());
         }
     }
@@ -58,13 +61,13 @@ boost::optional<Z> trial_multiplication_discrete_log(Z base, Z arg, Z p)
         return 0;
     }
     Z s = 1;
-    for (Z i = 1; i < p; ++i)
+    for (Z i = 1; i < modulus; ++i)
     {
-        s = (s * base) % p;
+        s = (s * base) % modulus;
         if (s == arg)
         {
             // Maybe a bit trivial assertion. But still a negligible fraction of the total compute time.
-            BOOST_ASSERT(arg == boost::multiprecision::powm(base, i, p));
+            BOOST_ASSERT(arg == boost::multiprecision::powm(base, i, modulus));
             return i;
         }
     }
@@ -75,7 +78,7 @@ template<class Z>
 class bsgs_discrete_log
 {
 public:
-    bsgs_discrete_log(Z base, Z p) : m_p{p}, m_base{base}
+    bsgs_discrete_log(Z base, Z modulus) : m_p{modulus}, m_base{base}
     {
         using std::numeric_limits;
         static_assert(numeric_limits<Z>::is_integer,
@@ -85,28 +88,28 @@ public:
         {
             throw std::logic_error("The base must be > 1.\n");
         }
-        if (p < 3)
+        if (modulus < 3)
         {
             throw std::logic_error("The modulus must be > 2.\n");
         }
-        if (base >= p)
+        if (base >= modulus)
         {
             throw std::logic_error("Error computing the discrete log: Are your arguments in the wrong order?\n");
         }
-        m_root_p = boost::multiprecision::sqrt(p);
-        if (m_root_p*m_root_p != p)
+        m_root_p = boost::multiprecision::sqrt(modulus);
+        if (m_root_p*m_root_p != modulus)
         {
             m_root_p += 1;
         }
 
-        auto x = mod_inverse(base, p);
+        auto x = mod_inverse(base, modulus);
         if (!x)
         {
-            auto d = boost::integer::gcd(base, p);
-            auto e = boost::format("The gcd of the base %1% and the modulus %2% is %3% != 1, hence the discrete log is not guaranteed to exist, which breaks the baby-step giant step algorithm. If you don't require existence proof for all inputs, use trial multiplication.\n") % base % p % d;
+            auto d = boost::integer::gcd(base, modulus);
+            auto e = boost::format("The gcd of the base %1% and the modulus %2% is %3% != 1, hence the discrete log is not guaranteed to exist, which breaks the baby-step giant step algorithm. If you don't require existence proof for all inputs, use trial multiplication.\n") % base % modulus % d;
             throw std::logic_error(e.str());
         }
-        m_inv_base_pow_m = boost::multiprecision::powm(x.value(), m_root_p, p);
+        m_inv_base_pow_m = boost::multiprecision::powm(x.value(), m_root_p, modulus);
 
         m_lookup_table.reserve(m_root_p);
         // Now the expensive part:
@@ -114,7 +117,7 @@ public:
         for (Z j = 0; j < m_root_p; ++j)
         {
             m_lookup_table.emplace(k, j);
-            k = k*base % p;
+            k = k*base % modulus;
         }
 
     }
