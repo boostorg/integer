@@ -13,11 +13,11 @@
 namespace boost { namespace integer {
 
 // From "The Joy of Factoring", Algorithm 2.7.
-// The name is a bit verbose. Here's some others names I've found for this function:
+// Here's some others names I've found for this function:
 // PowerMod[a, -1, m] (Mathematica)
 // mpz_invert (gmplib)
 // modinv (some dude on stackoverflow)
-// Would modular_inverse be sometimes mistaken as the modular *additive* inverse?
+// Would mod_inverse be sometimes mistaken as the modular *additive* inverse?
 template<class Z>
 boost::optional<Z> mod_inverse(Z a, Z modulus)
 {

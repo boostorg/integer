@@ -4,19 +4,21 @@
  *  Boost Software License, Version 1.0. (See accompanying file
  *  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
  */
-#define BOOST_TEST_MODULE modular_multiplicative_inverse_test
+#define BOOST_TEST_MODULE mod_inverse_test
 #include <boost/test/included/unit_test.hpp>
 #include <boost/multiprecision/cpp_int.hpp>
 #include <boost/integer/common_factor.hpp>
 #include <boost/integer/mod_inverse.hpp>
 
 using boost::multiprecision::int128_t;
+using boost::multiprecision::int256_t;
 using boost::integer::mod_inverse;
 using boost::integer::gcd;
 
 template<class Z>
 void test_mod_inverse()
 {
+    std::cout << "Testing the modular multiplicative inverse on type " << boost::typeindex::type_id<Z>().pretty_name() << "\n";
     Z max_arg = 1000;
     for (Z modulus = 2; modulus < max_arg; ++modulus)
     {
@@ -39,10 +41,12 @@ void test_mod_inverse()
     }
 }
 
-BOOST_AUTO_TEST_CASE(extended_euclidean_test)
+BOOST_AUTO_TEST_CASE(mod_inverse_test)
 {
+    test_mod_inverse<short int>();
     test_mod_inverse<int>();
     test_mod_inverse<long>();
     test_mod_inverse<long long>();
     test_mod_inverse<int128_t>();
+    test_mod_inverse<int256_t>();
 }
