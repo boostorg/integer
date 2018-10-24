@@ -8,11 +8,12 @@
 #define BOOST_INTEGER_EXTENDED_EUCLIDEAN_HPP
 #include <tuple>
 #include <limits>
+#include <stdexcept>
+#include <boost/throw_exception.hpp>
 
 namespace boost { namespace integer {
 
 // From "The Joy of Factoring", Algorithm 2.7.
-// Should the tuple be a named tuple? Is that possible?
 // Solves mx + ny = gcd(m,n). Returns tuple with (gcd(m,n), x, y).
 // Is this the natural ordering?, or must people simply have to read the docs?
 template<class Z>
@@ -27,7 +28,7 @@ std::tuple<Z, Z, Z> extended_euclidean(Z m, Z n)
 
     if (m < 1 || n < 1)
     {
-        throw std::domain_error("Arguments must be strictly positive.\n");
+        BOOST_THROW_EXCEPTION(std::domain_error("Arguments must be strictly positive.\n"));
     }
     bool swapped = false;
     if (m < n)

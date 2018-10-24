@@ -73,7 +73,10 @@ template<class Z>
 void test_trial_multiplication_with_prime_modulus()
 {
     std::cout << "Testing trial multiplication with prime modulus on type " << boost::typeindex::type_id<Z>().pretty_name() << "\n";
-    for (Z i = 0; i < boost::math::max_prime; ++i)
+    // There are roughly 10,000 primes in the boost.math prime table,
+    // so this test could run indefinitely. I leave the syntax to get the test to run
+    // for years as commented-out code, since ideally we would test every input.
+    for (Z i = 0; i < 10 /*boost::math::max_prime*/; ++i)
     {
         Z modulus = boost::math::prime(i);
         for (Z base = 2; base < modulus; ++base)
@@ -95,7 +98,7 @@ template<class Z>
 void test_bsgs_with_prime_modulus()
 {
     std::cout << "Testing baby-step, giant-step with prime modulus on type " << boost::typeindex::type_id<Z>().pretty_name() << "\n";
-    for (Z i = 0; i < boost::math::max_prime; ++i)
+    for (Z i = 0; i < 10 /*boost::math::max_prime*/; ++i)
     {
         Z p = boost::math::prime(i);
         for (Z j = 2; j < p; ++j)
@@ -116,7 +119,7 @@ void test_bsgs_with_prime_modulus()
 BOOST_AUTO_TEST_CASE(discrete_log_test)
 {
     test_trial_multiplication_discrete_log<size_t>();
-    test_bsgs_discrete_log<int>();
+    test_bsgs_discrete_log<long long>();
     test_trial_multiplication_with_prime_modulus<long long>();
     test_bsgs_with_prime_modulus<long long>();
 }

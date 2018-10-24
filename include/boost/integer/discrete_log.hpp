@@ -9,10 +9,12 @@
 
 #ifndef BOOST_INTEGER_DISCRETE_LOG_HPP
 #define BOOST_INTEGER_DISCRETE_LOG_HPP
+#include <stdexcept>
 #include <limits>
+#include <sstream>
 #include <unordered_map>
+#include <boost/throw_exception.hpp>
 #include <boost/optional.hpp>
-#include <boost/format.hpp>
 #include <boost/multiprecision/integer.hpp>
 #include <boost/integer/common_factor_rt.hpp>
 #include <boost/integer/mod_inverse.hpp>
@@ -23,36 +25,41 @@ namespace boost { namespace integer {
 template<class Z>
 boost::optional<Z> trial_multiplication_discrete_log(Z base, Z arg, Z modulus)
 {
-    using std::numeric_limits;
-    static_assert(numeric_limits<Z>::is_integer,
-                 "The discrete log works on integral types.\n");
-
     if (base <= 1)
     {
-        auto e = boost::format("The base b is %1%, but must be > 1.\n") % base;
-        throw std::domain_error(e.str());
+        std::ostringstream oss;
+        oss << "The base b is " << base << ", but must be > 1.\n";
+        BOOST_THROW_EXCEPTION(std::domain_error(oss.str()));
     }
     if (modulus < 3)
     {
-        auto e = boost::format("The modulus must be > 2, but is %1%") % modulus;
-        throw std::domain_error(e.str());
+        std::ostringstream oss;
+        oss << "The modulus must be > 2, but is " << modulus << ".\n";
+        BOOST_THROW_EXCEPTION(std::domain_error(oss.str()));
     }
     if (arg < 1)
     {
-        auto e = boost::format("The argument must be > 0, but is %1%") % arg;
-        throw std::domain_error(e.str());
+        std::ostringstream oss;
+        oss << "The argument must be > 0, but is " << arg << ".\n";
+        BOOST_THROW_EXCEPTION(std::domain_error(oss.str()));
     }
     if (base >= modulus || arg >= modulus)
     {
         if (base >= modulus)
         {
-            auto e = boost::format("Error computing the discrete log: The base %1% is greater than the modulus %2%. Are the arguments in the wrong order?") % base % modulus;
-            throw std::domain_error(e.str());
+            std::ostringstream oss;
+            oss << "Error computing the discrete log: The base " << base
+                << " is greater than the modulus " << modulus
+                << ". Are the arguments in the wrong order?";
+            BOOST_THROW_EXCEPTION(std::domain_error(oss.str()));
         }
         if (arg >= modulus)
         {
-            auto e = boost::format("Error computing the discrete log: The argument %1% is greater than the modulus %2%. Are the arguments in the wrong order?") % arg % modulus;
-            throw std::domain_error(e.str());
+            std::ostringstream oss;
+            oss << "Error computing the discrete log: The argument " << arg
+                << " is greater than the modulus " << modulus
+                << ". Are the arguments in the wrong order?";
+            BOOST_THROW_EXCEPTION(std::domain_error(oss.str()));
         }
     }
 
@@ -86,15 +93,15 @@ public:
 
         if (base <= 1)
         {
-            throw std::logic_error("The base must be > 1.\n");
+            BOOST_THROW_EXCEPTION(std::logic_error("The base must be > 1.\n"));
         }
         if (modulus < 3)
         {
-            throw std::logic_error("The modulus must be > 2.\n");
+            BOOST_THROW_EXCEPTION(std::logic_error("The modulus must be > 2.\n"));
         }
         if (base >= modulus)
         {
-            throw std::logic_error("Error computing the discrete log: Are your arguments in the wrong order?\n");
+            BOOST_THROW_EXCEPTION(std::logic_error("Error computing the discrete log: Are your arguments in the wrong order?\n"));
         }
         m_root_p = boost::multiprecision::sqrt(modulus);
         if (m_root_p*m_root_p != modulus)
@@ -102,12 +109,16 @@ public:
             m_root_p += 1;
         }
 
-        auto x = mod_inverse(base, modulus);
+        boost::optional<Z> x = mod_inverse(base, modulus);
         if (!x)
         {
-            auto d = boost::integer::gcd(base, modulus);
-            auto e = boost::format("The gcd of the base %1% and the modulus %2% is %3% != 1, hence the discrete log is not guaranteed to exist, which breaks the baby-step giant step algorithm. If you don't require existence proof for all inputs, use trial multiplication.\n") % base % modulus % d;
-            throw std::logic_error(e.str());
+            Z d = boost::integer::gcd(base, modulus);
+            std::ostringstream oss;
+            oss << "The gcd of the base " << base << " and the modulus " << modulus << " is " << d
+                << ", which is not equal 1; hence the discrete log is not guaranteed to exist.\n"
+                << "This breaks the baby-step giant step algorithm.\n"
+                << "If you don't require existence for all inputs, use trial multiplication.\n";
+            BOOST_THROW_EXCEPTION(std::logic_error(oss.str()));
         }
         m_inv_base_pow_m = boost::multiprecision::powm(x.value(), m_root_p, modulus);
 

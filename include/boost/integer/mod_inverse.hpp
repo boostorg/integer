@@ -6,7 +6,8 @@
  */
 #ifndef BOOST_INTEGER_MOD_INVERSE_HPP
 #define BOOST_INTEGER_MOD_INVERSE_HPP
-#include <limits>
+#include <stdexcept>
+#include <boost/throw_exception.hpp>
 #include <boost/optional.hpp>
 #include <boost/integer/extended_euclidean.hpp>
 
@@ -18,15 +19,13 @@ namespace boost { namespace integer {
 // mpz_invert (gmplib)
 // modinv (some dude on stackoverflow)
 // Would mod_inverse be sometimes mistaken as the modular *additive* inverse?
+// In any case, I think this is the best name we can get for this function without agonizing.
 template<class Z>
 boost::optional<Z> mod_inverse(Z a, Z modulus)
 {
-    using std::numeric_limits;
-    static_assert(numeric_limits<Z>::is_integer,
-                  "The modular multiplicative inverse works on integral types.\n");
     if (modulus < 2)
     {
-        throw std::domain_error("Modulus must be > 1.\n");
+        BOOST_THROW_EXCEPTION(std::domain_error("Modulus must be > 1.\n"));
     }
     // make sure a < modulus:
     a = a % modulus;
