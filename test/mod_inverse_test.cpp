@@ -19,7 +19,7 @@ template<class Z>
 void test_mod_inverse()
 {
     std::cout << "Testing the modular multiplicative inverse on type " << boost::typeindex::type_id<Z>().pretty_name() << "\n";
-    Z max_arg = 1000;
+    Z max_arg = 500;
     for (Z modulus = 2; modulus < max_arg; ++modulus)
     {
         for (Z a = 1; a < max_arg; ++a)

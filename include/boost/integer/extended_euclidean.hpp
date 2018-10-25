@@ -16,8 +16,16 @@ namespace boost { namespace integer {
 // From "The Joy of Factoring", Algorithm 2.7.
 // Solves mx + ny = gcd(m,n). Returns tuple with (gcd(m,n), x, y).
 // Is this the natural ordering?, or must people simply have to read the docs?
+
 template<class Z>
-std::tuple<Z, Z, Z> extended_euclidean(Z m, Z n)
+struct euclidean_result_t {
+  Z gcd;
+  Z x;
+  Z y;
+};
+
+template<class Z>
+euclidean_result_t<Z> extended_euclidean(Z m, Z n)
 {
     using std::numeric_limits;
     static_assert(numeric_limits<Z>::is_integer,
@@ -68,7 +76,7 @@ std::tuple<Z, Z, Z> extended_euclidean(Z m, Z n)
         BOOST_ASSERT(u1*m+u2*n==u0);
     }
 
-    return std::make_tuple(u0, u1, u2);
+    return {u0, u1, u2};
 }
 
 }}

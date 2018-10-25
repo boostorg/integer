@@ -12,8 +12,16 @@ The extended Euclidean algorithm solves the integer relation /mx + ny/ = gcd(/m/
 
     namespace boost { namespace integer {
 
-        template<class Z>
-        std::tuple<Z, Z, Z> extended_euclidean(Z m, Z n);
+    template<class Z>
+    struct euclidean_result_t {
+      Z gcd;
+      Z x;
+      Z y;
+    };
+
+
+    template<class Z>
+    euclidean_result_t<Z> extended_euclidean(Z m, Z n);
 
     }}
 
@@ -21,16 +29,14 @@ The extended Euclidean algorithm solves the integer relation /mx + ny/ = gcd(/m/
 
 [section Usage]
 
-The tuple returned by the extended Euclidean algorithm contains, the greatest common divisor, /x/, and /y/, in that order:
-
     int m = 12;
     int n = 15;
-    auto tup = extended_euclidean(m, n);
+    auto res = extended_euclidean(m, n);
 
-    int gcd = std::get<0>(tup);
-    int x = std::get<1>(tup);
-    int y = std::get<2>(tup);
-    // mx + ny = gcd(m,n)
+    int gcd = res.gcd;
+    int x = res.x;
+    int y = res.y;
+    // mx + ny = gcd(m,n) should now hold
 
 [endsect]
 

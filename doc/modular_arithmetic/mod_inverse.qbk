@@ -13,8 +13,8 @@ A fast algorithm for computing modular multiplicative inverses based on the exte
 
     namespace boost { namespace integer {
 
-      template<class Z>
-      boost::optional<Z> mod_inverse(Z a, Z p);
+    template<class Z>
+    boost::optional<Z> mod_inverse(Z a, Z p);
 
     }}
 

@@ -18,16 +18,16 @@ template<class Z>
 void test_extended_euclidean()
 {
     std::cout << "Testing the extended Euclidean algorithm on type " << boost::typeindex::type_id<Z>().pretty_name() << "\n";
-    Z max_arg = 1000;
+    Z max_arg = 500;
     for (Z m = 1; m < max_arg; ++m)
     {
         for (Z n = 1; n < max_arg; ++n)
         {
-            std::tuple<Z, Z, Z> u = extended_euclidean(m, n);
+            boost::integer::euclidean_result_t u = extended_euclidean(m, n);
             Z gcdmn = gcd(m, n);
-            Z x = std::get<1>(u);
-            Z y = std::get<2>(u);
-            BOOST_CHECK_EQUAL(std::get<0>(u), gcdmn);
+            Z x = u.x;
+            Z y = u.y;
+            BOOST_CHECK_EQUAL(u.gcd, gcdmn);
             BOOST_CHECK_EQUAL(m*x + n*y, gcdmn);
         }
     }
