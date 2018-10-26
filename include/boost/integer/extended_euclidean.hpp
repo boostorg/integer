@@ -6,12 +6,9 @@
  */
 #ifndef BOOST_INTEGER_EXTENDED_EUCLIDEAN_HPP
 #define BOOST_INTEGER_EXTENDED_EUCLIDEAN_HPP
-#include <tuple>
 #include <limits>
 #include <stdexcept>
 #include <boost/throw_exception.hpp>
-#include <boost/assert.hpp>
-#include <iostream>
 
 namespace boost { namespace integer {
 
@@ -71,14 +68,8 @@ euclidean_result_t<Z> extended_euclidean(Z m, Z n)
 
     if (swapped)
     {
-        std::swap(u1, u2);
-        BOOST_ASSERT(u2*m+u1*n==u0);
+        return {u0, u2, u2};
     }
-    else
-    {
-        BOOST_ASSERT(u1*m+u2*n==u0);
-    }
-
     return {u0, u1, u2};
 }
 

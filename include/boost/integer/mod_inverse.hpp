@@ -35,20 +35,19 @@ boost::optional<Z> mod_inverse(Z a, Z modulus)
         return {};
     }
     euclidean_result_t<Z> u = extended_euclidean(a, modulus);
-    Z gcd = u.gcd;
-    if (gcd > 1)
+    if (u.gcd > 1)
     {
         return {};
     }
-    Z x = u.x;
-    x = x % modulus;
     // x might not be in the range 0 < x < m, let's fix that:
-    while (x <= 0)
+    while (u.x <= 0)
     {
-        x += modulus;
+        u.x += modulus;
     }
-    BOOST_ASSERT(x*a % modulus == 1);
-    return x;
+    // While indeed this is an inexpensive and comforting check,
+    // the multiplication overflows and hence makes the check itself buggy.
+    //BOOST_ASSERT(u.x*a % modulus == 1);
+    return u.x;
 }
 
 }}

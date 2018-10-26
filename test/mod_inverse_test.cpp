@@ -19,10 +19,15 @@ template<class Z>
 void test_mod_inverse()
 {
     std::cout << "Testing the modular multiplicative inverse on type " << boost::typeindex::type_id<Z>().pretty_name() << "\n";
+    //Z max_arg = std::numeric_limits<Z>::max();
     Z max_arg = 500;
     for (Z modulus = 2; modulus < max_arg; ++modulus)
     {
-        for (Z a = 1; a < max_arg; ++a)
+        if (modulus % 1000 == 0)
+        {
+            std::cout << "Testing all inverses modulo " << modulus << std::endl;
+        }
+        for (Z a = 1; a < modulus; ++a)
         {
             Z gcdam = gcd(a, modulus);
             boost::optional<Z> inv_a = mod_inverse(a, modulus);
@@ -34,7 +39,11 @@ void test_mod_inverse()
             else
             {
                 BOOST_CHECK(inv_a.value() > 0);
-                Z outta_be_one = (inv_a.value()*a) % modulus;
+                // Cast to a bigger type so the multiplication won't overflow.
+                int256_t a_inv = inv_a.value();
+                int256_t big_a = a;
+                int256_t m = modulus;
+                int256_t outta_be_one = (a_inv*big_a) % m;
                 BOOST_CHECK_EQUAL(outta_be_one, 1);
             }
         }
@@ -43,10 +52,8 @@ void test_mod_inverse()
 
 BOOST_AUTO_TEST_CASE(mod_inverse_test)
 {
-    test_mod_inverse<short int>();
-    test_mod_inverse<int>();
-    test_mod_inverse<long>();
-    test_mod_inverse<long long>();
+    test_mod_inverse<int16_t>();
+    test_mod_inverse<int32_t>();
+    test_mod_inverse<int64_t>();
     test_mod_inverse<int128_t>();
-    test_mod_inverse<int256_t>();
 }
