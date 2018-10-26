@@ -26,7 +26,7 @@ void test_extended_euclidean()
     {
         for (Z n = m; n > 0; --n)
         {
-            boost::integer::euclidean_result_t u = extended_euclidean(m, n);
+            boost::integer::euclidean_result_t<Z> u = extended_euclidean(m, n);
             int256_t gcdmn = gcd(m, n);
             int256_t x = u.x;
             int256_t y = u.y;

@@ -16,7 +16,6 @@ test-suite integer
         [ run integer_mask_test.cpp ]
         [ run static_log2_test.cpp ]
         [ run static_min_max_test.cpp ]
-        [ run discrete_log_test.cpp ]
         [ run extended_euclidean_test.cpp ]
         [ run mod_inverse_test.cpp ]
         [ compile integer_traits_include_test.cpp ]
