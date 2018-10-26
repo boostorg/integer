@@ -10,6 +10,8 @@
 #include <limits>
 #include <stdexcept>
 #include <boost/throw_exception.hpp>
+#include <boost/assert.hpp>
+#include <iostream>
 
 namespace boost { namespace integer {
 
@@ -38,26 +40,46 @@ euclidean_result_t<Z> extended_euclidean(Z m, Z n)
         BOOST_THROW_EXCEPTION(std::domain_error("Arguments must be strictly positive.\n"));
     }
 
-    Z s = 0;
-    Z old_s = 1;
-    Z r = n;
-    Z old_r = m;
-
-    while (r != 0) {
-      Z q = old_r/r;
-      Z tmp = r;
-      r = old_r - q*tmp;
-      old_r = tmp;
-
-      tmp = s;
-      s = old_s - q*tmp;
-      old_s = tmp;
+    bool swapped = false;
+    if (m < n)
+    {
+      swapped = true;
+      std::swap(m, n);
+    }
+    Z u0 = m;
+    Z u1 = 1;
+    Z u2 = 0;
+    Z v0 = n;
+    Z v1 = 0;
+    Z v2 = 1;
+    Z w0;
+    Z w1;
+    Z w2;
+    while(v0 > 0)
+    {
+      Z q = u0/v0;
+      w0 = u0 - q*v0;
+      w1 = u1 - q*v1;
+      w2 = u2 - q*v2;
+      u0 = v0;
+      u1 = v1;
+      u2 = v2;
+      v0 = w0;
+      v1 = w1;
+      v2 = w2;
     }
 
-    Z y = (old_r - old_s*m)/n;
+    if (swapped)
+    {
+        std::swap(u1, u2);
+        BOOST_ASSERT(u2*m+u1*n==u0);
+    }
+    else
+    {
+        BOOST_ASSERT(u1*m+u2*n==u0);
+    }
 
-    BOOST_ASSERT(old_s*m+y*n==old_r);
-    return {old_r, old_s, y};
+    return {u0, u1, u2};
 }
 
 }}
