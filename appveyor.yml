@@ -68,6 +68,7 @@ install:
   - git submodule update --init libs/move
   - git submodule update --init libs/functional
   - git submodule update --init libs/random
+  - git submodule update --init libs/io
   - git submodule update --init libs/utility
   - xcopy /s /e /q %APPVEYOR_BUILD_FOLDER% libs\integer
   - bootstrap
