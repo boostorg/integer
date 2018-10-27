@@ -341,8 +341,7 @@ install:
 script:
   - |-
     echo "using $TOOLSET : : $COMPILER : <cxxflags>-std=$CXXSTD ;" > ~/user-config.jam
-  - (cd libs/config/test && ../../../b2 config_info_travis_install toolset=$TOOLSET && ./config_info_travis)
-  - (cd libs/integer/test && ../../../b2 libs/integer/test toolset=$TOOLSET)
+  - ./b2 libs/integer/test toolset=$TOOLSET
 
 notifications:
   email:

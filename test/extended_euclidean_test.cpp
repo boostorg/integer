@@ -4,8 +4,8 @@
  *  Boost Software License, Version 1.0. (See accompanying file
  *  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
  */
-#define BOOST_TEST_MODULE extended_euclidean_test
-#include <boost/test/included/unit_test.hpp>
+#include <cassert>
+#include <boost/type_index.hpp>
 #include <boost/multiprecision/cpp_int.hpp>
 #include <boost/integer/common_factor.hpp>
 #include <boost/integer/extended_euclidean.hpp>
@@ -30,18 +30,20 @@ void test_extended_euclidean()
             int256_t gcdmn = gcd(m, n);
             int256_t x = u.x;
             int256_t y = u.y;
-            BOOST_CHECK_EQUAL(u.gcd, gcdmn);
-            BOOST_CHECK_EQUAL(m*x + n*y, gcdmn);
+            assert(u.gcd == gcdmn);
+            assert(m*x + n*y == gcdmn);
         }
     }
 }
 
 
 
-BOOST_AUTO_TEST_CASE(extended_euclidean_test)
+int main()
 {
     test_extended_euclidean<int16_t>();
     test_extended_euclidean<int32_t>();
     test_extended_euclidean<int64_t>();
     test_extended_euclidean<int128_t>();
+
+    return 0;
 }

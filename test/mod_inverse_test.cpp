@@ -4,8 +4,8 @@
  *  Boost Software License, Version 1.0. (See accompanying file
  *  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
  */
-#define BOOST_TEST_MODULE mod_inverse_test
-#include <boost/test/included/unit_test.hpp>
+#include <cassert>
+#include <boost/type_index.hpp>
 #include <boost/multiprecision/cpp_int.hpp>
 #include <boost/integer/common_factor.hpp>
 #include <boost/integer/mod_inverse.hpp>
@@ -34,26 +34,28 @@ void test_mod_inverse()
             // Should fail if gcd(a, mod) != 1:
             if (gcdam > 1)
             {
-                BOOST_CHECK(!inv_a);
+                assert(!inv_a);
             }
             else
             {
-                BOOST_CHECK(inv_a.value() > 0);
+                assert(inv_a.value() > 0);
                 // Cast to a bigger type so the multiplication won't overflow.
                 int256_t a_inv = inv_a.value();
                 int256_t big_a = a;
                 int256_t m = modulus;
                 int256_t outta_be_one = (a_inv*big_a) % m;
-                BOOST_CHECK_EQUAL(outta_be_one, 1);
+                assert(outta_be_one == 1);
             }
         }
     }
 }
 
-BOOST_AUTO_TEST_CASE(mod_inverse_test)
+int main()
 {
     test_mod_inverse<int16_t>();
     test_mod_inverse<int32_t>();
     test_mod_inverse<int64_t>();
     test_mod_inverse<int128_t>();
+
+    return 0;
 }
