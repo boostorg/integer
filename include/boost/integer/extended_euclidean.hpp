@@ -68,7 +68,7 @@ euclidean_result_t<Z> extended_euclidean(Z m, Z n)
 
     if (swapped)
     {
-        return {u0, u2, u2};
+        return {u0, u2, u1};
     }
     return {u0, u1, u2};
 }

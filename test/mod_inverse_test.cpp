@@ -5,7 +5,6 @@
  *  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
  */
 #include <cassert>
-#include <boost/type_index.hpp>
 #include <boost/multiprecision/cpp_int.hpp>
 #include <boost/integer/common_factor.hpp>
 #include <boost/integer/mod_inverse.hpp>
@@ -18,7 +17,6 @@ using boost::integer::gcd;
 template<class Z>
 void test_mod_inverse()
 {
-    std::cout << "Testing the modular multiplicative inverse on type " << boost::typeindex::type_id<Z>().pretty_name() << "\n";
     //Z max_arg = std::numeric_limits<Z>::max();
     Z max_arg = 500;
     for (Z modulus = 2; modulus < max_arg; ++modulus)
