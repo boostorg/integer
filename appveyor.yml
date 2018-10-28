@@ -65,6 +65,7 @@ install:
   - git submodule update --init libs/numeric
   - git submodule update --init libs/array
   - git submodule update --init libs/container
+  - git submodule update --init libs/container_hash
   - git submodule update --init libs/move
   - git submodule update --init libs/functional
   - git submodule update --init libs/random
