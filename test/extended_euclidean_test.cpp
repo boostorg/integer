@@ -4,6 +4,8 @@
  *  Boost Software License, Version 1.0. (See accompanying file
  *  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
  */
+// A bug in gcc 4.8, not worth fixing, causes this to fail on gcc4.8.
+#if __GNUC__ > 4
 #include <cassert>
 #include <boost/multiprecision/cpp_int.hpp>
 #include <boost/integer/common_factor.hpp>
@@ -45,3 +47,4 @@ int main()
 
     return 0;
 }
+#endif

@@ -38,6 +38,8 @@ The extended Euclidean algorithm solves the integer relation /mx + ny/ = gcd(/m/
     int y = res.y;
     // mx + ny = gcd(m,n) should now hold
 
+Unlike most of the library, the extended Euclidean algorithm requires C++11 features.
+
 [endsect]
 
 [section References]
