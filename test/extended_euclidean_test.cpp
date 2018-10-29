@@ -11,7 +11,7 @@
 #endif
 
 #ifndef DISABLE_MP_TESTS
-#include <cassert>
+#include <boost/core/lightweight_test.hpp>
 #include <boost/multiprecision/cpp_int.hpp>
 #include <boost/integer/common_factor.hpp>
 #include <boost/integer/extended_euclidean.hpp>
@@ -35,8 +35,8 @@ void test_extended_euclidean()
             int256_t gcdmn = gcd(m, n);
             int256_t x = u.x;
             int256_t y = u.y;
-            assert(u.gcd == gcdmn);
-            assert(m*x + n*y == gcdmn);
+            BOOST_TEST_EQ(u.gcd, gcdmn);
+            BOOST_TEST_EQ(m*x + n*y, gcdmn);
         }
     }
 }
@@ -50,7 +50,7 @@ int main()
     test_extended_euclidean<int64_t>();
     test_extended_euclidean<int128_t>();
 
-    return 0;
+    return boost::report_errors();;
 }
 #else
 int main()

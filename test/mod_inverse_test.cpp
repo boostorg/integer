@@ -11,7 +11,7 @@
 #endif
 
 #ifndef DISABLE_MP_TESTS
-#include <cassert>
+#include <boost/core/lightweight_test.hpp>
 #include <boost/multiprecision/cpp_int.hpp>
 #include <boost/integer/common_factor.hpp>
 #include <boost/integer/mod_inverse.hpp>
@@ -39,17 +39,17 @@ void test_mod_inverse()
             // Should fail if gcd(a, mod) != 1:
             if (gcdam > 1)
             {
-                assert(!inv_a);
+                BOOST_TEST(!inv_a);
             }
             else
             {
-                assert(inv_a.value() > 0);
+                BOOST_TEST(inv_a.value() > 0);
                 // Cast to a bigger type so the multiplication won't overflow.
                 int256_t a_inv = inv_a.value();
                 int256_t big_a = a;
                 int256_t m = modulus;
                 int256_t outta_be_one = (a_inv*big_a) % m;
-                assert(outta_be_one == 1);
+                BOOST_TEST_EQ(outta_be_one, 1);
             }
         }
     }
@@ -62,7 +62,7 @@ int main()
     test_mod_inverse<int64_t>();
     test_mod_inverse<int128_t>();
 
-    return 0;
+    return boost::report_errors();
 }
 #else
 int main()

@@ -22,15 +22,13 @@ struct euclidean_result_t {
   Z y;
 };
 
-using std::numeric_limits;
-
 template<class Z>
-euclidean_result_t<typename std::enable_if<numeric_limits< Z >::is_signed, Z>::type>
+euclidean_result_t<typename std::enable_if<std::numeric_limits< Z >::is_signed, Z>::type>
 extended_euclidean(Z m, Z n)
 {
     if (m < 1 || n < 1)
     {
-        BOOST_THROW_EXCEPTION(std::domain_error("Arguments must be strictly positive.\n"));
+        BOOST_THROW_EXCEPTION(std::domain_error("Arguments must be strictly positive."));
     }
 
     bool swapped = false;

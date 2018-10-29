@@ -25,7 +25,7 @@ boost::optional<Z> mod_inverse(Z a, Z modulus)
 {
     if (modulus < 2)
     {
-        BOOST_THROW_EXCEPTION(std::domain_error("Modulus must be > 1.\n"));
+        BOOST_THROW_EXCEPTION(std::domain_error("Modulus must be > 1."));
     }
     // make sure a < modulus:
     a = a % modulus;
