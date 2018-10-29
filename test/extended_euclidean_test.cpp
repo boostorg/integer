@@ -22,7 +22,7 @@ void test_extended_euclidean()
     Z max_arg = 500;
     for (Z m = max_arg; m > 0; --m)
     {
-        for (Z n = m; n > 0; --n)
+        for (Z n = max_arg; n > 0; --n)
         {
             boost::integer::euclidean_result_t<Z> u = extended_euclidean(m, n);
             int256_t gcdmn = gcd(m, n);

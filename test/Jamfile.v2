@@ -3,6 +3,7 @@
 #~ (See accompanying file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
 import testing ;
+import ../../config/checks/config : requires ;
 
 project : requirements <warnings>all <toolset>gcc:<cxxflags>-Wextra ;
 
@@ -16,8 +17,8 @@ test-suite integer
         [ run integer_mask_test.cpp ]
         [ run static_log2_test.cpp ]
         [ run static_min_max_test.cpp ]
-        [ run extended_euclidean_test.cpp ]
-        [ run mod_inverse_test.cpp ]
+        [ run extended_euclidean_test.cpp : : : [ requires cxx11_unified_initialization_syntax ] ]
+        [ run mod_inverse_test.cpp : : : [ requires cxx11_unified_initialization_syntax ]  ]
         [ compile integer_traits_include_test.cpp ]
         [ compile integer_include_test.cpp ]
         [ compile integer_mask_include_test.cpp ]
