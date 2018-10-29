@@ -22,16 +22,12 @@ struct euclidean_result_t {
   Z y;
 };
 
+using std::numeric_limits;
+
 template<class Z>
-euclidean_result_t<Z> extended_euclidean(Z m, Z n)
+euclidean_result_t<typename std::enable_if<numeric_limits< Z >::is_signed, Z>::type>
+extended_euclidean(Z m, Z n)
 {
-    using std::numeric_limits;
-    static_assert(numeric_limits<Z>::is_integer,
-                  "The extended Euclidean algorithm works on integral types.\n");
-
-    static_assert(numeric_limits<Z>::is_signed,
-                  "The extended Euclidean algorithm only works on signed integer types.\n");
-
     if (m < 1 || n < 1)
     {
         BOOST_THROW_EXCEPTION(std::domain_error("Arguments must be strictly positive.\n"));
