@@ -136,7 +136,7 @@ matrix:
             - llvm-toolchain-precise-3.7
 
     - os: linux
-      env: TOOLSET=clang COMPILER=clang++-3.8 CXXSTD=03,11,14,1z
+      env: TOOLSET=clang COMPILER=clang++-3.8 CXXSTD=03,11
       addons:
         apt:
           packages:
@@ -146,7 +146,7 @@ matrix:
             - llvm-toolchain-precise-3.8
 
     - os: linux
-      env: TOOLSET=clang COMPILER=clang++-3.9 CXXSTD=03,11,14,1z
+      env: TOOLSET=clang COMPILER=clang++-3.9 CXXSTD=03,11
       addons:
         apt:
           packages:
