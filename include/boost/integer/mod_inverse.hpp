@@ -32,12 +32,12 @@ boost::optional<Z> mod_inverse(Z a, Z modulus)
     if (a == 0)
     {
         // a doesn't have a modular multiplicative inverse:
-        return {};
+        return boost::none;
     }
     euclidean_result_t<Z> u = extended_euclidean(a, modulus);
     if (u.gcd > 1)
     {
-        return {};
+        return boost::none;
     }
     // x might not be in the range 0 < x < m, let's fix that:
     while (u.x <= 0)

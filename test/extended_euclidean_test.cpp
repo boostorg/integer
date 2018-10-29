@@ -4,8 +4,13 @@
  *  Boost Software License, Version 1.0. (See accompanying file
  *  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
  */
-// A bug in gcc 4.8, not worth fixing, causes this to fail on gcc4.8.
-#if __GNUC__ > 4
+#if (defined(BOOST_MSVC) && (BOOST_MSVC < 1500)) || \
+     (defined(__clang_major__) && (__clang_major__ == 3) && (__clang_minor__ < 2)) || \
+     (defined(BOOST_GCC) && defined(BOOST_GCC_CXX11) && BOOST_GCC < 40800)
+#define DISABLE_MP_TESTS
+#endif
+
+#ifndef DISABLE_MP_TESTS
 #include <cassert>
 #include <boost/multiprecision/cpp_int.hpp>
 #include <boost/integer/common_factor.hpp>
