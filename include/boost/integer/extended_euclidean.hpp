@@ -37,7 +37,8 @@ extended_euclidean(Z m, Z n)
     if (m < n)
     {
       swapped = true;
-      std::swap(m, n);
+      using std::swap;
+      swap(m, n);
     }
     Z u0 = m;
     Z u1 = 1;
