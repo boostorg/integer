@@ -20,6 +20,11 @@ compile-time value; and computing min and max of constant expressions.
 * [Report bugs](https://github.com/boostorg/integer/issues/new). Be sure to mention Boost version, platform and compiler you're using. A small compilable code sample to reproduce the problem is always good as well.
 * Submit your patches as pull requests against **develop** branch. Note that by submitting patches you agree to license your modifications under the [Boost Software License, Version 1.0](http://www.boost.org/LICENSE_1_0.txt).
 
+### Build status
+
+Master: [![AppVeyor](https://ci.appveyor.com/api/projects/status/iugyf5rf51n99g3w?svg=true)](https://ci.appveyor.com/project/Lastique/integer/branch/master) [![Travis CI](https://travis-ci.org/boostorg/integer.svg?branch=master)](https://travis-ci.org/boostorg/integer)
+Develop: [![AppVeyor](https://ci.appveyor.com/api/projects/status/iugyf5rf51n99g3w/branch/develop?svg=true)](https://ci.appveyor.com/project/Lastique/integer/branch/develop) [![Travis CI](https://travis-ci.org/boostorg/integer.svg?branch=develop)](https://travis-ci.org/boostorg/integer)
+
 ### License
 
 Distributed under the [Boost Software License, Version 1.0](http://www.boost.org/LICENSE_1_0.txt).
