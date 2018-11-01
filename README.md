@@ -12,7 +12,7 @@ compile-time value; and computing min and max of constant expressions.
 
 * **doc** - QuickBook documentation sources
 * **include** - Interface headers of Boost.Integer
-* **test** - Boost.Atomic unit tests
+* **test** - Boost.Integer unit tests
 
 ### More information
 
