@@ -6,7 +6,7 @@
  */
 #if (defined(BOOST_MSVC) && (BOOST_MSVC < 1500)) || \
       (defined(__clang_major__) && (__clang_major__ == 3) && (__clang_minor__ < 2)) || \
-      (defined(BOOST_GCC) && defined(BOOST_GCC_CXX11) && BOOST_GCC < 40800)
+      (defined(BOOST_GCC) && defined(BOOST_GCC_CXX11) && BOOST_GCC < 50000)
 #define DISABLE_MP_TESTS
 #endif
 
