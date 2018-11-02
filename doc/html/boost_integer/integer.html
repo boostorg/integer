@@ -3,7 +3,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
 <title>Integer Type Selection</title>
 <link rel="stylesheet" href="../../../../../doc/src/boostbook.css" type="text/css">
-<meta name="generator" content="DocBook XSL Stylesheets V1.77.1">
+<meta name="generator" content="DocBook XSL Stylesheets V1.79.1">
 <link rel="home" href="../index.html" title="Boost.Integer">
 <link rel="up" href="../index.html" title="Boost.Integer">
 <link rel="prev" href="traits.html" title="Integer Traits">
@@ -26,7 +26,7 @@
 <div class="titlepage"><div><div><h2 class="title" style="clear: both">
 <a name="boost_integer.integer"></a><a class="link" href="integer.html" title="Integer Type Selection">Integer Type Selection</a>
 </h2></div></div></div>
-<div class="toc"><dl>
+<div class="toc"><dl class="toc">
 <dt><span class="section"><a href="integer.html#boost_integer.integer.synopsis">Synopsis</a></span></dt>
 <dt><span class="section"><a href="integer.html#boost_integer.integer.easiest">Easiest-to-Manipulate
       Types</a></span></dt>
@@ -353,10 +353,10 @@
 <span class="special">{</span>
     <span class="identifier">boost</span><span class="special">::</span><span class="identifier">int_t</span><span class="special">&lt;</span><span class="number">24</span><span class="special">&gt;::</span><span class="identifier">least</span> <span class="identifier">my_var</span><span class="special">;</span>  <span class="comment">// my_var has at least 24-bits</span>
     <span class="comment">//...</span>
-    <span class="comment">// This one is guarenteed not to be truncated:</span>
+    <span class="comment">// This one is guaranteed not to be truncated:</span>
     <span class="identifier">boost</span><span class="special">::</span><span class="identifier">int_max_value_t</span><span class="special">&lt;</span><span class="number">1000</span><span class="special">&gt;::</span><span class="identifier">least</span> <span class="identifier">my1000</span> <span class="special">=</span> <span class="number">1000</span><span class="special">;</span>
     <span class="comment">//...</span>
-    <span class="comment">// This one is guarenteed not to be truncated, and as fast</span>
+    <span class="comment">// This one is guaranteed not to be truncated, and as fast</span>
     <span class="comment">// to manipulate as possible, its size may be greater than</span>
     <span class="comment">// that of my1000:</span>
     <span class="identifier">boost</span><span class="special">::</span><span class="identifier">int_max_value_t</span><span class="special">&lt;</span><span class="number">1000</span><span class="special">&gt;::</span><span class="identifier">fast</span> <span class="identifier">my_fast1000</span> <span class="special">=</span> <span class="number">1000</span><span class="special">;</span>
