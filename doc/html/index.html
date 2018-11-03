@@ -3,7 +3,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
 <title>Boost.Integer</title>
 <link rel="stylesheet" href="../../../../doc/src/boostbook.css" type="text/css">
-<meta name="generator" content="DocBook XSL Stylesheets V1.77.1">
+<meta name="generator" content="DocBook XSL Stylesheets V1.79.1">
 <link rel="home" href="index.html" title="Boost.Integer">
 <link rel="next" href="boost_integer/traits.html" title="Integer Traits">
 </head>
@@ -50,12 +50,14 @@
 </div>
 <div class="toc">
 <p><b>Table of Contents</b></p>
-<dl>
+<dl class="toc">
 <dt><span class="section"><a href="index.html#boost_integer.overview">Overview</a></span></dt>
 <dt><span class="section"><a href="boost_integer/traits.html">Integer Traits</a></span></dt>
 <dt><span class="section"><a href="boost_integer/integer.html">Integer Type Selection</a></span></dt>
 <dt><span class="section"><a href="boost_integer/gcd_lcm.html">Greatest Common Divisor and Least
     Common Multiple</a></span></dt>
+<dt><span class="section"><a href="boost_integer/extended_euclidean.html">Extended Euclidean Algorithm</a></span></dt>
+<dt><span class="section"><a href="boost_integer/mod_inverse.html">Modular Multiplicative Inverse</a></span></dt>
 <dt><span class="section"><a href="boost_integer/mask.html">Integer Masks</a></span></dt>
 <dt><span class="section"><a href="boost_integer/log2.html">Compile Time log2 Calculation</a></span></dt>
 <dt><span class="section"><a href="boost_integer/minmax.html">Compile time min/max calculation</a></span></dt>
@@ -237,12 +239,50 @@
               </p>
             </td>
 </tr>
+<tr>
+<td>
+              <p>
+                <a class="link" href="boost_integer/extended_euclidean.html" title="Extended Euclidean Algorithm">Extended Euclidean
+                algorithm</a>.
+              </p>
+            </td>
+<td>
+              <p>
+                <code class="literal"><a href="../../../../boost/integer/extended_euclidean.hpp" target="_top">&lt;boost/integer/extended_euclidean.hpp&gt;</a></code>
+              </p>
+            </td>
+<td>
+              <p>
+                Solves <span class="emphasis"><em>mx + ny = gcd(x,y)</em></span> for <span class="emphasis"><em>x</em></span>
+                and <span class="emphasis"><em>y</em></span>.
+              </p>
+            </td>
+</tr>
+<tr>
+<td>
+              <p>
+                <a class="link" href="boost_integer/mod_inverse.html" title="Modular Multiplicative Inverse">Modular multiplicative
+                inverse</a>.
+              </p>
+            </td>
+<td>
+              <p>
+                <code class="literal"><a href="../../../../boost/integer/mod_inverse.hpp" target="_top">&lt;boost/integer/mod_inverse.hpp&gt;</a></code>
+              </p>
+            </td>
+<td>
+              <p>
+                Given <span class="emphasis"><em>a</em></span> and <span class="emphasis"><em>m</em></span>, solves
+                <span class="emphasis"><em>ax</em></span> = 1 mod <span class="emphasis"><em>m</em></span> for <span class="emphasis"><em>x</em></span>.
+              </p>
+            </td>
+</tr>
 </tbody>
 </table></div>
 </div>
 </div>
 <table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
-<td align="left"><p><small>Last revised: April 24, 2017 at 17:49:59 GMT</small></p></td>
+<td align="left"><p><small>Last revised: November 02, 2018 at 19:38:28 GMT</small></p></td>
 <td align="right"><div class="copyright-footer"></div></td>
 </tr></table>
 <hr>

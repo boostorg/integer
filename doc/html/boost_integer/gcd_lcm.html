@@ -3,11 +3,11 @@
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
 <title>Greatest Common Divisor and Least Common Multiple</title>
 <link rel="stylesheet" href="../../../../../doc/src/boostbook.css" type="text/css">
-<meta name="generator" content="DocBook XSL Stylesheets V1.77.1">
+<meta name="generator" content="DocBook XSL Stylesheets V1.79.1">
 <link rel="home" href="../index.html" title="Boost.Integer">
 <link rel="up" href="../index.html" title="Boost.Integer">
 <link rel="prev" href="integer.html" title="Integer Type Selection">
-<link rel="next" href="mask.html" title="Integer Masks">
+<link rel="next" href="extended_euclidean.html" title="Extended Euclidean Algorithm">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
 <table cellpadding="2" width="100%"><tr>
@@ -20,14 +20,14 @@
 </tr></table>
 <hr>
 <div class="spirit-nav">
-<a accesskey="p" href="integer.html"><img src="../../../../../doc/src/images/prev.png" alt="Prev"></a><a accesskey="u" href="../index.html"><img src="../../../../../doc/src/images/up.png" alt="Up"></a><a accesskey="h" href="../index.html"><img src="../../../../../doc/src/images/home.png" alt="Home"></a><a accesskey="n" href="mask.html"><img src="../../../../../doc/src/images/next.png" alt="Next"></a>
+<a accesskey="p" href="integer.html"><img src="../../../../../doc/src/images/prev.png" alt="Prev"></a><a accesskey="u" href="../index.html"><img src="../../../../../doc/src/images/up.png" alt="Up"></a><a accesskey="h" href="../index.html"><img src="../../../../../doc/src/images/home.png" alt="Home"></a><a accesskey="n" href="extended_euclidean.html"><img src="../../../../../doc/src/images/next.png" alt="Next"></a>
 </div>
 <div class="section">
 <div class="titlepage"><div><div><h2 class="title" style="clear: both">
 <a name="boost_integer.gcd_lcm"></a><a class="link" href="gcd_lcm.html" title="Greatest Common Divisor and Least Common Multiple">Greatest Common Divisor and Least
     Common Multiple</a>
 </h2></div></div></div>
-<div class="toc"><dl>
+<div class="toc"><dl class="toc">
 <dt><span class="section"><a href="gcd_lcm.html#boost_integer.gcd_lcm.introduction">Introduction</a></span></dt>
 <dt><span class="section"><a href="gcd_lcm.html#boost_integer.gcd_lcm.synopsis">Synopsis</a></span></dt>
 <dt><span class="section"><a href="gcd_lcm.html#boost_integer.gcd_lcm.gcd_function_object">GCD Function
@@ -38,7 +38,7 @@
       Determination</a></span></dt>
 <dt><span class="section"><a href="gcd_lcm.html#boost_integer.gcd_lcm.compile_time">Compile time GCD
       and LCM determination</a></span></dt>
-<dt><span class="section"><a href="gcd_lcm.html#boost_integer.gcd_lcm.gcd_header">Header &lt;boost/math/common_factor.hpp&gt;</a></span></dt>
+<dt><span class="section"><a href="gcd_lcm.html#boost_integer.gcd_lcm.gcd_header">Header &lt;boost/integer/common_factor.hpp&gt;</a></span></dt>
 <dt><span class="section"><a href="gcd_lcm.html#boost_integer.gcd_lcm.demo">Demonstration Program</a></span></dt>
 <dt><span class="section"><a href="gcd_lcm.html#boost_integer.gcd_lcm.rationale">Rationale</a></span></dt>
 <dt><span class="section"><a href="gcd_lcm.html#boost_integer.gcd_lcm.gcd_history">History</a></span></dt>
@@ -61,7 +61,7 @@
 </h3></div></div></div>
 <pre class="programlisting"><span class="keyword">namespace</span> <span class="identifier">boost</span>
 <span class="special">{</span>
-<span class="keyword">namespace</span> <span class="identifier">math</span>
+<span class="keyword">namespace</span> <span class="identifier">integer</span>
 <span class="special">{</span>
 
 <span class="keyword">template</span> <span class="special">&lt;</span> <span class="keyword">typename</span> <span class="identifier">IntegerType</span> <span class="special">&gt;</span>
@@ -102,10 +102,10 @@
       Object</a>
 </h3></div></div></div>
 <p>
-        <span class="bold"><strong>Header: </strong></span> <a href="../../../../../boost/math/common_factor_rt.hpp" target="_top">&lt;boost/math/common_factor_rt.hpp&gt;</a>
+        <span class="bold"><strong>Header: </strong></span> <a href="../../../../../boost/integer/common_factor_rt.hpp" target="_top">&lt;boost/integer/common_factor_rt.hpp&gt;</a>
       </p>
 <pre class="programlisting"><span class="keyword">template</span> <span class="special">&lt;</span> <span class="keyword">typename</span> <span class="identifier">IntegerType</span> <span class="special">&gt;</span>
-<span class="keyword">class</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">math</span><span class="special">::</span><span class="identifier">gcd_evaluator</span>
+<span class="keyword">class</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">integer</span><span class="special">::</span><span class="identifier">gcd_evaluator</span>
 <span class="special">{</span>
 <span class="keyword">public</span><span class="special">:</span>
    <span class="comment">// Types</span>
@@ -120,11 +120,11 @@
 <span class="special">};</span>
 </pre>
 <p>
-        The boost::math::gcd_evaluator class template defines a function object class
-        to return the greatest common divisor of two integers. The template is parameterized
-        by a single type, called IntegerType here. This type should be a numeric
-        type that represents integers. The result of the function object is always
-        nonnegative, even if either of the operator arguments is negative.
+        The boost::integer::gcd_evaluator class template defines a function object
+        class to return the greatest common divisor of two integers. The template
+        is parameterized by a single type, called IntegerType here. This type should
+        be a numeric type that represents integers. The result of the function object
+        is always nonnegative, even if either of the operator arguments is negative.
       </p>
 <p>
         This function object class template is used in the corresponding version
@@ -144,10 +144,10 @@
       Object</a>
 </h3></div></div></div>
 <p>
-        <span class="bold"><strong>Header: </strong></span> <a href="../../../../../boost/math/common_factor_rt.hpp" target="_top">&lt;boost/math/common_factor_rt.hpp&gt;</a>
+        <span class="bold"><strong>Header: </strong></span> <a href="../../../../../boost/integer/common_factor_rt.hpp" target="_top">&lt;boost/integer/common_factor_rt.hpp&gt;</a>
       </p>
 <pre class="programlisting"><span class="keyword">template</span> <span class="special">&lt;</span> <span class="keyword">typename</span> <span class="identifier">IntegerType</span> <span class="special">&gt;</span>
-<span class="keyword">class</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">math</span><span class="special">::</span><span class="identifier">lcm_evaluator</span>
+<span class="keyword">class</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">integer</span><span class="special">::</span><span class="identifier">lcm_evaluator</span>
 <span class="special">{</span>
 <span class="keyword">public</span><span class="special">:</span>
    <span class="comment">// Types</span>
@@ -162,13 +162,13 @@
 <span class="special">};</span>
 </pre>
 <p>
-        The boost::math::lcm_evaluator class template defines a function object class
-        to return the least common multiple of two integers. The template is parameterized
-        by a single type, called IntegerType here. This type should be a numeric
-        type that represents integers. The result of the function object is always
-        nonnegative, even if either of the operator arguments is negative. If the
-        least common multiple is beyond the range of the integer type, the results
-        are undefined.
+        The boost::integer::lcm_evaluator class template defines a function object
+        class to return the least common multiple of two integers. The template is
+        parameterized by a single type, called IntegerType here. This type should
+        be a numeric type that represents integers. The result of the function object
+        is always nonnegative, even if either of the operator arguments is negative.
+        If the least common multiple is beyond the range of the integer type, the
+        results are undefined.
       </p>
 <p>
         This function object class template is used in the corresponding version
@@ -188,13 +188,13 @@
       Determination</a>
 </h3></div></div></div>
 <p>
-        <span class="bold"><strong>Header: </strong></span> <a href="../../../../../boost/math/common_factor_rt.hpp" target="_top">&lt;boost/math/common_factor_rt.hpp&gt;</a>
+        <span class="bold"><strong>Header: </strong></span> <a href="../../../../../boost/integer/common_factor_rt.hpp" target="_top">&lt;boost/integer/common_factor_rt.hpp&gt;</a>
       </p>
 <pre class="programlisting"><span class="keyword">template</span> <span class="special">&lt;</span> <span class="keyword">typename</span> <span class="identifier">IntegerType</span> <span class="special">&gt;</span>
-<span class="keyword">constexpr</span> <span class="identifier">IntegerType</span>  <span class="identifier">boost</span><span class="special">::</span><span class="identifier">math</span><span class="special">::</span><span class="identifier">gcd</span><span class="special">(</span> <span class="identifier">IntegerType</span> <span class="keyword">const</span> <span class="special">&amp;</span><span class="identifier">a</span><span class="special">,</span> <span class="identifier">IntegerType</span> <span class="keyword">const</span> <span class="special">&amp;</span><span class="identifier">b</span> <span class="special">);</span>
+<span class="keyword">constexpr</span> <span class="identifier">IntegerType</span>  <span class="identifier">boost</span><span class="special">::</span><span class="identifier">integer</span><span class="special">::</span><span class="identifier">gcd</span><span class="special">(</span> <span class="identifier">IntegerType</span> <span class="keyword">const</span> <span class="special">&amp;</span><span class="identifier">a</span><span class="special">,</span> <span class="identifier">IntegerType</span> <span class="keyword">const</span> <span class="special">&amp;</span><span class="identifier">b</span> <span class="special">);</span>
 
 <span class="keyword">template</span> <span class="special">&lt;</span> <span class="keyword">typename</span> <span class="identifier">IntegerType</span> <span class="special">&gt;</span>
-<span class="keyword">constexpr</span> <span class="identifier">IntegerType</span>  <span class="identifier">boost</span><span class="special">::</span><span class="identifier">math</span><span class="special">::</span><span class="identifier">lcm</span><span class="special">(</span> <span class="identifier">IntegerType</span> <span class="keyword">const</span> <span class="special">&amp;</span><span class="identifier">a</span><span class="special">,</span> <span class="identifier">IntegerType</span> <span class="keyword">const</span> <span class="special">&amp;</span><span class="identifier">b</span> <span class="special">);</span>
+<span class="keyword">constexpr</span> <span class="identifier">IntegerType</span>  <span class="identifier">boost</span><span class="special">::</span><span class="identifier">integer</span><span class="special">::</span><span class="identifier">lcm</span><span class="special">(</span> <span class="identifier">IntegerType</span> <span class="keyword">const</span> <span class="special">&amp;</span><span class="identifier">a</span><span class="special">,</span> <span class="identifier">IntegerType</span> <span class="keyword">const</span> <span class="special">&amp;</span><span class="identifier">b</span> <span class="special">);</span>
 
 <span class="keyword">template</span> <span class="special">&lt;</span> <span class="keyword">typename</span> <span class="identifier">IntegerType</span><span class="special">,</span> <span class="keyword">typename</span><span class="special">...</span> <span class="identifier">Args</span> <span class="special">&gt;</span>
    <span class="keyword">constexpr</span> <span class="identifier">IntegerType</span>  <span class="identifier">gcd</span><span class="special">(</span> <span class="identifier">IntegerType</span> <span class="keyword">const</span> <span class="special">&amp;</span><span class="identifier">a</span><span class="special">,</span> <span class="identifier">IntegerType</span> <span class="keyword">const</span> <span class="special">&amp;</span><span class="identifier">b</span><span class="special">,</span> <span class="identifier">Args</span> <span class="keyword">const</span><span class="special">&amp;...</span> <span class="special">);</span>
@@ -211,8 +211,8 @@
    <span class="identifier">lcm_range</span><span class="special">(</span><span class="identifier">I</span> <span class="identifier">first</span><span class="special">,</span> <span class="identifier">I</span> <span class="identifier">last</span><span class="special">);</span>
 </pre>
 <p>
-        The boost::math::gcd function template returns the greatest common (nonnegative)
-        divisor of the two integers passed to it. <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">math</span><span class="special">::</span><span class="identifier">gcd_range</span></code>
+        The boost::integer::gcd function template returns the greatest common (nonnegative)
+        divisor of the two integers passed to it. <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">integer</span><span class="special">::</span><span class="identifier">gcd_range</span></code>
         is the iteration of the above gcd algorithm over a range, returning the greatest
         common divisor of all the elements. The algorithm terminates when the gcd
         reaches unity or the end of the range. Thus it also returns the iterator
@@ -222,7 +222,7 @@
         to reach unity.
       </p>
 <p>
-        The boost::math::lcm function template returns the least common (nonnegative)
+        The boost::integer::lcm function template returns the least common (nonnegative)
         multiple of the two integers passed to it. As with gcd, there are range and
         variadic versions of the function for more than 2 arguments.
       </p>
@@ -249,17 +249,17 @@
         </p></td></tr>
 </table></div>
 <p>
-        <span class="bold"><strong>Header: </strong></span> <a href="../../../../../boost/math/common_factor_ct.hpp" target="_top">&lt;boost/math/common_factor_ct.hpp&gt;</a>
+        <span class="bold"><strong>Header: </strong></span> <a href="../../../../../boost/integer/common_factor_ct.hpp" target="_top">&lt;boost/integer/common_factor_ct.hpp&gt;</a>
       </p>
 <pre class="programlisting"><span class="keyword">typedef</span> <span class="emphasis"><em>unspecified</em></span> <span class="identifier">static_gcd_type</span><span class="special">;</span>
 
 <span class="keyword">template</span> <span class="special">&lt;</span> <span class="identifier">static_gcd_type</span> <span class="identifier">Value1</span><span class="special">,</span> <span class="identifier">static_gcd_type</span> <span class="identifier">Value2</span> <span class="special">&gt;</span>
-<span class="keyword">struct</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">math</span><span class="special">::</span><span class="identifier">static_gcd</span> <span class="special">:</span> <span class="keyword">public</span> <span class="identifier">mpl</span><span class="special">::</span><span class="identifier">integral_c</span><span class="special">&lt;</span><span class="identifier">static_gcd_type</span><span class="special">,</span> <span class="identifier">implementation_defined</span><span class="special">&gt;</span>
+<span class="keyword">struct</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">integer</span><span class="special">::</span><span class="identifier">static_gcd</span> <span class="special">:</span> <span class="keyword">public</span> <span class="identifier">mpl</span><span class="special">::</span><span class="identifier">integral_c</span><span class="special">&lt;</span><span class="identifier">static_gcd_type</span><span class="special">,</span> <span class="identifier">implementation_defined</span><span class="special">&gt;</span>
 <span class="special">{</span>
 <span class="special">};</span>
 
 <span class="keyword">template</span> <span class="special">&lt;</span> <span class="identifier">static_gcd_type</span> <span class="identifier">Value1</span><span class="special">,</span> <span class="identifier">static_gcd_type</span> <span class="identifier">Value2</span> <span class="special">&gt;</span>
-<span class="keyword">struct</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">math</span><span class="special">::</span><span class="identifier">static_lcm</span> <span class="special">:</span> <span class="keyword">public</span> <span class="identifier">mpl</span><span class="special">::</span><span class="identifier">integral_c</span><span class="special">&lt;</span><span class="identifier">static_gcd_type</span><span class="special">,</span> <span class="identifier">implementation_defined</span><span class="special">&gt;</span>
+<span class="keyword">struct</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">integer</span><span class="special">::</span><span class="identifier">static_lcm</span> <span class="special">:</span> <span class="keyword">public</span> <span class="identifier">mpl</span><span class="special">::</span><span class="identifier">integral_c</span><span class="special">&lt;</span><span class="identifier">static_gcd_type</span><span class="special">,</span> <span class="identifier">implementation_defined</span><span class="special">&gt;</span>
 <span class="special">{</span>
 <span class="special">};</span>
 </pre>
@@ -271,8 +271,8 @@
         <span class="keyword">long</span></code> for some older compilers.
       </p>
 <p>
-        The boost::math::static_gcd and boost::math::static_lcm class templates take
-        two value-based template parameters of the <span class="emphasis"><em>static_gcd_type</em></span>
+        The boost::integer::static_gcd and boost::integer::static_lcm class templates
+        take two value-based template parameters of the <span class="emphasis"><em>static_gcd_type</em></span>
         type and inherit from the type <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">mpl</span><span class="special">::</span><span class="identifier">integral_c</span></code>. Inherited from the base class,
         they have a member <span class="emphasis"><em>value</em></span> that is the greatest common
         factor or least common multiple, respectively, of the template arguments.
@@ -283,7 +283,7 @@
 <a name="boost_integer.gcd_lcm.compile_time.h0"></a>
         <span class="phrase"><a name="boost_integer.gcd_lcm.compile_time.example"></a></span><a class="link" href="gcd_lcm.html#boost_integer.gcd_lcm.compile_time.example">Example</a>
       </h4>
-<pre class="programlisting"><span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">boost</span><span class="special">/</span><span class="identifier">math</span><span class="special">/</span><span class="identifier">common_factor</span><span class="special">.</span><span class="identifier">hpp</span><span class="special">&gt;</span>
+<pre class="programlisting"><span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">boost</span><span class="special">/</span><span class="identifier">integer</span><span class="special">/</span><span class="identifier">common_factor</span><span class="special">.</span><span class="identifier">hpp</span><span class="special">&gt;</span>
 <span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">algorithm</span><span class="special">&gt;</span>
 <span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">iterator</span><span class="special">&gt;</span>
 <span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">iostream</span><span class="special">&gt;</span>
@@ -294,29 +294,29 @@
    <span class="keyword">using</span> <span class="identifier">std</span><span class="special">::</span><span class="identifier">endl</span><span class="special">;</span>
 
    <span class="identifier">cout</span> <span class="special">&lt;&lt;</span> <span class="string">"The GCD and LCM of 6 and 15 are "</span>
-   <span class="special">&lt;&lt;</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">math</span><span class="special">::</span><span class="identifier">gcd</span><span class="special">(</span><span class="number">6</span><span class="special">,</span> <span class="number">15</span><span class="special">)</span> <span class="special">&lt;&lt;</span> <span class="string">" and "</span>
-   <span class="special">&lt;&lt;</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">math</span><span class="special">::</span><span class="identifier">lcm</span><span class="special">(</span><span class="number">6</span><span class="special">,</span> <span class="number">15</span><span class="special">)</span> <span class="special">&lt;&lt;</span> <span class="string">", respectively."</span>
+   <span class="special">&lt;&lt;</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">integer</span><span class="special">::</span><span class="identifier">gcd</span><span class="special">(</span><span class="number">6</span><span class="special">,</span> <span class="number">15</span><span class="special">)</span> <span class="special">&lt;&lt;</span> <span class="string">" and "</span>
+   <span class="special">&lt;&lt;</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">integer</span><span class="special">::</span><span class="identifier">lcm</span><span class="special">(</span><span class="number">6</span><span class="special">,</span> <span class="number">15</span><span class="special">)</span> <span class="special">&lt;&lt;</span> <span class="string">", respectively."</span>
    <span class="special">&lt;&lt;</span> <span class="identifier">endl</span><span class="special">;</span>
 
    <span class="identifier">cout</span> <span class="special">&lt;&lt;</span> <span class="string">"The GCD and LCM of 8 and 9 are "</span>
-   <span class="special">&lt;&lt;</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">math</span><span class="special">::</span><span class="identifier">static_gcd</span><span class="special">&lt;</span><span class="number">8</span><span class="special">,</span> <span class="number">9</span><span class="special">&gt;::</span><span class="identifier">value</span>
+   <span class="special">&lt;&lt;</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">integer</span><span class="special">::</span><span class="identifier">static_gcd</span><span class="special">&lt;</span><span class="number">8</span><span class="special">,</span> <span class="number">9</span><span class="special">&gt;::</span><span class="identifier">value</span>
    <span class="special">&lt;&lt;</span> <span class="string">" and "</span>
-   <span class="special">&lt;&lt;</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">math</span><span class="special">::</span><span class="identifier">static_lcm</span><span class="special">&lt;</span><span class="number">8</span><span class="special">,</span> <span class="number">9</span><span class="special">&gt;::</span><span class="identifier">value</span>
+   <span class="special">&lt;&lt;</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">integer</span><span class="special">::</span><span class="identifier">static_lcm</span><span class="special">&lt;</span><span class="number">8</span><span class="special">,</span> <span class="number">9</span><span class="special">&gt;::</span><span class="identifier">value</span>
    <span class="special">&lt;&lt;</span> <span class="string">", respectively."</span> <span class="special">&lt;&lt;</span> <span class="identifier">endl</span><span class="special">;</span>
 
    <span class="keyword">int</span>  <span class="identifier">a</span><span class="special">[]</span> <span class="special">=</span> <span class="special">{</span> <span class="number">4</span><span class="special">,</span> <span class="number">5</span><span class="special">,</span> <span class="number">6</span> <span class="special">},</span> <span class="identifier">b</span><span class="special">[]</span> <span class="special">=</span> <span class="special">{</span> <span class="number">7</span><span class="special">,</span> <span class="number">8</span><span class="special">,</span> <span class="number">9</span> <span class="special">},</span> <span class="identifier">c</span><span class="special">[</span><span class="number">3</span><span class="special">];</span>
-   <span class="identifier">std</span><span class="special">::</span><span class="identifier">transform</span><span class="special">(</span> <span class="identifier">a</span><span class="special">,</span> <span class="identifier">a</span> <span class="special">+</span> <span class="number">3</span><span class="special">,</span> <span class="identifier">b</span><span class="special">,</span> <span class="identifier">c</span><span class="special">,</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">math</span><span class="special">::</span><span class="identifier">gcd_evaluator</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;()</span> <span class="special">);</span>
+   <span class="identifier">std</span><span class="special">::</span><span class="identifier">transform</span><span class="special">(</span> <span class="identifier">a</span><span class="special">,</span> <span class="identifier">a</span> <span class="special">+</span> <span class="number">3</span><span class="special">,</span> <span class="identifier">b</span><span class="special">,</span> <span class="identifier">c</span><span class="special">,</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">integer</span><span class="special">::</span><span class="identifier">gcd_evaluator</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;()</span> <span class="special">);</span>
    <span class="identifier">std</span><span class="special">::</span><span class="identifier">copy</span><span class="special">(</span> <span class="identifier">c</span><span class="special">,</span> <span class="identifier">c</span> <span class="special">+</span> <span class="number">3</span><span class="special">,</span> <span class="identifier">std</span><span class="special">::</span><span class="identifier">ostream_iterator</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">cout</span><span class="special">,</span> <span class="string">" "</span><span class="special">)</span> <span class="special">);</span>
 <span class="special">}</span>
 </pre>
 </div>
 <div class="section">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="boost_integer.gcd_lcm.gcd_header"></a><a class="link" href="gcd_lcm.html#boost_integer.gcd_lcm.gcd_header" title="Header &lt;boost/math/common_factor.hpp&gt;">Header &lt;boost/math/common_factor.hpp&gt;</a>
+<a name="boost_integer.gcd_lcm.gcd_header"></a><a class="link" href="gcd_lcm.html#boost_integer.gcd_lcm.gcd_header" title="Header &lt;boost/integer/common_factor.hpp&gt;">Header &lt;boost/integer/common_factor.hpp&gt;</a>
 </h3></div></div></div>
 <p>
-        This header simply includes the headers <a href="../../../../../boost/math/common_factor_ct.hpp" target="_top">&lt;boost/math/common_factor_ct.hpp&gt;</a>
-        and <a href="../../../../../boost/math/common_factor_rt.hpp" target="_top">&lt;boost/math/common_factor_rt.hpp&gt;</a>.
+        This header simply includes the headers <a href="../../../../../boost/integer/common_factor_ct.hpp" target="_top">&lt;boost/integer/common_factor_ct.hpp&gt;</a>
+        and <a href="../../../../../boost/integer/common_factor_rt.hpp" target="_top">&lt;boost/integer/common_factor_rt.hpp&gt;</a>.
       </p>
 <p>
         Note this is a legacy header: it used to contain the actual implementation,
@@ -329,7 +329,7 @@
 <a name="boost_integer.gcd_lcm.demo"></a><a class="link" href="gcd_lcm.html#boost_integer.gcd_lcm.demo" title="Demonstration Program">Demonstration Program</a>
 </h3></div></div></div>
 <p>
-        The program <a href="../../../../../libs/math/test/common_factor_test.cpp" target="_top">common_factor_test.cpp</a>
+        The program <a href="../../../../../libs/integer/test/common_factor_test.cpp" target="_top">common_factor_test.cpp</a>
         is a demonstration of the results from instantiating various examples of
         the run-time GCD and LCM function templates and the compile-time GCD and
         LCM class templates. (The run-time GCD and LCM class templates are tested
@@ -344,7 +344,7 @@
         The greatest common divisor and least common multiple functions are greatly
         used in some numeric contexts, including some of the other Boost libraries.
         Centralizing these functions to one header improves code factoring and eases
-        maintainence.
+        maintenance.
       </p>
 </div>
 <div class="section">
@@ -394,7 +394,7 @@
 </tr></table>
 <hr>
 <div class="spirit-nav">
-<a accesskey="p" href="integer.html"><img src="../../../../../doc/src/images/prev.png" alt="Prev"></a><a accesskey="u" href="../index.html"><img src="../../../../../doc/src/images/up.png" alt="Up"></a><a accesskey="h" href="../index.html"><img src="../../../../../doc/src/images/home.png" alt="Home"></a><a accesskey="n" href="mask.html"><img src="../../../../../doc/src/images/next.png" alt="Next"></a>
+<a accesskey="p" href="integer.html"><img src="../../../../../doc/src/images/prev.png" alt="Prev"></a><a accesskey="u" href="../index.html"><img src="../../../../../doc/src/images/up.png" alt="Up"></a><a accesskey="h" href="../index.html"><img src="../../../../../doc/src/images/home.png" alt="Home"></a><a accesskey="n" href="extended_euclidean.html"><img src="../../../../../doc/src/images/next.png" alt="Next"></a>
 </div>
 </body>
 </html>
