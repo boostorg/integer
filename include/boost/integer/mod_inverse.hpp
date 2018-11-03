@@ -8,7 +8,8 @@
 #define BOOST_INTEGER_MOD_INVERSE_HPP
 #include <stdexcept>
 #include <boost/throw_exception.hpp>
-#include <boost/optional.hpp>
+#include <boost/none.hpp>
+#include <boost/optional/optional.hpp>
 #include <boost/integer/extended_euclidean.hpp>
 
 namespace boost { namespace integer {
@@ -25,7 +26,7 @@ boost::optional<Z> mod_inverse(Z a, Z modulus)
 {
     if (modulus < 2)
     {
-        BOOST_THROW_EXCEPTION(std::domain_error("Modulus must be > 1."));
+        BOOST_THROW_EXCEPTION(std::domain_error("mod_inverse: modulus must be > 1"));
     }
     // make sure a < modulus:
     a = a % modulus;
@@ -34,7 +35,7 @@ boost::optional<Z> mod_inverse(Z a, Z modulus)
         // a doesn't have a modular multiplicative inverse:
         return boost::none;
     }
-    euclidean_result_t<Z> u = extended_euclidean(a, modulus);
+    boost::integer::euclidean_result_t<Z> u = boost::integer::extended_euclidean(a, modulus);
     if (u.gcd > 1)
     {
         return boost::none;
