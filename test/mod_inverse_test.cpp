@@ -12,10 +12,12 @@
 #endif
 
 #ifndef DISABLE_MP_TESTS
+#include <boost/integer/mod_inverse.hpp>
+#include <boost/cstdint.hpp>
+#include <boost/optional/optional.hpp>
 #include <boost/core/lightweight_test.hpp>
 #include <boost/multiprecision/cpp_int.hpp>
 #include <boost/integer/common_factor.hpp>
-#include <boost/integer/mod_inverse.hpp>
 
 using boost::multiprecision::int128_t;
 using boost::multiprecision::int256_t;
@@ -58,9 +60,9 @@ void test_mod_inverse()
 
 int main()
 {
-    test_mod_inverse<int16_t>();
-    test_mod_inverse<int32_t>();
-    test_mod_inverse<int64_t>();
+    test_mod_inverse<boost::int16_t>();
+    test_mod_inverse<boost::int32_t>();
+    test_mod_inverse<boost::int64_t>();
     test_mod_inverse<int128_t>();
 
     return boost::report_errors();

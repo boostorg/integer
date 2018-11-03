@@ -12,10 +12,11 @@
 #endif
 
 #ifndef DISABLE_MP_TESTS
+#include <boost/integer/extended_euclidean.hpp>
+#include <boost/cstdint.hpp>
 #include <boost/core/lightweight_test.hpp>
 #include <boost/multiprecision/cpp_int.hpp>
 #include <boost/integer/common_factor.hpp>
-#include <boost/integer/extended_euclidean.hpp>
 
 using boost::multiprecision::int128_t;
 using boost::multiprecision::int256_t;
@@ -46,9 +47,9 @@ void test_extended_euclidean()
 
 int main()
 {
-    test_extended_euclidean<int16_t>();
-    test_extended_euclidean<int32_t>();
-    test_extended_euclidean<int64_t>();
+    test_extended_euclidean<boost::int16_t>();
+    test_extended_euclidean<boost::int32_t>();
+    test_extended_euclidean<boost::int64_t>();
     test_extended_euclidean<int128_t>();
 
     return boost::report_errors();;
