@@ -4,18 +4,15 @@
  *  Boost Software License, Version 1.0. (See accompanying file
  *  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
  */
-#include <boost/config.hpp>
-#if (defined(BOOST_MSVC) && (BOOST_MSVC < 1500)) || \
-     (defined(__clang_major__) && (__clang_major__ == 3) && (__clang_minor__ < 2)) || \
-     (defined(BOOST_GCC) && defined(BOOST_GCC_CXX11) && BOOST_GCC < 40800)
-#define DISABLE_MP_TESTS
-#endif
+
+#include "multiprecision_config.hpp"
 
 #ifndef DISABLE_MP_TESTS
+#include <boost/integer/extended_euclidean.hpp>
+#include <boost/cstdint.hpp>
 #include <boost/core/lightweight_test.hpp>
 #include <boost/multiprecision/cpp_int.hpp>
 #include <boost/integer/common_factor.hpp>
-#include <boost/integer/extended_euclidean.hpp>
 
 using boost::multiprecision::int128_t;
 using boost::multiprecision::int256_t;
@@ -46,9 +43,9 @@ void test_extended_euclidean()
 
 int main()
 {
-    test_extended_euclidean<int16_t>();
-    test_extended_euclidean<int32_t>();
-    test_extended_euclidean<int64_t>();
+    test_extended_euclidean<boost::int16_t>();
+    test_extended_euclidean<boost::int32_t>();
+    test_extended_euclidean<boost::int64_t>();
     test_extended_euclidean<int128_t>();
 
     return boost::report_errors();;
