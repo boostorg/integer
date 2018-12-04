@@ -14,7 +14,7 @@ A fast algorithm for computing modular multiplicative inverses based on the exte
     namespace boost { namespace integer {
 
     template<class Z>
-    boost::optional<Z> mod_inverse(Z a, Z m);
+    Z mod_inverse(Z a, Z m);
 
     }}
 
@@ -22,19 +22,18 @@ A fast algorithm for computing modular multiplicative inverses based on the exte
 
 [section Usage]
 
-Multiplicative modular inverses exist if and only if /a/ and /m/ are coprime.
-So for example
+    int x = mod_inverse(2, 5);
+    // prints x = 3:
+    std::cout << "x = " << x << "\n";
 
-    auto x = mod_inverse(2, 5);
-    if (x)
-    {
-        int should_be_three = x.value();
-    }
-    auto y = mod_inverse(2, 4);
-    if (!y)
+    int y = mod_inverse(2, 4);
+    if (y == 0)
     {
         std::cout << "There is no inverse of 2 mod 4\n";
     }
+
+Multiplicative modular inverses exist if and only if /a/ and /m/ are coprime.
+If /a/ and /m/ share a common factor, then `mod_inverse(a, m)` returns zero.
 
 [endsect]
 

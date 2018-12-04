@@ -8,7 +8,6 @@
 #define BOOST_INTEGER_MOD_INVERSE_HPP
 #include <stdexcept>
 #include <boost/throw_exception.hpp>
-#include <boost/optional.hpp>
 #include <boost/integer/extended_euclidean.hpp>
 
 namespace boost { namespace integer {
@@ -21,7 +20,7 @@ namespace boost { namespace integer {
 // Would mod_inverse be sometimes mistaken as the modular *additive* inverse?
 // In any case, I think this is the best name we can get for this function without agonizing.
 template<class Z>
-boost::optional<Z> mod_inverse(Z a, Z modulus)
+Z mod_inverse(Z a, Z modulus)
 {
     if (modulus < 2)
     {
@@ -32,12 +31,12 @@ boost::optional<Z> mod_inverse(Z a, Z modulus)
     if (a == 0)
     {
         // a doesn't have a modular multiplicative inverse:
-        return boost::none;
+        return 0;
     }
     euclidean_result_t<Z> u = extended_euclidean(a, modulus);
     if (u.gcd > 1)
     {
-        return boost::none;
+        return 0;
     }
     // x might not be in the range 0 < x < m, let's fix that:
     while (u.x <= 0)
