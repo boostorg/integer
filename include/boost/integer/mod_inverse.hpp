@@ -33,7 +33,7 @@ Z mod_inverse(Z a, Z modulus)
         // a doesn't have a modular multiplicative inverse:
         return Z(0);
     }
-    boost::integer::euclidean_result_t<Z> u = extended_euclidean(a, modulus);
+    boost::integer::euclidean_result_t<Z> u = boost::integer::extended_euclidean(a, modulus);
     if (u.gcd > Z(1))
     {
         return Z(0);
