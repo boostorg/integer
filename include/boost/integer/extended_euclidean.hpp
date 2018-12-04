@@ -9,6 +9,8 @@
 #include <limits>
 #include <stdexcept>
 #include <boost/throw_exception.hpp>
+#include <boost/core/swap.hpp>
+#include <boost/core/enable_if.hpp>
 
 namespace boost { namespace integer {
 
@@ -16,27 +18,27 @@ namespace boost { namespace integer {
 // Solves mx + ny = gcd(m,n). Returns tuple with (gcd(m,n), x, y).
 
 template<class Z>
-struct euclidean_result_t {
-  Z gcd;
-  Z x;
-  Z y;
+struct euclidean_result_t
+{
+    Z gcd;
+    Z x;
+    Z y;
 };
 
 template<class Z>
-euclidean_result_t<typename std::enable_if<std::numeric_limits< Z >::is_signed, Z>::type>
+typename boost::enable_if_c< std::numeric_limits< Z >::is_signed, euclidean_result_t< Z > >::type
 extended_euclidean(Z m, Z n)
 {
     if (m < 1 || n < 1)
     {
-        BOOST_THROW_EXCEPTION(std::domain_error("Arguments must be strictly positive."));
+        BOOST_THROW_EXCEPTION(std::domain_error("extended_euclidean: arguments must be strictly positive"));
     }
 
     bool swapped = false;
     if (m < n)
     {
-      swapped = true;
-      using std::swap;
-      swap(m, n);
+        swapped = true;
+        boost::swap(m, n);
     }
     Z u0 = m;
     Z u1 = 1;
@@ -49,23 +51,32 @@ extended_euclidean(Z m, Z n)
     Z w2;
     while(v0 > 0)
     {
-      Z q = u0/v0;
-      w0 = u0 - q*v0;
-      w1 = u1 - q*v1;
-      w2 = u2 - q*v2;
-      u0 = v0;
-      u1 = v1;
-      u2 = v2;
-      v0 = w0;
-      v1 = w1;
-      v2 = w2;
+        Z q = u0/v0;
+        w0 = u0 - q*v0;
+        w1 = u1 - q*v1;
+        w2 = u2 - q*v2;
+        u0 = v0;
+        u1 = v1;
+        u2 = v2;
+        v0 = w0;
+        v1 = w1;
+        v2 = w2;
     }
 
-    if (swapped)
+    euclidean_result_t< Z > result;
+    result.gcd = u0;
+    if (!swapped)
     {
-        return {u0, u2, u1};
+        result.x = u1;
+        result.y = u2;
     }
-    return {u0, u1, u2};
+    else
+    {
+        result.x = u2;
+        result.y = u1;
+    }
+
+    return result;
 }
 
 }}

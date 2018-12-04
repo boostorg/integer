@@ -24,7 +24,7 @@ Z mod_inverse(Z a, Z modulus)
 {
     if (modulus < Z(2))
     {
-        BOOST_THROW_EXCEPTION(std::domain_error("Modulus must be > 1."));
+        BOOST_THROW_EXCEPTION(std::domain_error("mod_inverse: modulus must be > 1"));
     }
     // make sure a < modulus:
     a = a % modulus;
@@ -33,7 +33,7 @@ Z mod_inverse(Z a, Z modulus)
         // a doesn't have a modular multiplicative inverse:
         return Z(0);
     }
-    euclidean_result_t<Z> u = extended_euclidean(a, modulus);
+    boost::integer::euclidean_result_t<Z> u = extended_euclidean(a, modulus);
     if (u.gcd > Z(1))
     {
         return Z(0);
