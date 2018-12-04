@@ -22,24 +22,24 @@ namespace boost { namespace integer {
 template<class Z>
 Z mod_inverse(Z a, Z modulus)
 {
-    if (modulus < 2)
+    if (modulus < Z(2))
     {
         BOOST_THROW_EXCEPTION(std::domain_error("Modulus must be > 1."));
     }
     // make sure a < modulus:
     a = a % modulus;
-    if (a == 0)
+    if (a == Z(0))
     {
         // a doesn't have a modular multiplicative inverse:
-        return 0;
+        return Z(0);
     }
     euclidean_result_t<Z> u = extended_euclidean(a, modulus);
-    if (u.gcd > 1)
+    if (u.gcd > Z(1))
     {
-        return 0;
+        return Z(0);
     }
     // x might not be in the range 0 < x < m, let's fix that:
-    while (u.x <= 0)
+    while (u.x <= Z(0))
     {
         u.x += modulus;
     }
