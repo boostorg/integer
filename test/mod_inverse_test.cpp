@@ -34,17 +34,17 @@ void test_mod_inverse()
         for (Z a = 1; a < modulus; ++a)
         {
             Z gcdam = gcd(a, modulus);
-            boost::optional<Z> inv_a = mod_inverse(a, modulus);
+            Z inv_a = mod_inverse(a, modulus);
             // Should fail if gcd(a, mod) != 1:
             if (gcdam > 1)
             {
-                BOOST_TEST(!inv_a);
+                BOOST_TEST(inv_a == 0);
             }
             else
             {
-                BOOST_TEST(inv_a.value() > 0);
+                BOOST_TEST(inv_a > 0);
                 // Cast to a bigger type so the multiplication won't overflow.
-                int256_t a_inv = inv_a.value();
+                int256_t a_inv = inv_a;
                 int256_t big_a = a;
                 int256_t m = modulus;
                 int256_t outta_be_one = (a_inv*big_a) % m;
