@@ -10,7 +10,7 @@ cmake_minimum_required(VERSION 3.5)
 project(BoostInteger LANGUAGES CXX)
 
 add_library(boost_integer INTERFACE)
-add_library(Boost::boost_integer ALIAS boost_integer)
+add_library(Boost::integer ALIAS boost_integer)
 
 target_include_directories(boost_integer INTERFACE include)
 
