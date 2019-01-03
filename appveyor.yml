@@ -62,4 +62,4 @@ test_script:
   - ..\..\..\b2 config_info_travis_install %ARGS%
   - config_info_travis
   - cd ..\..\integer\test
-  - ..\..\..\b2 -j3 %ARGS% define=CI_SUPPRESS_KNOWN_ISSUES
+  - ..\..\..\b2 -j %NUMBER_OF_PROCESSORS% %ARGS% define=CI_SUPPRESS_KNOWN_ISSUES
