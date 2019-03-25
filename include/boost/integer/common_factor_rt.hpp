@@ -524,7 +524,7 @@ lcm_range(I first, I last) BOOST_GCD_NOEXCEPT(I)
     typedef typename std::iterator_traits<I>::value_type T;
     
     T d = *first++;
-    while (d != T(1) && first != last)
+    while (first != last)
     {
         d = lcm(d, *first);
         first++;
