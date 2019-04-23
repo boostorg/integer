@@ -254,7 +254,7 @@ public:
 
 #if BOOST_WORKAROUND(BOOST_MSVC,<1300)
 // MSVC 6.0 lacks operator<< for __int64, see
-// http://support.microsoft.com/default.aspx?scid=kb;en-us;168440
+// https://support.microsoft.com/kb/168440/
 
 inline ostream& operator<<(ostream& os, __int64 i)
 {
