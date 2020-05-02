@@ -16,7 +16,7 @@
 #define BOOST_INTEGER_INTEGER_LOG2_HPP
 
 #include <assert.h>
-#ifdef __BORLANDC__
+#if defined(__BORLANDC__) && !defined(__clang__)
 #include <climits>
 #endif
 #include <boost/limits.hpp>
@@ -75,7 +75,7 @@ namespace boost {
   template <typename T>
   struct width {
 
-#ifdef __BORLANDC__
+#ifdef BOOST_BORLANDC
       BOOST_STATIC_CONSTANT(int, value = sizeof(T) * CHAR_BIT);
 #else
       BOOST_STATIC_CONSTANT(int, value = (std::numeric_limits<T>::digits));

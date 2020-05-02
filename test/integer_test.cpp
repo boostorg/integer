@@ -27,7 +27,7 @@
 #ifdef BOOST_MSVC
 #pragma warning(disable:4127) // conditional expression is constant
 #endif
-#if defined( __BORLANDC__ )
+#if defined( BOOST_BORLANDC )
 # pragma option -w-8008 -w-8066 // condition is always true
 #endif
 
