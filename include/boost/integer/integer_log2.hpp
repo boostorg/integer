@@ -16,11 +16,11 @@
 #define BOOST_INTEGER_INTEGER_LOG2_HPP
 
 #include <assert.h>
-#if defined(__BORLANDC__) && !defined(__clang__)
-#include <climits>
-#endif
 #include <boost/limits.hpp>
 #include <boost/config.hpp>
+#if defined(BOOST_BORLANDC)
+#include <climits>
+#endif
 
 
 namespace boost {
