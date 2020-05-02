@@ -15,9 +15,9 @@
 #ifndef BOOST_INTEGER_INTEGER_LOG2_HPP
 #define BOOST_INTEGER_INTEGER_LOG2_HPP
 
-#include <assert.h>
 #include <boost/limits.hpp>
 #include <boost/config.hpp>
+#include <boost/assert.hpp>
 #if defined(BOOST_BORLANDC)
 #include <climits>
 #endif
@@ -93,7 +93,7 @@ namespace boost {
  template <typename T>
  int integer_log2(T x) {
 
-     assert(x > 0);
+     BOOST_ASSERT(x > 0);
 
      const int n = detail::max_pow2_less<
                      detail::width<T> :: value, 4
