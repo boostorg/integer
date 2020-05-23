@@ -35,6 +35,7 @@ namespace fix{
 inline int make_char_numeric_for_streaming(char c) { return c; }
 inline int make_char_numeric_for_streaming(signed char c) { return c; }
 inline int make_char_numeric_for_streaming(unsigned char c) { return c; }
+inline long long int make_char_numeric_for_streaming(wchar_t c) { return c; }
 }
 using namespace fix;
 #else
@@ -42,6 +43,7 @@ template<typename T> inline T make_char_numeric_for_streaming(T x) { return x; }
 inline int make_char_numeric_for_streaming(char c) { return c; }
 inline int make_char_numeric_for_streaming(signed char c) { return c; }
 inline int make_char_numeric_for_streaming(unsigned char c) { return c; }
+inline long long int make_char_numeric_for_streaming(wchar_t c) { return c; }
 #endif
 
 template<class T>
