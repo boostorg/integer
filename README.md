@@ -22,8 +22,8 @@ compile-time value; and computing min and max of constant expressions.
 
 ### Build status
 
-Master: [![AppVeyor](https://ci.appveyor.com/api/projects/status/iugyf5rf51n99g3w?svg=true)](https://ci.appveyor.com/project/Lastique/integer/branch/master) [![Travis CI](https://travis-ci.org/boostorg/integer.svg?branch=master)](https://travis-ci.org/boostorg/integer)
-Develop: [![AppVeyor](https://ci.appveyor.com/api/projects/status/iugyf5rf51n99g3w/branch/develop?svg=true)](https://ci.appveyor.com/project/Lastique/integer/branch/develop) [![Travis CI](https://travis-ci.org/boostorg/integer.svg?branch=develop)](https://travis-ci.org/boostorg/integer)
+Master: [![AppVeyor](https://ci.appveyor.com/api/projects/status/iugyf5rf51n99g3w?svg=true)](https://ci.appveyor.com/project/Lastique/integer/branch/master) [![Travis CI](https://travis-ci.org/boostorg/integer.svg?branch=master)](https://travis-ci.org/boostorg/integer) [![Build Status](https://drone.cpp.al/api/badges/boostorg/integer/status.svg?ref=refs/heads/master)](https://drone.cpp.al/boostorg/integer)
+Develop: [![AppVeyor](https://ci.appveyor.com/api/projects/status/iugyf5rf51n99g3w/branch/develop?svg=true)](https://ci.appveyor.com/project/Lastique/integer/branch/develop) [![Travis CI](https://travis-ci.org/boostorg/integer.svg?branch=develop)](https://travis-ci.org/boostorg/integer) [![Build Status](https://drone.cpp.al/api/badges/boostorg/integer/status.svg)](https://drone.cpp.al/boostorg/integer)
 
 ### License
 
