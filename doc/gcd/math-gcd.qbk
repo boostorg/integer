@@ -74,7 +74,7 @@ The boost::integer::gcd_evaluator class template defines a function object
 class to return the greatest common divisor of two integers.
 The template is parameterized by a single type, called IntegerType here.
 This type should be a numeric type that represents integers.
-The result of the function object is always nonnegative, even if either of
+The result of the function object is always non-negative, even if either of
 the operator arguments is negative.
 
 This function object class template is used in the corresponding version of
@@ -149,7 +149,7 @@ They are also declared `noexcept` when appropriate.
       lcm_range(I first, I last);
 
 The boost::integer::gcd function template returns the greatest common
-(nonnegative) divisor of the two integers passed to it.
+(non-negative) divisor of the two integers passed to it.
 `boost::integer::gcd_range` is the iteration of the above gcd algorithm over a
 range, returning the greatest common divisor of all the elements. The algorithm
 terminates when the gcd reaches unity or the end of the range. Thus it also
@@ -158,7 +158,7 @@ equal to the end of the range.  The variadic version of `gcd` behaves similarly
 but does not indicate which input value caused the gcd to reach unity.
 
 The boost::integer::lcm function template returns the least common
-(nonnegative) multiple of the two integers passed to it.
+(non-negative) multiple of the two integers passed to it.
 As with gcd, there are range and variadic versions of the function for
 more than 2 arguments.
 
