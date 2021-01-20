@@ -5,10 +5,10 @@
 //  Copyright John Maddock 2009.  
 //  Distributed under the Boost
 //  Software License, Version 1.0. (See accompanying file
-//  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+//  LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
 
-//  See http://www.boost.org/libs/integer for documentation.
+//  See https://www.boost.org/libs/integer for documentation.
 
 //  Revision History
 //   04 Oct 01  Added tests for new templates; rewrote code (Daryle Walker)
