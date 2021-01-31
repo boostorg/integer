@@ -285,7 +285,7 @@ The following table describes each template's criteria.
       [*only] if there exists a type with exactly N bits.]
    ]
    [
-      [[^boost::int_max_value_t<V>::last]]
+      [[^boost::int_max_value_t<V>::least]]
       [The smallest, built-in, signed integral type that can hold all the values in the inclusive range ['0 - V].
       The parameter should be a positive number.]
    ]
