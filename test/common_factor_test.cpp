@@ -23,7 +23,8 @@
 #include <boost/mpl/list.hpp>            // for boost::mpl::list
 #include <boost/operators.hpp>
 #include <boost/core/lightweight_test.hpp>
-#include <boost/random.hpp>
+#include <boost/random/mersenne_twister.hpp>
+#include <boost/random/uniform_int.hpp>
 #include <boost/rational.hpp>
 
 #include <istream>  // for std::basic_istream
