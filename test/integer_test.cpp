@@ -15,7 +15,7 @@
 //   10 Mar 01  Boost Test Library now used for tests (Beman Dawes)
 //   31 Aug 99  Initial version
 
-#include <boost/detail/lightweight_test.hpp>  // for main, BOOST_TEST
+#include <boost/core/lightweight_test.hpp>  // for main, BOOST_TEST
 #include <boost/integer.hpp>  // for boost::int_t, boost::uint_t
 #include <boost/type_traits/is_same.hpp>
 #include <boost/mpl/bool.hpp> // for mpl::true_ and false_

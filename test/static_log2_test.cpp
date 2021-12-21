@@ -10,7 +10,7 @@
 //  Revision History
 //  01 Oct 2001  Initial version (Daryle Walker)
 
-#include <boost/detail/lightweight_test.hpp>  // for main
+#include <boost/core/lightweight_test.hpp>  // for main
 
 #include <boost/cstdlib.hpp>              // for boost::exit_success
 #include <boost/integer/static_log2.hpp>  // for boost::static_log2

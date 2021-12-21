@@ -17,7 +17,7 @@
 // use int64_t instead of long long for better portability
 #include <boost/cstdint.hpp>
 
-#include <boost/detail/lightweight_test.hpp>
+#include <boost/core/lightweight_test.hpp>
 
 /*
  * General portability note:

@@ -10,7 +10,7 @@
 //  Revision History
 //  23 Sep 2001  Initial version (Daryle Walker)
 
-#include <boost/detail/lightweight_test.hpp>
+#include <boost/core/lightweight_test.hpp>
 
 #include <boost/cstdlib.hpp>               // for boost::exit_success
 #include <boost/integer/integer_mask.hpp>  // for boost::high_bit_mask_t, etc.

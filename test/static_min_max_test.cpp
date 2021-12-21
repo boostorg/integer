@@ -10,7 +10,7 @@
 //  Revision History
 //  23 Sep 2001  Initial version (Daryle Walker)
 
-#include <boost/detail/lightweight_test.hpp>  // for main, BOOST_TEST
+#include <boost/core/lightweight_test.hpp>  // for main, BOOST_TEST
 
 #include <boost/cstdlib.hpp>                 // for boost::exit_success
 #include <boost/integer/static_min_max.hpp>  // for boost::static_signed_min, etc.
