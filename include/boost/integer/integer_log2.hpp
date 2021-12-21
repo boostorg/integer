@@ -38,7 +38,7 @@ namespace boost {
               result += n;
               x = t;
           }
-          n /= 2;
+          n>>1;
 
       }
 
@@ -54,10 +54,10 @@ namespace boost {
   template <int p, int n>
   struct max_pow2_less {
 
-      enum { c = 2*n < p };
+      enum { c = (n<<1) < p };
 
       BOOST_STATIC_CONSTANT(int, value =
-          c ? (max_pow2_less< c*p, 2*c*n>::value) : n);
+          c ? (max_pow2_less< c*p, ((c*n)<<1)>::value) : n);
 
   };
 
