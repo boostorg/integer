@@ -15,98 +15,72 @@
 #ifndef BOOST_INTEGER_INTEGER_LOG2_HPP
 #define BOOST_INTEGER_INTEGER_LOG2_HPP
 
-#include <boost/limits.hpp>
+#include <climits>
 #include <boost/config.hpp>
 #include <boost/assert.hpp>
-#if defined(BOOST_BORLANDC)
-#include <climits>
-#endif
-
 
 namespace boost {
- namespace detail {
+namespace detail {
 
-  template <typename T>
-  int integer_log2_impl(T x, int n) {
+template <typename T>
+inline int integer_log2_impl(T x, unsigned int n)
+{
+    int result = 0;
 
-      int result = 0;
+    while (x != 1)
+    {
+        const T t = static_cast<T>(x >> n);
+        if (t)
+        {
+            result += static_cast<int>(n);
+            x = t;
+        }
+        n >>= 1u;
+    }
 
-      while (x != 1) {
+    return result;
+}
 
-          const T t = static_cast<T>(x >> n);
-          if (t) {
-              result += n;
-              x = t;
-          }
-          n /= 2;
+// helper to find the maximum power of two
+// less than p
+template <unsigned int p, unsigned int n, bool = (2u*n < p)>
+struct max_pow2_less :
+    public max_pow2_less< p, 2u*n >
+{
+};
 
-      }
+template <unsigned int p, unsigned int n>
+struct max_pow2_less<p, n, false>
+{
+    BOOST_STATIC_CONSTANT(unsigned int, value = n);
+};
 
-      return result;
-  }
-
-
-
-  // helper to find the maximum power of two
-  // less than p (more involved than necessary,
-  // to avoid PTS)
-  //
-  template <int p, int n>
-  struct max_pow2_less {
-
-      enum { c = 2*n < p };
-
-      BOOST_STATIC_CONSTANT(int, value =
-          c ? (max_pow2_less< c*p, 2*c*n>::value) : n);
-
-  };
-
-  template <>
-  struct max_pow2_less<0, 0> {
-
-      BOOST_STATIC_CONSTANT(int, value = 0);
-  };
-
-  // this template is here just for Borland :(
-  // we could simply rely on numeric_limits but sometimes
-  // Borland tries to use numeric_limits<const T>, because
-  // of its usual const-related problems in argument deduction
-  // - gps
-  template <typename T>
-  struct width {
-
-#ifdef BOOST_BORLANDC
-      BOOST_STATIC_CONSTANT(int, value = sizeof(T) * CHAR_BIT);
-#else
-      BOOST_STATIC_CONSTANT(int, value = (std::numeric_limits<T>::digits));
-#endif
-
-  };
-
- } // detail
+} // namespace detail
 
 
- // ---------
- // integer_log2
- // ---------------
- //
- template <typename T>
- int integer_log2(T x) {
+// ------------
+// integer_log2
+// ------------
+template <typename T>
+inline int integer_log2(T x)
+{
+    BOOST_ASSERT(x > 0);
 
-     BOOST_ASSERT(x > 0);
-
-     const int n = detail::max_pow2_less<
-                     detail::width<T> :: value, 4
-                   > :: value;
-
-     return detail::integer_log2_impl(x, n);
-
- }
-
-
+    return detail::integer_log2_impl
+    (
+        x,
+        detail::max_pow2_less<
+            // We could simply rely on numeric_limits but sometimes
+            // Borland tries to use numeric_limits<const T>, because
+            // of its usual const-related problems in argument deduction
+            // - gps
+            // Also, numeric_limits is not specialized for __int128 in libstdc++.
+            sizeof(T) * CHAR_BIT,
+            CHAR_BIT / 2u
+        >::value
+    );
+}
 
 }
 
-
-
-#endif // include guard
+#endif // BOOST_INTEGER_INTEGER_LOG2_HPP
