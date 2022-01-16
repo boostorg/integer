@@ -15,6 +15,11 @@
 
 #include <iostream>
 
+#include "multiprecision_config.hpp"
+
+#if !defined(DISABLE_MP_TESTS)
+#include <boost/multiprecision/cpp_int.hpp>
+#endif
 
 // Macros to compact code
 #define PRIVATE_LB_TEST( v, e )  BOOST_TEST( ::boost::integer_log2((v)) == e )
@@ -28,7 +33,6 @@
 #else
 #define PRIVATE_LB_0_TEST  PRIVATE_PRINT_LB( 0 )
 #endif
-
 
 // Main testing function
 int main()
@@ -157,6 +161,26 @@ int main()
     PRIVATE_LB_TEST( (boost::uint128_type(1u) << 64u) + 1u, 64 );
 
     PRIVATE_LB_TEST( ~boost::uint128_type(0u), 127 );
+#endif
+
+#if !defined(DISABLE_MP_TESTS)
+    PRIVATE_LB_TEST( boost::multiprecision::cpp_int(1), 0 );
+    PRIVATE_LB_TEST( boost::multiprecision::cpp_int(2), 1 );
+    PRIVATE_LB_TEST( boost::multiprecision::cpp_int(3), 1 );
+    PRIVATE_LB_TEST( boost::multiprecision::cpp_int(65535), 15 );
+    PRIVATE_LB_TEST( boost::multiprecision::cpp_int(65536), 16 );
+
+    PRIVATE_LB_TEST( boost::multiprecision::int1024_t(1), 0 );
+    PRIVATE_LB_TEST( boost::multiprecision::int1024_t(2), 1 );
+    PRIVATE_LB_TEST( boost::multiprecision::int1024_t(3), 1 );
+    PRIVATE_LB_TEST( boost::multiprecision::int1024_t(65535), 15 );
+    PRIVATE_LB_TEST( boost::multiprecision::int1024_t(65536), 16 );
+
+    PRIVATE_LB_TEST( boost::multiprecision::uint1024_t(1), 0 );
+    PRIVATE_LB_TEST( boost::multiprecision::uint1024_t(2), 1 );
+    PRIVATE_LB_TEST( boost::multiprecision::uint1024_t(3), 1 );
+    PRIVATE_LB_TEST( boost::multiprecision::uint1024_t(65535), 15 );
+    PRIVATE_LB_TEST( boost::multiprecision::uint1024_t(65536), 16 );
 #endif
 
     return boost::report_errors();
