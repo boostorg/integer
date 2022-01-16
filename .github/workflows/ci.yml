@@ -98,7 +98,7 @@ jobs:
             install:
               - g++-10
           - toolset: gcc-11
-            cxxstd: "03,11,14,17,20"
+            cxxstd: "03-gnu,11-gnu,14-gnu,17-gnu,20-gnu"
             os: ubuntu-20.04
             install:
               - g++-11
@@ -106,7 +106,7 @@ jobs:
               - "ppa:ubuntu-toolchain-r/test"
           - name: UBSAN
             toolset: gcc-11
-            cxxstd: "03,11,14,17,20"
+            cxxstd: "03-gnu,11-gnu,14-gnu,17-gnu,20-gnu"
             ubsan: 1
             build_variant: debug
             os: ubuntu-20.04
@@ -203,13 +203,13 @@ jobs:
               - clang-11
           - toolset: clang
             compiler: clang++-12
-            cxxstd: "03,11,14,17,20"
+            cxxstd: "03-gnu,11-gnu,14-gnu,17-gnu,20-gnu"
             os: ubuntu-20.04
             install:
               - clang-12
           - toolset: clang
             compiler: clang++-12
-            cxxstd: "03,11,14,17,20"
+            cxxstd: "03-gnu,11-gnu,14-gnu,17-gnu,20-gnu"
             os: ubuntu-20.04
             install:
               - clang-12
@@ -217,10 +217,34 @@ jobs:
               - libc++abi-12-dev
             cxxflags: -stdlib=libc++
             linkflags: -stdlib=libc++
+          - toolset: clang
+            compiler: clang++-13
+            cxxstd: "03-gnu,11-gnu,14-gnu,17-gnu,20-gnu"
+            os: ubuntu-20.04
+            install:
+              - clang-13
+            sources:
+              - "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-13 main"
+            source_keys:
+              - "https://apt.llvm.org/llvm-snapshot.gpg.key"
+          - toolset: clang
+            compiler: clang++-13
+            cxxstd: "03-gnu,11-gnu,14-gnu,17-gnu,20-gnu"
+            os: ubuntu-20.04
+            install:
+              - clang-13
+              - libc++-13-dev
+              - libc++abi-13-dev
+            sources:
+              - "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-13 main"
+            source_keys:
+              - "https://apt.llvm.org/llvm-snapshot.gpg.key"
+            cxxflags: -stdlib=libc++
+            linkflags: -stdlib=libc++
           - name: UBSAN
             toolset: clang
             compiler: clang++-12
-            cxxstd: "03,11,14,17,20"
+            cxxstd: "03-gnu,11-gnu,14-gnu,17-gnu,20-gnu"
             cxxflags: -stdlib=libc++
             linkflags: -stdlib=libc++
             ubsan: 1
