@@ -64,7 +64,7 @@ namespace boost {
             return a.swap(b);
          }
          template <class T, class U>
-         inline constexpr void constexpr_swap(T& a, U& b...) BOOST_GCD_NOEXCEPT(T)
+         inline constexpr void constexpr_swap(T& a, U& b, ...) BOOST_GCD_NOEXCEPT(T)
          {
             T t(static_cast<T&&>(a));
             a = static_cast<T&&>(b);
