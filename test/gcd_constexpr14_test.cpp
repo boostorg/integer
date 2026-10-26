@@ -5,6 +5,7 @@
 //  https://www.boost.org/LICENSE_1_0.txt)
 
 #include <boost/integer/common_factor.hpp>
+#include <limits>
 
 #ifndef BOOST_NO_CXX14_CONSTEXPR
 
@@ -60,6 +61,17 @@ void test_constexpr5()
    constexpr const boost::uint64_t k = boost::integer::gcd_detail::Stein_gcd(i, j);
 
    static_assert(k == 347, "Expected result not integer in constexpr gcd.");
+}
+
+void test_constexpr_minimum_unit()
+{
+   constexpr int minimum = (std::numeric_limits<int>::min)();
+   static_assert(boost::integer::gcd(minimum, -1) == 1, "Expected gcd(min, -1) == 1.");
+   static_assert(boost::integer::gcd(-1, minimum) == 1, "Expected gcd(-1, min) == 1.");
+
+   constexpr boost::int64_t minimum64 = (std::numeric_limits<boost::int64_t>::min)();
+   static_assert(boost::integer::gcd(minimum64, boost::int64_t(-1)) == 1, "Expected gcd(min64, -1) == 1.");
+   static_assert(boost::integer::gcd(boost::int64_t(-1), minimum64) == 1, "Expected gcd(-1, min64) == 1.");
 }
 #endif
 

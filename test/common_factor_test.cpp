@@ -301,6 +301,15 @@ template< class T > void gcd_int_test() // signed_test_types
     BOOST_TEST_EQ(gcd_evaluator<T>()(3, 7), static_cast<T>(1));
     BOOST_TEST_EQ(gcd_evaluator<T>()(8, 9), static_cast<T>(1));
     BOOST_TEST_EQ(gcd_evaluator<T>()(7, 49), static_cast<T>(7));
+
+    if (std::numeric_limits<T>::is_bounded && std::numeric_limits<T>::is_signed)
+    {
+        const T minimum = (std::numeric_limits<T>::min)();
+        BOOST_TEST_EQ(boost::integer::gcd(minimum, static_cast<T>(-1)), static_cast<T>(1));
+        BOOST_TEST_EQ(boost::integer::gcd(static_cast<T>(-1), minimum), static_cast<T>(1));
+        BOOST_TEST_EQ(gcd_evaluator<T>()(minimum, static_cast<T>(-1)), static_cast<T>(1));
+        BOOST_TEST_EQ(gcd_evaluator<T>()(static_cast<T>(-1), minimum), static_cast<T>(1));
+    }
 }
 
 // GCD on unmarked signed integer type
