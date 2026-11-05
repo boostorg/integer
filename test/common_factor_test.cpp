@@ -362,6 +362,14 @@ template< class T > void gcd_unsigned_test() // unsigned_test_types
     BOOST_TEST_EQ( boost::integer::gcd(static_cast<T>(3u), static_cast<T>(7u)), static_cast<T>( 1u) );
     BOOST_TEST_EQ( boost::integer::gcd(static_cast<T>(8u), static_cast<T>(9u)), static_cast<T>( 1u) );
     BOOST_TEST_EQ( boost::integer::gcd(static_cast<T>(7u), static_cast<T>(49u)), static_cast<T>( 7u) );
+
+    // An unsigned type has no negative unit: static_cast<T>(-1) is its largest
+    // value, and the GCD of zero and that value is that value, not one.
+    const T largest = static_cast<T>(-1);
+    BOOST_TEST_EQ( boost::integer::gcd(static_cast<T>(0u), largest), largest );
+    BOOST_TEST_EQ( boost::integer::gcd(largest, static_cast<T>(0u)), largest );
+    BOOST_TEST_EQ( boost::integer::gcd_evaluator<T>()(static_cast<T>(0u), largest), largest );
+    BOOST_TEST_EQ( boost::integer::gcd_evaluator<T>()(largest, static_cast<T>(0u)), largest );
 }
 
 // GCD at compile-time

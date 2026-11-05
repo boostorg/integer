@@ -73,6 +73,18 @@ void test_constexpr_minimum_unit()
    static_assert(boost::integer::gcd(minimum64, boost::int64_t(-1)) == 1, "Expected gcd(min64, -1) == 1.");
    static_assert(boost::integer::gcd(boost::int64_t(-1), minimum64) == 1, "Expected gcd(-1, min64) == 1.");
 }
+
+void test_constexpr_unsigned_maximum()
+{
+   // The minimum of an unsigned type is zero and unsigned(-1) is its maximum.
+   constexpr unsigned maximum = (std::numeric_limits<unsigned>::max)();
+   static_assert(boost::integer::gcd(0u, maximum) == maximum, "Expected gcd(0, max) == max.");
+   static_assert(boost::integer::gcd(maximum, 0u) == maximum, "Expected gcd(max, 0) == max.");
+
+   constexpr boost::uint64_t maximum64 = (std::numeric_limits<boost::uint64_t>::max)();
+   static_assert(boost::integer::gcd(boost::uint64_t(0), maximum64) == maximum64, "Expected gcd(0, max64) == max64.");
+   static_assert(boost::integer::gcd(maximum64, boost::uint64_t(0)) == maximum64, "Expected gcd(max64, 0) == max64.");
+}
 #endif
 
 
