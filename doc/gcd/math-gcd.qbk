@@ -150,6 +150,7 @@ They are also declared `noexcept` when appropriate.
 
 The boost::integer::gcd function template returns the greatest common
 (nonnegative) divisor of the two integers passed to it.
+The nonnegative result must be representable by `IntegerType`.
 `boost::integer::gcd_range` is the iteration of the above gcd algorithm over a
 range, returning the greatest common divisor of all the elements. The algorithm
 terminates when the gcd reaches unity or the end of the range. Thus it also

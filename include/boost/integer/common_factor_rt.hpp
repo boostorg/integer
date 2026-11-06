@@ -440,10 +440,16 @@ namespace boost {
 template <typename Integer>
 inline BOOST_CXX14_CONSTEXPR Integer gcd(Integer const &a, Integer const &b) BOOST_GCD_NOEXCEPT(Integer)
 {
+    // gcd(min, -1) is 1, but min % -1 overflows. Only a signed type has a negative unit:
+    // static_cast<Integer>(-1) is the largest value of an unsigned type and must not match.
     if(a == (std::numeric_limits<Integer>::min)())
-       return a == static_cast<Integer>(0) ? gcd_detail::gcd_traits<Integer>::abs(b) : boost::integer::gcd(static_cast<Integer>(a % b), b);
+       return a == static_cast<Integer>(0) ? gcd_detail::gcd_traits<Integer>::abs(b)
+          : (std::numeric_limits<Integer>::is_signed && b == static_cast<Integer>(-1)) ? static_cast<Integer>(1)
+          : boost::integer::gcd(static_cast<Integer>(a % b), b);
     else if (b == (std::numeric_limits<Integer>::min)())
-       return b == static_cast<Integer>(0) ? gcd_detail::gcd_traits<Integer>::abs(a) : boost::integer::gcd(a, static_cast<Integer>(b % a));
+       return b == static_cast<Integer>(0) ? gcd_detail::gcd_traits<Integer>::abs(a)
+          : (std::numeric_limits<Integer>::is_signed && a == static_cast<Integer>(-1)) ? static_cast<Integer>(1)
+          : boost::integer::gcd(a, static_cast<Integer>(b % a));
     return gcd_detail::optimal_gcd_select(static_cast<Integer>(gcd_detail::gcd_traits<Integer>::abs(a)), static_cast<Integer>(gcd_detail::gcd_traits<Integer>::abs(b)));
 }
 
