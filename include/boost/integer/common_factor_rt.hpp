@@ -438,18 +438,70 @@ namespace boost {
 
 
 template <typename Integer>
-inline BOOST_CXX14_CONSTEXPR Integer gcd(Integer const &a, Integer const &b) BOOST_GCD_NOEXCEPT(Integer)
+inline BOOST_CXX14_CONSTEXPR typename boost::enable_if_c<
+    std::numeric_limits<Integer>::is_signed,
+    Integer
+>::type gcd(Integer const &a, Integer const &b) BOOST_GCD_NOEXCEPT(Integer)
 {
-    // gcd(min, -1) is 1, but min % -1 overflows. Only a signed type has a negative unit:
-    // static_cast<Integer>(-1) is the largest value of an unsigned type and must not match.
-    if(a == (std::numeric_limits<Integer>::min)())
-       return a == static_cast<Integer>(0) ? gcd_detail::gcd_traits<Integer>::abs(b)
-          : (std::numeric_limits<Integer>::is_signed && b == static_cast<Integer>(-1)) ? static_cast<Integer>(1)
-          : boost::integer::gcd(static_cast<Integer>(a % b), b);
+    if (a == (std::numeric_limits<Integer>::min)())
+    {
+        if (b == (std::numeric_limits<Integer>::min)() || b == static_cast<Integer>(0))
+        {
+            // gcd(min, min) is UB for two's complement signed integers because the result (which should be abs(min)) is not
+            // representable as Integer. It is well defined for signed integer types where abs(min) is representable, e.g. those
+            // provided by Boost.Multiprecision.
+            BOOST_ASSERT((std::numeric_limits<Integer>::min)() >= -(std::numeric_limits<Integer>::max)());
+            return gcd_detail::gcd_traits<Integer>::abs((std::numeric_limits<Integer>::min)());
+        }
+        else if (b == static_cast<Integer>(-1))
+        {
+            // gcd(min, -1) is 1, but min % -1 overflows.
+            return static_cast<Integer>(1);
+        }
+        else if (a == static_cast<Integer>(0))
+        {
+            // numeric_limits::min/max may return 0 even for specialized numeric_limits, if the integer type is unbounded.
+            // We need this branch to avoid infinite recursion in the call below.
+            return gcd_detail::gcd_traits<Integer>::abs(b);
+        }
+        else
+        {
+            return boost::integer::gcd(static_cast<Integer>(a % b), b);
+        }
+    }
     else if (b == (std::numeric_limits<Integer>::min)())
-       return b == static_cast<Integer>(0) ? gcd_detail::gcd_traits<Integer>::abs(a)
-          : (std::numeric_limits<Integer>::is_signed && a == static_cast<Integer>(-1)) ? static_cast<Integer>(1)
-          : boost::integer::gcd(a, static_cast<Integer>(b % a));
+    {
+        // See the comments above
+        if (a == static_cast<Integer>(0))
+        {
+            BOOST_ASSERT((std::numeric_limits<Integer>::min)() >= -(std::numeric_limits<Integer>::max)());
+            return gcd_detail::gcd_traits<Integer>::abs((std::numeric_limits<Integer>::min)());
+        }
+        else if (a == static_cast<Integer>(-1))
+        {
+            return static_cast<Integer>(1);
+        }
+        else if (b == static_cast<Integer>(0))
+        {
+            return gcd_detail::gcd_traits<Integer>::abs(a);
+        }
+        else
+        {
+            return boost::integer::gcd(a, static_cast<Integer>(b % a));
+        }
+    }
+
+    return gcd_detail::optimal_gcd_select(static_cast<Integer>(gcd_detail::gcd_traits<Integer>::abs(a)), static_cast<Integer>(gcd_detail::gcd_traits<Integer>::abs(b)));
+}
+
+template <typename Integer>
+inline BOOST_CXX14_CONSTEXPR typename boost::enable_if_c<
+    !std::numeric_limits<Integer>::is_signed, // also when !std::numeric_limits<Integer>::is_specialized
+    Integer
+>::type gcd(Integer const &a, Integer const &b) BOOST_GCD_NOEXCEPT(Integer)
+{
+    // We still call abs() below just in case if numeric_limits are not specialized for a signed integer type.
+    // It will be a no-op otherwise.
     return gcd_detail::optimal_gcd_select(static_cast<Integer>(gcd_detail::gcd_traits<Integer>::abs(a)), static_cast<Integer>(gcd_detail::gcd_traits<Integer>::abs(b)));
 }
 
