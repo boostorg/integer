@@ -450,7 +450,10 @@ inline BOOST_CXX14_CONSTEXPR typename boost::enable_if_c<
             // gcd(min, min) is UB for two's complement signed integers because the result (which should be abs(min)) is not
             // representable as Integer. It is well defined for signed integer types where abs(min) is representable, e.g. those
             // provided by Boost.Multiprecision.
+            // Note: gcc 5 fails to compile gcd in constexpr contexts with the assert added.
+#if !defined(BOOST_GCC) || (BOOST_GCC >= 60000)
             BOOST_ASSERT((std::numeric_limits<Integer>::min)() >= -(std::numeric_limits<Integer>::max)());
+#endif
             return gcd_detail::gcd_traits<Integer>::abs((std::numeric_limits<Integer>::min)());
         }
         else if (b == static_cast<Integer>(-1))
@@ -474,7 +477,9 @@ inline BOOST_CXX14_CONSTEXPR typename boost::enable_if_c<
         // See the comments above
         if (a == static_cast<Integer>(0))
         {
+#if !defined(BOOST_GCC) || (BOOST_GCC >= 60000)
             BOOST_ASSERT((std::numeric_limits<Integer>::min)() >= -(std::numeric_limits<Integer>::max)());
+#endif
             return gcd_detail::gcd_traits<Integer>::abs((std::numeric_limits<Integer>::min)());
         }
         else if (a == static_cast<Integer>(-1))
